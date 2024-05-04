@@ -1,21 +1,23 @@
 package model;
 
-public abstract class Ship {
-    protected ShipType type;
-    protected int size;
+class Ship 
+{
+    private ShipType type;
+    private int size;
 
-    public Ship(ShipType type) {
+    Ship(ShipType type) 
+    {
         this.type = type;
         this.size = type.getSize();
     }
 
-    public ShipType getType() {
+    ShipType getType() 
+    {
         return type;
     }
 
-    public int getSize() {
+    int getSize() 
+    {
         return size;
     }
-
-    // Métodos abstratos ou comuns adicionais aqui
 }
