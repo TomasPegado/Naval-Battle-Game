@@ -8,6 +8,7 @@ class Player
     private int PlayerOrderId;
     private GameBoard DefenseMap;
     private GameBoard AttackMap;
+    private int ShipsLeft;
 
     Player(
             String name,
@@ -17,11 +18,12 @@ class Player
         this.PlayerOrderId = playerOrderId;
         this.DefenseMap = new GameBoard();
         this.AttackMap = new GameBoard();
+        this.ShipsLeft = 5;
     }
 
-    boolean PositionPlayerShip(Ship ship, Coordinate coordinate, boolean orientation)
+    boolean PositionPlayerShip(Ship ship, int coordinateX, int coordinateY, boolean orientation)
     {
-        DefenseMap.PositionShip(coordinate.GetXCoordinate(), coordinate.GetYCoordinate(), ship,  orientation);
+        DefenseMap.PositionShip(coordinateX, coordinateY, ship,  orientation);
         return true;
     }
 
@@ -31,5 +33,9 @@ class Player
 
     GameBoard GetTabuleiroAtaques() {
         return AttackMap;
+    }
+
+    int GetTotalShipsLeft() {
+        return ShipsLeft;
     }
 }

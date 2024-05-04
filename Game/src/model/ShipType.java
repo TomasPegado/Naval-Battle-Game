@@ -5,7 +5,7 @@ public enum ShipType {
     CRUISER(4),
     DESTROYER(2),
     SUBMARINE(1),
-    HYDROPLANE(3); // Assume que o hidroavião ocupa um espaço especial no tabuleiro.
+    HYDROPLANES(3); // Assume que o hidroavião ocupa um espaço especial no tabuleiro.
 
     private final int size;
 
@@ -13,7 +13,7 @@ public enum ShipType {
         this.size = size;
     }
 
-    public int getSize() {
+    public int GetSize() {
         return this.size;
     }
 }

@@ -19,32 +19,25 @@ class GameBoard
 
     boolean PositionShip(int x, int y, Ship ship, boolean orientacao) 
     {
-        // Verificar se as coordenadas são válidas e se o navio cabe no tabuleiro
-        if (orientacao == true && x + tamanho <= board.length) 
+        if (orientacao == true && x + ship.GetSize() <= board.length) 
         {
-            // Posicionar o navio horizontalmente
-            for (int i = x; i < x + tamanho; i++) 
+            // Horizontalmente
+            for (int i = x; i < x + ship.GetSize(); i++) 
             {
                 board[i][y] = 1; // Parte do navio
             }
             return true;
 
         } 
-        else if (orientacao == false && y + tamanho <= board[0].length) 
+        else if (orientacao == false && y + ship.GetSize() <= board[0].length) 
         {
-            // Posicionar o navio verticalmente
-            for (int j = y; j < y + tamanho; j++) 
+            // Verticalmente
+            for (int j = y; j < y + ship.GetSize(); j++) 
             {
-                board[x][j] = 1; // Parte do navio
+                board[x][j] = 1;
             }
             return true;
         }
-        return false; // Navio não pode ser posicionado
-    }
-
-    ShotResult shoot(String coordinate) 
-    {
-        // Implementação: Verifica o que foi atingido e atualiza o tabuleiro.
-        return new ShotResult(); // Objeto de resultado customizado.
+        return false;
     }
 }

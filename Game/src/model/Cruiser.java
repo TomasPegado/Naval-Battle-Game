@@ -1,7 +1,9 @@
 package model;
 
-public class Cruiser extends Ship {
-    public Cruiser() {
+public class Cruiser extends Ship 
+{
+    public Cruiser() 
+    {
         super(ShipType.CRUISER);
     }
 }

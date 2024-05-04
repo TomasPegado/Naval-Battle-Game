@@ -13,8 +13,8 @@ public class ShipFactory {
                 return new Destroyer();
             case SUBMARINE:
                 return new Submarine();
-            case HYDROPLANE:
-                return new Hydroplane();
+            case HYDROPLANES:
+                return new Hydroplanes();
             default:
                 throw new IllegalArgumentException("Unknown ship type: " + type);
         }

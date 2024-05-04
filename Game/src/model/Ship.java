@@ -8,15 +8,15 @@ class Ship
     Ship(ShipType type) 
     {
         this.type = type;
-        this.size = type.getSize();
+        this.size = type.GetSize();
     }
 
-    ShipType getType() 
+    ShipType GetType() 
     {
         return type;
     }
 
-    int getSize() 
+    int GetSize() 
     {
         return size;
     }
