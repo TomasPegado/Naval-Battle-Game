@@ -2,8 +2,7 @@ package model;
 
 import java.util.List;
 
-class Player 
-{
+class Player {
     private String Name;
     private int PlayerOrderId;
     private GameBoard DefenseMap;
@@ -12,8 +11,7 @@ class Player
 
     Player(
             String name,
-            int playerOrderId) 
-    {
+            int playerOrderId) {
         this.Name = name;
         this.PlayerOrderId = playerOrderId;
         this.DefenseMap = new GameBoard();
@@ -21,9 +19,8 @@ class Player
         this.ShipsLeft = 5;
     }
 
-    boolean PositionPlayerShip(Ship ship, int coordinateX, int coordinateY, boolean orientation)
-    {
-        DefenseMap.PositionShip(coordinateX, coordinateY, ship,  orientation);
+    boolean PositionPlayerShip(Ship ship, int coordinateX, int coordinateY, boolean orientation) {
+        DefenseMap.PositionShip(coordinateX, coordinateY, ship, orientation);
         return true;
     }
 
@@ -37,5 +34,13 @@ class Player
 
     int GetTotalShipsLeft() {
         return ShipsLeft;
+    }
+
+    public void setTabuleiroAtaques(GameBoard tabuleiroAtaques) {
+        this.AttackMap = tabuleiroAtaques;
+    }
+
+    public void setTabuleiroNavios(GameBoard tabuleiroNavios) {
+        this.DefenseMap = tabuleiroNavios;
     }
 }
