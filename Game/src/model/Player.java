@@ -19,28 +19,34 @@ class Player {
         this.ShipsLeft = 5;
     }
 
-    boolean PositionPlayerShip(Ship ship, int coordinateX, int coordinateY, boolean orientation) {
+    boolean PositionPlayerShip(Ship ship, int coordinateX, int coordinateY, boolean orientation) 
+    {
         DefenseMap.PositionShip(coordinateX, coordinateY, ship, orientation);
         return true;
     }
 
-    GameBoard GetTabuleiroNavios() {
+    GameBoard GetTabuleiroNavios() 
+    {
         return DefenseMap;
     }
 
-    GameBoard GetTabuleiroAtaques() {
+    GameBoard GetTabuleiroAtaques() 
+    {
         return AttackMap;
     }
 
-    int GetTotalShipsLeft() {
+    int GetTotalShipsLeft() 
+    {
         return ShipsLeft;
     }
 
-    public void setTabuleiroAtaques(GameBoard tabuleiroAtaques) {
+    void SetTabuleiroAtaques(GameBoard tabuleiroAtaques) 
+    {
         this.AttackMap = tabuleiroAtaques;
     }
 
-    public void setTabuleiroNavios(GameBoard tabuleiroNavios) {
+    void SetTabuleiroNavios(GameBoard tabuleiroNavios) 
+    {
         this.DefenseMap = tabuleiroNavios;
     }
 }
