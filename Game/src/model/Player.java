@@ -2,14 +2,14 @@ package model;
 
 import java.util.List;
 
-class Player {
+public class Player {
     private String Name;
     private int PlayerOrderId;
     private GameBoard DefenseMap;
     private GameBoard AttackMap;
     private int ShipsLeft;
 
-    Player(
+   public Player(
             String name,
             int playerOrderId) {
         this.Name = name;
@@ -30,7 +30,7 @@ class Player {
         return DefenseMap;
     }
 
-    GameBoard GetTabuleiroAtaques() 
+    public GameBoard GetTabuleiroAtaques() 
     {
         return AttackMap;
     }
@@ -48,5 +48,10 @@ class Player {
     void SetTabuleiroNavios(GameBoard tabuleiroNavios) 
     {
         this.DefenseMap = tabuleiroNavios;
+    }
+    
+    public void SetShipsLeft(int value) {
+    	
+    	this.ShipsLeft = value;
     }
 }

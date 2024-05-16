@@ -1,9 +1,9 @@
 package model;
 
-class GameBoard {
+public class GameBoard {
     private int[][] board;
 
-    GameBoard() {
+   public GameBoard() {
         // Inicializar o tabuleiro com água
         board = new int[15][15];
         for (int i = 0; i < 15; i++) {
@@ -45,7 +45,7 @@ class GameBoard {
 
     }
 
-    protected void shotAttack(int coordinateX, int coordinateY, boolean hit) {
+    public void shotAttack(int coordinateX, int coordinateY, boolean hit) {
 
         if (hit) {
             board[coordinateX][coordinateY] = 2;

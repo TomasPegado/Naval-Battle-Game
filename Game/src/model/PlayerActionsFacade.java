@@ -36,7 +36,7 @@ public class PlayerActionsFacade {
 
         attackMap.shotAttack(coordinateX, coordinateY, result);
 
-        return false;
+        return true;
     }
 
     public boolean ValidateAttack(Player playerAttacking, int coordinateX, int coordinateY) 
