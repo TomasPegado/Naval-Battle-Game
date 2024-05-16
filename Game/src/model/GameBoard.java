@@ -1,63 +1,69 @@
 package model;
 
 public class GameBoard {
-    private int[][] board;
 
-   public GameBoard() {
+    private PositionPair[][] board;
+
+    public GameBoard() {
         // Inicializar o tabuleiro com água
-        board = new int[15][15];
+        board = new PositionPair[15][15];
         for (int i = 0; i < 15; i++) {
-            for (int j = 0; j < 15; j++) {
-                board[i][j] = 0; // Água
+            for (char c = 'A'; c <= 'O'; c++) {
+                board[i][c - 65].setCoordenadaX(i);
+                board[i][c - 65].setCoordenadaY(c);
             }
         }
     }
 
-    boolean PositionShip(int x, int y, Ship ship, boolean orientacao) {
-        if (orientacao == true && x + ship.GetSize() <= board.length) {
+    boolean PositionShip(int x, char y, Ship ship, boolean orientacao) {
+
+        int size = ship.GetSize();
+        if (orientacao == true && x + size <= board.length) {
             // Horizontalmente
-            for (int i = x; i < x + ship.GetSize(); i++) {
-                board[i][y] = 1; // Parte do navio
+            for (int i = x; i < x + size; i++) {
+                board[i][y - 65].setShip(ship);
+                board[i][y - 65].setWater(false);
+                ship.addPosition(board[i][y - 65]);
             }
             return true;
 
-        } else if (orientacao == false && y + ship.GetSize() <= board[0].length) {
+        } else if (orientacao == false && y + ship.GetSize() - 65 <= board[0].length) {
             // Verticalmente
-            for (int j = y; j < y + ship.GetSize(); j++) {
-                board[x][j] = 1;
+            for (int j = y - 65; j < y + ship.GetSize() - 65; j++) {
+                board[x][j].setShip(ship);
+                board[x][y - 65].setWater(false);
+                ship.addPosition(board[x][j]);
             }
             return true;
         }
         return false;
     }
 
-    protected boolean shotDefense(int coordinateX, int coordinateY) {
+    protected boolean shotDefense(PositionPair coordenada) {
 
-        int position = board[coordinateX][coordinateY];
-        if (position == 1) {
-            board[coordinateX][coordinateY] = 2; // para marcar essa posição como acertada
+        // Marcar a posição como atingida e avisa se foi um navio
+        coordenada.got_Hit();
+        if (!coordenada.is_Water()) {
+
+            Ship ship = coordenada.getShip();
+            ship.got_Hit();
             return true;
-
-        } else {
-            // para marcar essa posicao como
-            return false;
         }
+        return false;
 
     }
 
-    public void shotAttack(int coordinateX, int coordinateY, boolean hit) {
+    public void shotHit(PositionPair coordenada, Ship ship) {
 
-        if (hit) {
-            board[coordinateX][coordinateY] = 2;
-        } else {
-            board[coordinateX][coordinateY] = 3; // marcar posicao como feito um disparo e errado
-        }
+        coordenada.setShip(ship);
+        coordenada.setWater(false);
+        coordenada.got_Hit();
 
     }
 
-    protected int getValue(int coordinateX, int coordinateY) {
+    protected PositionPair getCoordinate(int coordinateX, char coordinateY) {
 
-        return board[coordinateX][coordinateY];
+        return board[coordinateX][coordinateY - 65];
     }
 
 }

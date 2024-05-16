@@ -10,7 +10,7 @@ public class PlayerActionsFacade {
         return instance;
     }
 
-    public boolean PositionShip(Player player, int x, int y, ShipType shipType, boolean orientacao) {
+    public boolean PositionShip(Player player, int x, char y, ShipType shipType, boolean orientacao) {
         if (player == null) {
             return false;
         }
@@ -22,31 +22,33 @@ public class PlayerActionsFacade {
         return true;
     }
 
-    public boolean Attack(Player playerAttacking, Player playerDefending, int coordinateX, int coordinateY) 
-    {
-        if (playerAttacking == null || playerDefending == null) 
-        {
+    public boolean Attack(Player playerAttacking, Player playerDefending, int coordinateX, char coordinateY) {
+        if (playerAttacking == null || playerDefending == null) {
             return false;
         }
 
         GameBoard defenseMap = playerDefending.GetTabuleiroNavios();
         GameBoard attackMap = playerAttacking.GetTabuleiroAtaques();
 
-        boolean result = defenseMap.shotDefense(coordinateX, coordinateY);
+        PositionPair coordenadaDefesa = defenseMap.getCoordinate(coordinateX, coordinateY);
+        PositionPair coordenadaAtaque = attackMap.getCoordinate(coordinateX, coordinateY);
 
-        attackMap.shotAttack(coordinateX, coordinateY, result);
+        boolean result = defenseMap.shotDefense(coordenadaDefesa);
+
+        if (result) {
+
+            attackMap.shotHit(coordenadaAtaque, coordenadaDefesa.getShip());
+        } else {
+            coordenadaAtaque.got_Hit();
+        }
 
         return true;
     }
 
-    public boolean ValidateAttack(Player playerAttacking, int coordinateX, int coordinateY) 
-    {
+    public boolean ValidateAttack(Player playerAttacking, int coordinateX, char coordinateY) {
         GameBoard attackMap = playerAttacking.GetTabuleiroAtaques();
-        int position = attackMap.getValue(coordinateX, coordinateY);
-        if (position == 2 || position == 3) 
-        {
-            return false;
-        }
-        return true;
+        PositionPair coordenada = attackMap.getCoordinate(coordinateX, coordinateY);
+
+        return coordenada.getHit();
     }
 }
