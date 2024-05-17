@@ -20,28 +20,7 @@ public class Player {
         this.AttackMap = new GameBoard();
         this.ShipsLeft = 15;
         this.shipsList = new ArrayList<>();
-        addShip(ShipType.BATTLESHIP);
-        addShip(ShipType.CRUISER);
-        addShip(ShipType.CRUISER);
-        addShip(ShipType.DESTROYER);
-        addShip(ShipType.DESTROYER);
-        addShip(ShipType.DESTROYER);
-        addShip(ShipType.SUBMARINE);
-        addShip(ShipType.SUBMARINE);
-        addShip(ShipType.SUBMARINE);
-        addShip(ShipType.SUBMARINE);
-        addShip(ShipType.HYDROPLANES);
-        addShip(ShipType.HYDROPLANES);
-        addShip(ShipType.HYDROPLANES);
-        addShip(ShipType.HYDROPLANES);
-        addShip(ShipType.HYDROPLANES);
 
-    }
-
-    // Method to add a ship to the player's list
-    private void addShip(ShipType type) {
-        Ship ship = ShipFactory.createShip(type);
-        shipsList.add(ship);
     }
 
     // Method to get the list of ships
@@ -51,6 +30,7 @@ public class Player {
 
     boolean PositionPlayerShip(Ship ship, int coordinateX, char coordinateY, boolean orientation) {
         DefenseMap.PositionShip(coordinateX, coordinateY, ship, orientation);
+        shipsList.add(ship);
         return true;
     }
 
