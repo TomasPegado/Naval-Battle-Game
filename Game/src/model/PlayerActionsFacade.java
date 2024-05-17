@@ -38,9 +38,9 @@ public class PlayerActionsFacade {
         if (result) {
 
             attackMap.shotHit(coordenadaAtaque, coordenadaDefesa.getShip());
-        } else {
-            coordenadaAtaque.got_Hit();
         }
+
+        coordenadaAtaque.got_Hit();
 
         return true;
     }

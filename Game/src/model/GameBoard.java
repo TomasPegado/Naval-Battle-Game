@@ -70,35 +70,97 @@ public class GameBoard {
     protected boolean PositionShip(int x, char y, Ship ship, boolean orientacao) {
 
         int size = ship.GetSize();
-        if (orientacao == true && x + size <= board.length) {
-            // Horizontalmente
+        if (ship.GetType() == ShipType.HYDROPLANES) { // Posicionamento do Hidroavião
 
-            for (int i = x; i < x + size; i++) {
-                if (!is_ValidPosition(i, y)) {
+            if (orientacao == true && x + 1 <= board.length && x - 1 >= 0 && y - 65 + 1 <= board.length) {
+                // horizontalmente hidroavião
+
+                if (!is_ValidPosition(x, y)) {
                     return false;
+                } else {
+                    if (!is_ValidPosition(x - 1, y + 1)) {
+                        return false;
+                    } else {
+                        if (!is_ValidPosition(x + 1, y + 1)) {
+                            return false;
+                        }
+                    }
                 }
-            }
 
-            for (int i = x; i < x + size; i++) {
-                board[i][y - 65].setShip(ship);
-                board[i][y - 65].setWater(false);
-                ship.addPosition(board[i][y - 65]);
-            }
-            return true;
-
-        } else if (orientacao == false && y + ship.GetSize() - 65 <= board[0].length) {
-            // Verticalmente
-            for (int j = y - 65; j < y + ship.GetSize() - 65; j++) {
-                if (!is_ValidPosition(x, j))
-                    return false;
-            }
-            for (int j = y - 65; j < y + ship.GetSize() - 65; j++) {
-                board[x][j].setShip(ship);
+                board[x][y - 65].setShip(ship);
                 board[x][y - 65].setWater(false);
-                ship.addPosition(board[x][j]);
+                ship.addPosition(board[x][y - 65]);
+
+                board[x - 1][y - 65 + 1].setShip(ship);
+                board[x - 1][y - 65 + 1].setWater(false);
+                ship.addPosition(board[x - 1][y - 65 + 1]);
+
+                board[x + 1][y - 65 + 1].setShip(ship);
+                board[x + 1][y - 65 + 1].setWater(false);
+                ship.addPosition(board[x + 1][y - 65 + 1]);
+
+                return true;
+
+            } else if (orientacao == false && x + 1 <= board.length && y - 65 + 1 <= board.length && y - 65 - 1 >= 0) {
+                // verticalmente hidroavião
+                if (!is_ValidPosition(x, y)) {
+                    return false;
+                } else {
+                    if (!is_ValidPosition(x + 1, y - 1)) {
+                        return false;
+                    } else {
+                        if (!is_ValidPosition(x + 1, y + 1)) {
+                            return false;
+                        }
+                    }
+                }
+
+                board[x][y - 65].setShip(ship);
+                board[x][y - 65].setWater(false);
+                ship.addPosition(board[x][y - 65]);
+
+                board[x + 1][y - 65 + 1].setShip(ship);
+                board[x + 1][y - 65 + 1].setWater(false);
+                ship.addPosition(board[x + 1][y - 65 + 1]);
+
+                board[x + 1][y - 65 - 1].setShip(ship);
+                board[x + 1][y - 65 - 1].setWater(false);
+                ship.addPosition(board[x + 1][y - 65 - 1]);
+
+                return true;
             }
-            return true;
+        } else {
+            if (orientacao == true && x + size - 1 <= board.length) {
+                // Horizontalmente
+
+                for (int i = x; i < x + size; i++) {
+                    if (!is_ValidPosition(i, y)) {
+                        return false;
+                    }
+                }
+
+                for (int i = x; i < x + size; i++) {
+                    board[i][y - 65].setShip(ship);
+                    board[i][y - 65].setWater(false);
+                    ship.addPosition(board[i][y - 65]);
+                }
+                return true;
+
+            } else if (orientacao == false && y + size - 65 - 1 <= board[0].length) {
+                // Verticalmente
+                for (int j = y - 65; j < y + size - 65; j++) {
+                    if (!is_ValidPosition(x, j))
+                        return false;
+                }
+                for (int j = y - 65; j < y + size - 65; j++) {
+                    board[x][j].setShip(ship);
+                    board[x][y - 65].setWater(false);
+                    ship.addPosition(board[x][j]);
+                }
+                return true;
+            }
         }
+
         return false;
     }
 
@@ -120,7 +182,6 @@ public class GameBoard {
 
         coordenada.setShip(ship);
         coordenada.setWater(false);
-        coordenada.got_Hit();
 
     }
 
