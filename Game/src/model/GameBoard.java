@@ -15,11 +15,70 @@ public class GameBoard {
         }
     }
 
-    boolean PositionShip(int x, char y, Ship ship, boolean orientacao) {
+    protected boolean is_ValidPosition(int coordinateX, int coordinateY) {
+        int y = coordinateY - 65;
+        int x = coordinateX;
+        PositionPair position = board[x][y];
+        if (position.is_Water()) { // se for agua checa as fronteiras
+
+            if (x + 1 <= board.length) {
+                if (!board[x + 1][y].is_Water())
+                    return false; // fronteira direita
+
+                if (y + 1 <= board.length) {
+                    if (!board[x + 1][y + 1].is_Water())
+                        return false; // fronteira direita embaixo
+                }
+
+                if (y - 1 >= 0) {
+                    if (!board[x + 1][y - 1].is_Water())
+                        return false; // fronteira direita em cima
+                }
+            }
+
+            if (x - 1 >= 0) {
+                if (!board[x - 1][y].is_Water())
+                    return false; // fronteira esquerda
+
+                if (y + 1 <= board.length) {
+                    if (!board[x - 1][y + 1].is_Water())
+                        return false; // fronteira esquerda embaixo
+                }
+                if (y - 1 >= 0) {
+                    if (!board[x - 1][y - 1].is_Water())
+                        return false; // fronteira esquerda em cima
+                }
+            }
+
+            if (y + 1 <= board.length) {
+                if (!board[x][y + 1].is_Water())
+                    return false; // fronteira embaixo
+            }
+            if (y - 1 >= 0) {
+                if (!board[x][y - 1].is_Water())
+                    return false; // fronteira em cima
+            }
+
+            return true;
+
+        }
+
+        return false;
+
+    }
+
+    protected boolean PositionShip(int x, char y, Ship ship, boolean orientacao) {
 
         int size = ship.GetSize();
         if (orientacao == true && x + size <= board.length) {
             // Horizontalmente
+
+            for (int i = x; i < x + size; i++) {
+                if (!is_ValidPosition(i, y)) {
+                    return false;
+                }
+            }
+
             for (int i = x; i < x + size; i++) {
                 board[i][y - 65].setShip(ship);
                 board[i][y - 65].setWater(false);
@@ -29,6 +88,10 @@ public class GameBoard {
 
         } else if (orientacao == false && y + ship.GetSize() - 65 <= board[0].length) {
             // Verticalmente
+            for (int j = y - 65; j < y + ship.GetSize() - 65; j++) {
+                if (!is_ValidPosition(x, j))
+                    return false;
+            }
             for (int j = y - 65; j < y + ship.GetSize() - 65; j++) {
                 board[x][j].setShip(ship);
                 board[x][y - 65].setWater(false);
@@ -53,7 +116,7 @@ public class GameBoard {
 
     }
 
-    public void shotHit(PositionPair coordenada, Ship ship) {
+    protected void shotHit(PositionPair coordenada, Ship ship) {
 
         coordenada.setShip(ship);
         coordenada.setWater(false);
