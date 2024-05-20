@@ -7,10 +7,9 @@ public class GameBoard {
     public GameBoard() {
         // Inicializar o tabuleiro com água
         board = new PositionPair[15][15];
-        for (int i = 0; i < 15; i++) {
-            for (char c = 'A'; c <= 'O'; c++) {
-                board[i][c - 65].setCoordenadaX(i);
-                board[i][c - 65].setCoordenadaY(c);
+        for (int x = 0; x < 15; x++) {
+            for (char y = 'A'; y <= 'O'; y++) {
+                board[x][y - 65] = new PositionPair(x, y);
             }
         }
     }

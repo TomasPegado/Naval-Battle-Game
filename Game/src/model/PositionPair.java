@@ -20,6 +20,12 @@ public class PositionPair {
 
     }
 
+    protected PositionPair(int coordenadaX, char coordenadaY) {
+        this.coordenadaX = coordenadaX;
+        this.coordenadaY = coordenadaY;
+
+    }
+
     protected int getCoordenadaX() {
         return coordenadaX;
     }

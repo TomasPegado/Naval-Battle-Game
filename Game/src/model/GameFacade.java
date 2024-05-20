@@ -12,12 +12,6 @@ public class GameFacade {
     private static GameFacade instance;
     private List<Player> jogadores = new ArrayList<Player>();
 
-
-    private GameFacade() {
-        startGame("Teste1", "Teste2");
-        // Inicialização do tabuleiro e jogadores
-    }
-
     public static synchronized GameFacade getInstance() {
         if (instance == null) {
             instance = new GameFacade();
@@ -29,7 +23,6 @@ public class GameFacade {
         // Criar os jogadores
         Player jogador1 = new Player(player1, 0);
         Player jogador2 = new Player(player2, 1);
-     
 
         jogadores.add(jogador1);
         jogadores.add(jogador2);
@@ -68,10 +61,10 @@ public class GameFacade {
             System.err.println("Error finding class during game load: " + e.getMessage());
         }
     }
-    
-    public List<Player> getJogadores(){
-    	
-    	return this.jogadores;
+
+    public List<Player> getJogadores() {
+
+        return this.jogadores;
     }
 
 }
