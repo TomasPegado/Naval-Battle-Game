@@ -1,3 +1,22 @@
 /.metadata/
 Video - Primeira Iteração.txt
 Video - Segunda Iteração.txt
+Game/src/controller/BattleShipController.class
+Game/src/model/Battleship.class
+Game/src/model/Cruiser.class
+Game/src/model/Destroyer.class
+Game/src/model/GameBoard.class
+Game/src/model/GameFacade.class
+Game/src/model/Hydroplanes.class
+Game/src/model/Player.class
+Game/src/model/PlayerActionsFacade.class
+Game/src/model/PositionPair.class
+Game/src/model/Ship.class
+Game/src/model/ShipFactory.class
+Game/src/model/ShipFactory$1.class
+Game/src/model/ShipType.class
+Game/src/model/Submarine.class
+Game/src/view/BattleShipView.class
+Game/src/view/BattleShipView$1.class
+Game/src/view/BattleShipView$2.class
+Game/src/view/BattleShipView$3.class
