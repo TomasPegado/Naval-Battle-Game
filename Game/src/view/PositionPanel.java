@@ -21,6 +21,11 @@ public class PositionPanel extends JPanel {
         ShipView ship = new BattleShipView(100, 600);
         ship.paintShip(g2d);
 
+        ship = new CruiserView(100, 500);
+        ship.paintShip(g2d);
+        ship = new CruiserView(200, 500);
+        ship.paintShip(g2d);
+
     }
     
 }
