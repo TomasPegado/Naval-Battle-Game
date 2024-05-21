@@ -12,15 +12,15 @@ public class PositionPanel extends JPanel {
         this.setPreferredSize(new Dimension(800, 800));
     }
 
-    public void paint(Graphics g) {
+    @Override
+    protected void paintComponent(Graphics g){
 
-        Graphics2D g2D = (Graphics2D) g;
+        super.paintComponent(g);
 
-        g2D.setPaint(Color.blue);
-        g2D.setStroke(new BasicStroke(5));
-        // g2D.drawLine(0, 0, 500, 500);
+        Graphics2D g2d = (Graphics2D) g;
+        ShipView ship = new BattleShipView(100, 600);
+        ship.paintShip(g2d);
 
-        g2D.fillRect(10, 20, 100, 200);
-        // g2D.drawRect(10, 20, 100, 200);
     }
+    
 }

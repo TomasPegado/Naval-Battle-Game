@@ -11,12 +11,12 @@ import model.ShipType;
 public class BattleShipController {
     private final GameFacade gameFacade;
     private final PlayerActionsFacade playerActionsFacade;
-    private final BattleShipView view;
+    private final MainView view;
     private ShipType selectedWeapon;
     private Player currentPlayer;
     private int currentPlayerIndex;
 
-    public BattleShipController(GameFacade gameFacade, PlayerActionsFacade playerActionsFacade, BattleShipView view,
+    public BattleShipController(GameFacade gameFacade, PlayerActionsFacade playerActionsFacade, MainView view,
             String player1, String player2) {
         this.gameFacade = gameFacade;
         this.playerActionsFacade = playerActionsFacade;
@@ -103,7 +103,7 @@ public class BattleShipController {
         PlayerActionsFacade playerActionsFacade = PlayerActionsFacade.getInstance();
 
         // Cria a view
-        BattleShipView view = new BattleShipView();
+        MainView view = new MainView();
 
         // Inicializa o controlador
         BattleShipController controller = new BattleShipController(gameFacade, playerActionsFacade, view, "Player1",

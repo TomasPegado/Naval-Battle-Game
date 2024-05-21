@@ -22,3 +22,9 @@ Game/src/view/BattleShipView$2.class
 Game/src/view/BattleShipView$3.class
 Game/src/view/GameFrame.class
 Game/src/view/PositionPanel.class
+Game/src/view/MainView.class
+Game/src/view/MainView.java
+Game/src/view/MainView$1.class
+Game/src/view/MainView$2.class
+Game/src/view/MainView$3.class
+Game/src/view/ShipView.class
