@@ -20,3 +20,5 @@ Game/src/view/BattleShipView.class
 Game/src/view/BattleShipView$1.class
 Game/src/view/BattleShipView$2.class
 Game/src/view/BattleShipView$3.class
+Game/src/view/GameFrame.class
+Game/src/view/PositionPanel.class

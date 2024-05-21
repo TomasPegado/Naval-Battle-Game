@@ -109,13 +109,7 @@ public class BattleShipController {
         BattleShipController controller = new BattleShipController(gameFacade, playerActionsFacade, view, "Player1",
                 "Player2");
 
-        // Configura e exibe a janela principal
-        JFrame frame = new JFrame("Batalha Naval");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(view);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-
+        // Cria o Frame
+        GameFrame frame = new GameFrame();
     }
 }
