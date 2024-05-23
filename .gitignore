@@ -28,3 +28,6 @@ Game/src/view/MainView$1.class
 Game/src/view/MainView$2.class
 Game/src/view/MainView$3.class
 Game/src/view/ShipView.class
+Game/src/view/HydroplaneView.class
+Game/src/view/SubmarineView.class
+Game/src/view/DestroyerView.class
