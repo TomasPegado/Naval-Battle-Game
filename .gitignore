@@ -31,3 +31,5 @@ Game/src/view/ShipView.class
 Game/src/view/HydroplaneView.class
 Game/src/view/SubmarineView.class
 Game/src/view/DestroyerView.class
+Game/src/view/BoardPanel.class
+Game/src/view/PositionPanel$1.class

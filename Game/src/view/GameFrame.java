@@ -7,8 +7,9 @@ public class GameFrame extends JFrame {
 
     PositionPanel positioning;
 
-    public GameFrame() {
+    public GameFrame(String title) {
 
+        this.setTitle(title);
         positioning = new PositionPanel();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

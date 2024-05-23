@@ -112,6 +112,6 @@ public class BattleShipController {
         // "Player2");
 
         // Cria o Frame
-        GameFrame frame = new GameFrame();
+        GameFrame frame = new GameFrame("Batalha Naval");
     }
 }
