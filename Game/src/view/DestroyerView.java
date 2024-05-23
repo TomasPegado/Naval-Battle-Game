@@ -6,7 +6,8 @@ public class DestroyerView extends ShipView {
 
     public DestroyerView(int x, int y) {
         super(x, y);
-        setShipSize(y);
+        setShipSize(2);
+        setColor("#f0f00e");
     }
 
     int x = this.panelPositionX;
@@ -14,10 +15,8 @@ public class DestroyerView extends ShipView {
 
     void paintShip(Graphics2D g2D) {
 
-        g2D.setColor(Color.YELLOW);
-        g2D.fillRect(x, y, 20, 20);
-
-        g2D.fillRect(x + 20, y, 20, 20);
+        g2D.setColor(Color.decode(this.getColor()));
+        g2D.fillRect(x, y, 20 * this.getShipSize(), 20);
 
     }
 }

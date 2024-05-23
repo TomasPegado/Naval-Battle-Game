@@ -31,7 +31,7 @@ public class BoardPanel extends JPanel {
         // Desenha coordenadas com margem
         g2d.setFont(new Font("Arial", Font.PLAIN, 12));
         for (int i = 1; i <= boardWidth; i++) {
-            g2d.drawString(Integer.toString(i), MARGIN + i * gridSize - 15, MARGIN + boardHeight * gridSize + 20);
+            g2d.drawString(Integer.toString(i), MARGIN + i * gridSize - 15, 15);
         }
         for (int i = 0; i < boardHeight; i++) {
             g2d.drawString(Character.toString((char) ('A' + i)), MARGIN - 20, MARGIN + i * gridSize + 20);

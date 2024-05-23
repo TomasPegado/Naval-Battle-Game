@@ -7,6 +7,7 @@ public class HydroplaneView extends ShipView {
     public HydroplaneView(int x, int y) {
         super(x, y);
         setShipSize(3);
+        setColor("#326B00");
     }
 
     int x = this.panelPositionX;
@@ -14,11 +15,11 @@ public class HydroplaneView extends ShipView {
 
     void paintShip(Graphics2D g2D) {
 
-        g2D.setColor(Color.decode("#326B00"));
+        g2D.setColor(Color.decode(this.getColor()));
         g2D.fillRect(x, y, 20, 20);
 
-        g2D.fillRect(x + 20, y - 20, 20, 20);
-        g2D.fillRect(x + 40, y, 20, 20);
+        g2D.fillRect(x + 20, y + 20, 20, 20);
+        g2D.fillRect(x - 20, y + 20, 20, 20);
 
     }
 }

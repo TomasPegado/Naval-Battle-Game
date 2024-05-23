@@ -7,6 +7,7 @@ public class SubmarineView extends ShipView {
     public SubmarineView(int x, int y) {
         super(x, y);
         setShipSize(1);
+        setColor("#5eed4e");
     }
 
     int x = this.panelPositionX;
@@ -14,7 +15,7 @@ public class SubmarineView extends ShipView {
 
     void paintShip(Graphics2D g2D) {
 
-        g2D.setColor(Color.GREEN);
+        g2D.setColor(Color.decode(this.getColor()));
         g2D.fillRect(x, y, 20, 20);
 
     }
