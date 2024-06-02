@@ -4,18 +4,22 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
-import java.awt.event.ActionEvent;
 
 public class GameFrame extends JFrame {
-
     private PositionPanel positioning;
+    private WeaponsPanel weaponsPanel;
 
-    public GameFrame(String title) {
+    public GameFrame(String title, WeaponsPanel weaponsPanel) {
         this.setTitle(title);
+        this.weaponsPanel = weaponsPanel;
         positioning = new PositionPanel();
+        
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        this.add(positioning);
+        this.setLayout(new BorderLayout());
+        
+        this.add(positioning, BorderLayout.CENTER);
+        this.add(weaponsPanel, BorderLayout.EAST);
+        
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -60,5 +64,5 @@ public class GameFrame extends JFrame {
 
     public BoardPanel getBoardPanel() {
         return positioning.getBoardPanel();
-    }    
+    }
 }

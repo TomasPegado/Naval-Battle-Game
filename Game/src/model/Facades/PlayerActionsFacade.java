@@ -9,6 +9,7 @@ import model.Entities.Ship;
 
 public class PlayerActionsFacade {
     private static PlayerActionsFacade instance;
+    private GameFacade gameFacade = GameFacade.getInstance();
 
     public static synchronized PlayerActionsFacade getInstance() {
         if (instance == null) {
@@ -46,6 +47,8 @@ public class PlayerActionsFacade {
         }
 
         coordenadaAtaque.got_Hit();
+
+        gameFacade.NotifyListeners();
 
         return true;
     }

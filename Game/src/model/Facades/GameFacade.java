@@ -83,7 +83,7 @@ public class GameFacade {
         listeners.add(listener);
     }
 
-    private void NotifyListeners() {
+    void NotifyListeners() {
         for (IGameListener listener : listeners) {
             listener.OnGameStateChanged();
         }

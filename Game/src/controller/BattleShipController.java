@@ -13,59 +13,61 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class BattleShipController implements IGameListener 
-{
+public class BattleShipController implements IGameListener {
     private final GameFacade gameFacade;
     private final PlayerActionsFacade playerActionsFacade;
     private ShipType selectedWeapon;
     private Player currentPlayer;
     private int currentPlayerIndex;
     private GameFrame gameFrame;
+    private WeaponsPanel weaponsPanel;
 
     public BattleShipController(
-                    GameFacade gameFacade, 
-                    PlayerActionsFacade playerActionsFacade,
-                    String player1, 
-                    String player2) 
-        {
+            GameFacade gameFacade,
+            PlayerActionsFacade playerActionsFacade,
+            String player1,
+            String player2) {
         this.gameFacade = gameFacade;
-        this.playerActionsFacade = playerActionsFacade; // Inicializando playerActionsFacade
+        this.playerActionsFacade = playerActionsFacade;
         this.currentPlayerIndex = 0;
 
         gameFacade.startGame(player1, player2);
         this.currentPlayer = gameFacade.GetPlayers().get(currentPlayerIndex);
 
-        this.gameFrame = new GameFrame("Batalha Naval");
+        this.weaponsPanel = new WeaponsPanel(); // Inicializa WeaponsPanel
+        this.gameFrame = new GameFrame("Batalha Naval", weaponsPanel); // Passa WeaponsPanel para o GameFrame
 
         gameFacade.AddGameListener(this);
+        gameFacade.AddGameListener(weaponsPanel); // Registra WeaponsPanel como ouvinte
 
         registerListeners();
     }
 
-    private void registerListeners() 
-    {
-        gameFrame.addPositioningListener(new ActionListener() 
-        {
+    private void registerListeners() {
+        gameFrame.addPositioningListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) 
-            {
+            public void actionPerformed(ActionEvent e) {
                 HandlePositioning();
             }
         });
 
-        // Registra listener para capturar cliques no tabuleiro
-        gameFrame.addBoardClickListener(new MouseAdapter() 
-        {
+        weaponsPanel.getPositionButton().addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) 
-            {
+            public void actionPerformed(ActionEvent e) {
+                HandleWeaponPositioning();
+            }
+        });
+
+        // Registra listener para capturar cliques no tabuleiro
+        gameFrame.addBoardClickListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
                 HandleBoardClick(e);
             }
         });
     }
 
-    private void HandlePositioning() 
-    {
+    private void HandlePositioning() {
         int x = gameFrame.getCoordX();
         char yChar = gameFrame.getCoordY();
         int y = yChar - 'A';  // Converte 'A' para 0, 'B' para 1, etc.
@@ -78,45 +80,41 @@ public class BattleShipController implements IGameListener
             return;
         }
 
-        switch (shipIndex) {
-            case 1:
-                shipType = ShipType.CRUISER;
-                break;
-            case 2:
-                shipType = ShipType.SUBMARINE;
-                break;
-            case 3:
-                shipType = ShipType.BATTLESHIP;
-                break;
-            case 4:
-                shipType = ShipType.DESTROYER;
-                break;
-            case 5:
-                shipType = ShipType.HYDROPLANES;
-                break;
-            default:
-                shipType = ShipType.SUBMARINE;
-                break;
-        }
+        shipType = mapShipIndexToShipType(shipIndex);
 
         boolean orientacao = true; // Pode ser ajustado conforme a orientação selecionada
 
         boolean success = playerActionsFacade.PositionShip(currentPlayer, x, yChar, shipType, orientacao);
-        if (success) 
-        {
+        if (success) {
             System.out.println("Navio posicionado com sucesso!");
             gameFrame.decrementSelectedShipCount();
             gameFrame.updateBoard();
             gameFrame.getBoardPanel().addShip(x, y, shipType);
-        } 
-        else 
-        {
+        } else {
             System.out.println("Falha ao posicionar o navio. Posição já está ocupada.");
         }
     }
 
-    private void HandleBoardClick(MouseEvent e) 
-    {
+    private void HandleWeaponPositioning() {
+        int x = Integer.parseInt(weaponsPanel.getCoordXField().getText());
+        char yChar = weaponsPanel.getCoordYField().getText().charAt(0);
+        int shipIndex = weaponsPanel.getShipSelector().getSelectedIndex();
+        ShipType shipType = mapShipIndexToShipType(shipIndex);
+
+        boolean orientacao = true; // Pode ser ajustado conforme a orientação selecionada
+
+        boolean success = playerActionsFacade.PositionShip(currentPlayer, x, yChar, shipType, orientacao);
+        if (success) {
+            System.out.println("Navio posicionado com sucesso!");
+            weaponsPanel.decrementShipCount(shipIndex);
+            gameFrame.updateBoard();
+            gameFrame.getBoardPanel().addShip(x, yChar - 'A', shipType);
+        } else {
+            System.out.println("Falha ao posicionar o navio. Posição já está ocupada.");
+        }
+    }
+
+    private void HandleBoardClick(MouseEvent e) {
         BoardPanel boardPanel = (BoardPanel) e.getSource();
         int cellSize = boardPanel.getGridSize();
         int margin = boardPanel.getMargin();
@@ -124,8 +122,7 @@ public class BattleShipController implements IGameListener
         int x = (e.getX() - margin) / cellSize;
         int y = (e.getY() - margin) / cellSize;
 
-        if (x >= 0 && x < boardPanel.getBoardWidth() && y >= 0 && y < boardPanel.getBoardHeight()) 
-        {
+        if (x >= 0 && x < boardPanel.getBoardWidth() && y >= 0 && y < boardPanel.getBoardHeight()) {
             char column = (char) ('A' + y);
             int row = x + 1;
 
@@ -135,28 +132,39 @@ public class BattleShipController implements IGameListener
             ShipType shipType = ShipType.BATTLESHIP;
 
             boolean success = playerActionsFacade.PositionShip(currentPlayer, row, column, shipType, orientacao);
-            if (success) 
-            {
+            if (success) {
                 System.out.println("Navio posicionado com sucesso!");
                 gameFrame.updateBoard();
-            } 
-            else 
-            {
+            } else {
                 System.out.println("Falha ao posicionar o navio.");
             }
         }
     }
 
-    @Override
-    public void OnGameStateChanged() 
-    {
-        currentPlayer = gameFacade.GetCurrentPlayer(currentPlayerIndex);
+    private ShipType mapShipIndexToShipType(int shipIndex) {
+        switch (shipIndex) {
+            case 0:
+                return ShipType.CRUISER;
+            case 1:
+                return ShipType.SUBMARINE;
+            case 2:
+                return ShipType.BATTLESHIP;
+            case 3:
+                return ShipType.DESTROYER;
+            case 4:
+                return ShipType.HYDROPLANES;
+            default:
+                return ShipType.SUBMARINE;
+        }
+    }
 
+    @Override
+    public void OnGameStateChanged() {
+        currentPlayer = gameFacade.GetCurrentPlayer(currentPlayerIndex);
         gameFrame.updateBoard();
     }
 
-    public static void main(String[] args) 
-    {
+    public static void main(String[] args) {
         // Cria as facades e o controlador
         GameFacade gameFacade = GameFacade.getInstance();
         PlayerActionsFacade playerActionsFacade = PlayerActionsFacade.getInstance();

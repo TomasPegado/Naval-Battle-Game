@@ -2,20 +2,21 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+import model.Interfaces.IGameListener;
 
-public class WeaponsPanel extends JPanel {
+public class WeaponsPanel extends JPanel implements IGameListener {
     private JComboBox<String> shipSelector;
     private JButton positionButton;
     private JLabel[] shipLabels;
-    private int[] shipCounts = {1, 1, 1, 1, 1, 1}; // Quantidades de exemplo
+    private int[] shipCounts = {2, 4, 1, 3, 5}; // Quantidades de exemplo
+    private String[] shipNames = {"Cruiser", "Submarine", "Battleship", "Destroyer", "Hidroplane"};
 
     private JTextField coordXField;
     private JTextField coordYField;
 
     public WeaponsPanel() {
         this.setLayout(new GridLayout(10, 1, 10, 10));
-
-        String[] shipNames = {"Cruiser", "Submarine", "Battleship", "Destroyer", "Hidroplane"};
+        
         shipLabels = new JLabel[shipNames.length];
 
         shipSelector = new JComboBox<>(shipNames);
@@ -23,7 +24,7 @@ public class WeaponsPanel extends JPanel {
         this.add(shipSelector);
 
         for (int i = 0; i < shipNames.length; i++) {
-            shipLabels[i] = new JLabel(shipNames[i] + " (1 restantes)"); // Inicialmente, 1 de cada tipo
+            shipLabels[i] = new JLabel(shipCounts[i] + " " + shipNames[i] + " restantes.");
             this.add(shipLabels[i]);
         }
 
@@ -56,8 +57,12 @@ public class WeaponsPanel extends JPanel {
     }
 
     public void updateShipCount(int index) {
-        String[] shipNames = {"Cruiser", "Submarine", "Battleship", "Destroyer", "Hydroplane"};
-        shipLabels[index].setText(shipNames[index] + " (" + shipCounts[index] + " restantes)");
+        if (shipCounts[index] > 0) {
+            shipLabels[index].setText(shipCounts[index] + " " + shipNames[index] + " restantes.");
+        } else {
+            shipLabels[index].setText("Todos os " + shipNames[index] + " já foram posicionados.");
+            shipSelector.removeItemAt(index);
+        }
     }
 
     public void decrementShipCount(int index) {
@@ -65,5 +70,11 @@ public class WeaponsPanel extends JPanel {
             shipCounts[index]--;
             updateShipCount(index);
         }
+    }
+
+    @Override
+    public void OnGameStateChanged() {
+        // Atualize a interface gráfica aqui conforme necessário
+        System.out.println("O estado do jogo mudou!");
     }
 }
