@@ -1,16 +1,20 @@
-package model;
+package model.Entities;
 
 import java.util.List;
+
+import model.PositionPair;
+import model.ShipType;
+
 import java.util.ArrayList;
 
-class Ship {
+public class Ship {
     private ShipType type;
     private int size;
     private List<PositionPair> positionsList;
     private boolean active = true; // flag para saber se esta afundado ou não
     private int hits = 0; // contador de tiros recebidos
 
-    Ship(ShipType type) {
+    protected Ship(ShipType type) {
         this.type = type;
         this.size = type.GetSize();
         this.positionsList = new ArrayList<>();

@@ -1,5 +1,12 @@
 package model;
 
+import model.Entities.Ship;
+import model.Entities.Ships.Battleship;
+import model.Entities.Ships.Cruiser;
+import model.Entities.Ships.Destroyer;
+import model.Entities.Ships.Hydroplanes;
+import model.Entities.Ships.Submarine;
+
 public class ShipFactory {
 
     // Método estático para criar navios baseado no tipo.

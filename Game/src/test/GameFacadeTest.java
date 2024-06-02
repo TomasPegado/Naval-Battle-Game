@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
-import model.GameFacade;
-import model.Player;
+import model.Facades.GameFacade;
+import model.Entities.Player;
 
 public class GameFacadeTest {
 
@@ -14,7 +14,7 @@ public class GameFacadeTest {
         GameFacade facade = GameFacade.getInstance();
 
    
-        assertEquals(2, facade.getJogadores().size());
+        assertEquals(2, facade.GetPlayers().size());
     }
 
     @Test

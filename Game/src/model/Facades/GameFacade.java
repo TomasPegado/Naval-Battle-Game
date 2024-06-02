@@ -1,9 +1,13 @@
-package model;
+package model.Facades;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.List;
+
+import model.Entities.Player;
+import model.Interfaces.IGameListener;
+
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -11,6 +15,7 @@ import java.util.ArrayList;
 public class GameFacade {
     private static GameFacade instance;
     private List<Player> jogadores = new ArrayList<Player>();
+    private List<IGameListener> listeners = new ArrayList<>();
 
     public static synchronized GameFacade getInstance() {
         if (instance == null) {
@@ -62,9 +67,25 @@ public class GameFacade {
         }
     }
 
-    public List<Player> getJogadores() {
+    public List<Player> GetPlayers() {
 
         return this.jogadores;
     }
 
+    public Player GetCurrentPlayer(int index) {
+        if (index < 0 || index >= jogadores.size()) {
+            return null;
+        }
+        return jogadores.get(index);
+    }
+
+    public void AddGameListener(IGameListener listener) {
+        listeners.add(listener);
+    }
+
+    private void NotifyListeners() {
+        for (IGameListener listener : listeners) {
+            listener.OnGameStateChanged();
+        }
+    }
 }

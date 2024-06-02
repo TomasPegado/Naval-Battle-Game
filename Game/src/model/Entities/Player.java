@@ -1,4 +1,4 @@
-package model;
+package model.Entities;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -8,7 +8,12 @@ public class Player {
     private int PlayerOrderId;
     private GameBoard DefenseMap;
     private GameBoard AttackMap;
-    private int ShipsLeft;
+    private int BattleshipsToPosition = 1;
+    private int CruisersToPosition = 2;
+    private int DestroyerToPosition = 3;
+    private int HydroplanesToPosition = 5;
+    private int SubmarineToPosition = 4;
+    private int ShipsLeft = 15;
     private List<Ship> shipsList;
 
     public Player(
@@ -24,33 +29,33 @@ public class Player {
     }
 
     // Method to get the list of ships
-    protected List<Ship> getShips() {
+    public List<Ship> getShips() {
         return shipsList;
     }
 
-    boolean PositionPlayerShip(Ship ship, int coordinateX, char coordinateY, boolean orientation) {
-        DefenseMap.PositionShip(coordinateX, coordinateY, ship, orientation);
+    public boolean PositionPlayerShip(Ship ship, int coordinateX, char coordinateY, boolean orientation) 
+    {
         shipsList.add(ship);
-        return true;
+        return DefenseMap.PositionShip(coordinateX, coordinateY, ship, orientation);
     }
 
-    GameBoard GetTabuleiroNavios() {
+    public GameBoard GetTabuleiroNavios() {
         return DefenseMap;
     }
 
-    protected void setName(String name) {
+    public void setName(String name) {
         Name = name;
     }
 
-    protected void setPlayerOrderId(int playerOrderId) {
+    public void setPlayerOrderId(int playerOrderId) {
         PlayerOrderId = playerOrderId;
     }
 
-    protected GameBoard GetTabuleiroAtaques() {
+    public GameBoard GetTabuleiroAtaques() {
         return AttackMap;
     }
 
-    int GetTotalShipsLeft() {
+    public int GetTotalShipsLeft() {
         return ShipsLeft;
     }
 

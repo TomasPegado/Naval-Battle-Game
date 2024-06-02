@@ -2,25 +2,43 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 public class PositionPanel extends JPanel {
+    private WeaponsPanel shipPanel;
+    private BoardPanel boardPanel;
 
-    private ShipView selectedShip;
-
-    PositionPanel() {
-
+    public PositionPanel() {
         this.setPreferredSize(new Dimension(1000, 600));
         this.setLayout(new BorderLayout());
 
-        // Painel dos navios
-        JPanel shipPanel = new WeaponsPanel();
+        shipPanel = new WeaponsPanel();
+        boardPanel = new BoardPanel();
 
-        // Adiciona o painel dos navios à esquerda
         this.add(shipPanel, BorderLayout.WEST);
-
-        // Adiciona o BoardPanel à direita
-        BoardPanel boardPanel = new BoardPanel();
         this.add(boardPanel, BorderLayout.EAST);
+    }
+
+    public BoardPanel getBoardPanel() {
+        return boardPanel;
+    }
+
+    public JComboBox<String> getShipSelector() {
+        return shipPanel.getShipSelector();
+    }
+
+    public JButton getPositionButton() {
+        return shipPanel.getPositionButton();
+    }
+
+    public JTextField getCoordXField() {
+        return shipPanel.getCoordXField();
+    }
+
+    public JTextField getCoordYField() {
+        return shipPanel.getCoordYField();
+    }
+
+    public void decrementShipCount(int index) {
+        shipPanel.decrementShipCount(index);
     }
 }

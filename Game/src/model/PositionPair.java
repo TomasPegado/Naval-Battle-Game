@@ -1,5 +1,7 @@
 package model;
 
+import model.Entities.Ship;
+
 public class PositionPair {
 
     private int coordenadaX;
@@ -8,29 +10,29 @@ public class PositionPair {
     private Ship ship;
     private boolean hit = false;
 
-    protected PositionPair() {
+    public PositionPair() {
         this.coordenadaX = 1;
-        this.coordenadaY = 'A';
+        this.coordenadaY = 'a';
     }
 
-    protected PositionPair(int coordenadaX, char coordenadaY, Ship ship) {
+    public PositionPair(int coordenadaX, char coordenadaY, Ship ship) {
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;
         this.ship = ship;
 
     }
 
-    protected PositionPair(int coordenadaX, char coordenadaY) {
+    public PositionPair(int coordenadaX, char coordenadaY) {
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;
 
     }
 
-    protected int getCoordenadaX() {
+    public int getCoordenadaX() {
         return coordenadaX;
     }
 
-    protected char getCoordenadaY() {
+    public char getCoordenadaY() {
         return coordenadaY;
     }
 
@@ -38,7 +40,7 @@ public class PositionPair {
         return ship;
     }
 
-    protected boolean is_Water() {
+    public boolean is_Water() {
         return water;
     }
 
@@ -46,23 +48,23 @@ public class PositionPair {
         this.water = water;
     }
 
-    protected void setCoordenadaX(int coordenadaX) {
+    public void setCoordenadaX(int coordenadaX) {
         this.coordenadaX = coordenadaX;
     }
 
-    protected void setCoordenadaY(char coordenadaY) {
+    public void setCoordenadaY(char coordenadaY) {
         this.coordenadaY = coordenadaY;
     }
 
-    protected void setShip(Ship ship) {
+    public void setShip(Ship ship) {
         this.ship = ship;
     }
 
-    protected boolean getHit() {
+    public boolean getHit() {
         return hit;
     }
 
-    protected void got_Hit() {
+    public void got_Hit() {
         this.hit = true;
     }
 

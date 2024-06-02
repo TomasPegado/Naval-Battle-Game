@@ -1,4 +1,11 @@
-package model;
+package model.Facades;
+
+import model.PositionPair;
+import model.ShipFactory;
+import model.ShipType;
+import model.Entities.GameBoard;
+import model.Entities.Player;
+import model.Entities.Ship;
 
 public class PlayerActionsFacade {
     private static PlayerActionsFacade instance;
@@ -17,9 +24,7 @@ public class PlayerActionsFacade {
 
         Ship navio = ShipFactory.createShip(shipType);
 
-        player.PositionPlayerShip(navio, x, y, orientacao);
-
-        return true;
+        return player.PositionPlayerShip(navio, x, y, orientacao);
     }
 
     public boolean Attack(Player playerAttacking, Player playerDefending, int coordinateX, char coordinateY) {
