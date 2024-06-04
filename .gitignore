@@ -35,3 +35,18 @@ Game/src/view/BoardPanel.class
 Game/src/view/PositionPanel$1.class
 Game/src/view/CruiserView.class
 Game/src/view/WeaponsPanel.class
+Game/src/controller/BattleShipController$1.class
+Game/src/controller/BattleShipController$2.class
+Game/src/model/Entities/GameBoard.class
+Game/src/model/Entities/Player.class
+Game/src/model/Entities/Ship.class
+Game/src/model/Entities/Ships/Battleship.class
+Game/src/model/Entities/Ships/Cruiser.class
+Game/src/model/Entities/Ships/Destroyer.class
+Game/src/model/Entities/Ships/Hydroplanes.class
+Game/src/model/Entities/Ships/Submarine.class
+Game/src/model/Facades/GameFacade.class
+Game/src/model/Facades/PlayerActionsFacade.class
+Game/src/model/Interfaces/IGameListener.class
+Video - Terceira Iteração.txt
+Game/src/controller/BattleShipController$3.class
