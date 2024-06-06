@@ -6,21 +6,28 @@ import java.awt.event.*;
 
 public class PositionPanel extends JPanel {
 
-    private ShipView selectedShip;
+    private WeaponsPanel weaponsPanel;
+    private BoardPanel boardPanel;
 
     PositionPanel() {
 
         this.setPreferredSize(new Dimension(1000, 600));
         this.setLayout(new BorderLayout());
 
-        // Painel dos navios
-        JPanel shipPanel = new WeaponsPanel();
+        this.weaponsPanel = new WeaponsPanel();
+        boardPanel = new BoardPanel();
 
-        // Adiciona o painel dos navios à esquerda
-        this.add(shipPanel, BorderLayout.WEST);
+        add(weaponsPanel, BorderLayout.WEST);
+        add(boardPanel, BorderLayout.EAST);
 
-        // Adiciona o BoardPanel à direita
-        BoardPanel boardPanel = new BoardPanel();
-        this.add(boardPanel, BorderLayout.EAST);
+        // Adicionar um listener ao WeaponsPanel para notificar BoardPanel sobre o navio
+        // selecionado
+        weaponsPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ShipView selectedShip = weaponsPanel.getSelectedShip();
+                boardPanel.setSelectedShip(selectedShip);
+            }
+        });
     }
 }
