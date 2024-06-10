@@ -46,30 +46,31 @@ public class WeaponsPanel extends JPanel {
     }
 
     private void selectShip(int x, int y) {
+        boolean found = false;
         for (ShipView ship : ships) {
+            ship.setSelected(found);
             if (ship.contains(x, y)) {
                 selectedShip = ship;
-                repaint();
-                return;
+                found = true;
+                ship.setSelected(found);
+                System.out.println("Selected ship at: " + x + ", " + y);
+                break;
             }
         }
-        selectedShip = null; // Deseleciona se clicar fora de qualquer navio
+        if (!found) {
+            selectedShip = null; // Deseleciona se clicar fora de qualquer navio
+            System.out.println("No ship selected");
+        }
         repaint();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
         for (ShipView ship : ships) {
-            if (ship == selectedShip) {
-                g2d.setColor(Color.RED); // Alterar cor para indicar seleção
-            } else {
-                g2d.setColor(Color.decode(ship.getColor())); // Cor normal do navio
-            }
+
             ship.paintShip(g2d);
         }
     }

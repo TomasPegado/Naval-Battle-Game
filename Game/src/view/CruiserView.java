@@ -15,7 +15,11 @@ public class CruiserView extends ShipView {
 
     void paintShip(Graphics2D g2D) {
 
-        g2D.setColor(Color.decode(this.getColor()));
+        if (this.selected) {
+            g2D.setColor(Color.RED); // Alterar cor para indicar seleção
+        } else {
+            g2D.setColor(Color.decode(this.getColor()));
+        }
         g2D.fillRect(x, y, 20 * this.getShipSize(), 20);
 
     }

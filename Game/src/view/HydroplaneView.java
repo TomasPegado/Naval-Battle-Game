@@ -15,7 +15,11 @@ public class HydroplaneView extends ShipView {
 
     void paintShip(Graphics2D g2D) {
 
-        g2D.setColor(Color.decode(this.getColor()));
+        if (this.selected) {
+            g2D.setColor(Color.RED); // Alterar cor para indicar seleção
+        } else {
+            g2D.setColor(Color.decode(this.getColor()));
+        }
         g2D.fillRect(x, y, 20, 20);
 
         g2D.fillRect(x + 20, y + 20, 20, 20);

@@ -9,6 +9,7 @@ public abstract class ShipView extends JPanel {
     protected int panelPositionY;
     protected int shipSize;
     protected String color;
+    protected boolean selected = false;
 
     ShipView(int x, int y) {
 
@@ -62,6 +63,14 @@ public abstract class ShipView extends JPanel {
 
     public String getColor() {
         return color;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
 }
