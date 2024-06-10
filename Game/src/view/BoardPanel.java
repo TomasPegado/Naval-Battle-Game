@@ -47,8 +47,8 @@ public class BoardPanel extends JPanel {
 
     private void placeShip(int x, int y) {
         if (selectedShip != null) {
-            int boardX = (x - MARGIN) / GRID_SIZE;
-            int boardY = (y - MARGIN) / GRID_SIZE;
+            int boardX = (x - MARGIN + 1) / GRID_SIZE;
+            int boardY = (y - MARGIN + 1) / GRID_SIZE;
 
             if (boardX >= 0 && boardX < BOARD_WIDTH && boardY >= 0 && boardY < BOARD_HEIGHT) {
                 CoordinateView coord = board.get(boardX).get(boardY);
@@ -78,7 +78,7 @@ public class BoardPanel extends JPanel {
             g2d.drawString(Integer.toString(i), MARGIN + i * GRID_SIZE - 15, 15);
         }
         for (int i = 0; i < BOARD_HEIGHT; i++) {
-            g2d.drawString(Character.toString((char) ('A' + i)), MARGIN - 20, MARGIN + i * GRID_SIZE + 20);
+            g2d.drawString(Character.toString((char) ('A' + i)), MARGIN - 20, MARGIN + i * GRID_SIZE + 21);
         }
     }
 

@@ -43,13 +43,13 @@ public class CoordinateView {
     }
 
     public void draw(Graphics2D g2d, int size) {
-        // if (isWater) {
-        //     g2d.setColor(Color.BLUE);
-        // } else if (ship != null) {
-        //     g2d.setColor(Color.GRAY); // Cor do navio
-        // }
-        // g2d.fillRect(x * size, y * size, size, size);
-        // g2d.setColor(Color.BLACK);
+        if (isWater) {
+            g2d.setColor(Color.BLUE);
+        } else if (ship != null) {
+            g2d.setColor(Color.decode(ship.getColor())); // Cor do navio
+        }
+        g2d.fillRect(x * size, y * size, size, size);
+        g2d.setColor(Color.BLACK);
         g2d.drawRect(x * size, y * size, size, size); // Desenha borda
     }
 }
