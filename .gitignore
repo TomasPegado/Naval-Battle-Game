@@ -40,3 +40,4 @@ Game/src/view/BoardPanel$1.class
 Game/src/controller/Controller.class
 Game/src/view/BoardPanel$ShipPositionListener.class
 Game/src/view/PositionPanel$2.class
+Game/src/view/CoordinateView.class

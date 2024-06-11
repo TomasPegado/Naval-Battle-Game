@@ -7,6 +7,7 @@ public class CoordinateView {
     private int y;
     private ShipView ship;
     private boolean isWater;
+    private boolean selected = false; // quando é selecionada com um navio
 
     public CoordinateView(int x, int y) {
         this.x = x;
@@ -52,5 +53,13 @@ public class CoordinateView {
         g2d.setColor(Color.BLACK);
         g2d.drawRect(x * size, y * size, size, size); // Desenha borda
     }
-}
 
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+}

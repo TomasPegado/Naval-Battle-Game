@@ -2,6 +2,8 @@ package view;
 
 import java.awt.*;
 import javax.swing.JPanel;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class ShipView extends JPanel {
 
@@ -10,11 +12,13 @@ public abstract class ShipView extends JPanel {
     protected int shipSize;
     protected String color;
     protected boolean selected = false;
+    protected List<CoordinateView> coordenadas;
 
     ShipView(int x, int y) {
 
         this.panelPositionX = x;
         this.panelPositionY = y;
+        this.coordenadas = new ArrayList<>();
 
     }
 

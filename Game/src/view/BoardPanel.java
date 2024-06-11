@@ -50,6 +50,47 @@ public class BoardPanel extends JPanel {
         this.shipPositionListener = listener;
     }
 
+    private void replaceShip(int x, int y) {
+        if (selectedShip == null) {
+            int boardX = (x - MARGIN + 1) / GRID_SIZE;
+            int boardY = (y - MARGIN + 1) / GRID_SIZE;
+
+            if (boardX >= 0 && boardX < BOARD_WIDTH && boardY >= 0 && boardY < BOARD_HEIGHT) {
+                CoordinateView coord = board.get(boardX).get(boardY);
+                if (coord.getShip() != null) {
+                    selectedShip = coord.getShip();
+                    coord.setSelected(true);
+                    int size = selectedShip.getShipSize();
+                    int n = 1;
+                    if (selectedShip instanceof HydroplaneView) {
+                        while (n < size) {
+                            CoordinateView coord1 = board.get(boardX - 1).get(boardY - 1);
+                            if (coord1.getShip() == selectedShip) {
+                                coord1.setSelected(true);
+                                n++;
+                            }
+                            coord1 = board.get(boardX + 1).get(boardY - 1);
+                            if (coord1.getShip() == selectedShip) {
+                                coord1.setSelected(true);
+                                n++;
+                            }
+                            coord1 = board.get(boardX + 1).get(boardY + 1);
+                            if (coord1.getShip() == selectedShip) {
+                                coord1.setSelected(true);
+                                n++;
+                            }
+                            coord1 = board.get(boardX + 1).get(boardY + 1);
+                            if (coord1.getShip() == selectedShip) {
+                                coord1.setSelected(true);
+                                n++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private void placeShip(int x, int y) {
         if (selectedShip != null) {
             int boardX = (x - MARGIN + 1) / GRID_SIZE;
@@ -60,20 +101,24 @@ public class BoardPanel extends JPanel {
                 if (selectedShip instanceof HydroplaneView) {
                     coord.setShip(selectedShip);
                     coord.setWater(false);
+                    selectedShip.coordenadas.add(coord);
 
                     coord = board.get(boardX - 1).get(boardY + 1);
                     coord.setShip(selectedShip);
                     coord.setWater(false);
+                    selectedShip.coordenadas.add(coord);
 
                     coord = board.get(boardX + 1).get(boardY + 1);
                     coord.setShip(selectedShip);
                     coord.setWater(false);
+                    selectedShip.coordenadas.add(coord);
                 } else {
                     int size = selectedShip.getShipSize();
                     for (int i = 0; i < size; i++) {
                         coord = board.get(boardX + i).get(boardY);
                         coord.setShip(selectedShip);
                         coord.setWater(false);
+                        selectedShip.coordenadas.add(coord);
                     }
                 }
                 System.out.println("Ship added to the board");
