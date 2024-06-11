@@ -15,6 +15,7 @@ public class BoardPanel extends JPanel {
     private static final int BOARD_HEIGHT = 15;
     private List<List<CoordinateView>> board; // Matriz de coordenadas
     private ShipView selectedShip;
+    private ShipPositionListener shipPositionListener;
 
     public BoardPanel() {
         // Define o tamanho preferido com a margem incluída
@@ -45,6 +46,10 @@ public class BoardPanel extends JPanel {
         this.selectedShip = ship;
     }
 
+    public void setShipPositionListener(ShipPositionListener listener) {
+        this.shipPositionListener = listener;
+    }
+
     private void placeShip(int x, int y) {
         if (selectedShip != null) {
             int boardX = (x - MARGIN + 1) / GRID_SIZE;
@@ -71,7 +76,14 @@ public class BoardPanel extends JPanel {
                         coord.setWater(false);
                     }
                 }
+                System.out.println("Ship added to the board");
                 repaint(); // Repinta o tabuleiro para refletir a nova posição
+
+                if (shipPositionListener != null) {
+                    shipPositionListener.shipPositioned(selectedShip);
+                }
+
+                selectedShip = null; // Deseleciona o navio após posicionar
             }
         }
     }
@@ -106,5 +118,9 @@ public class BoardPanel extends JPanel {
                                                                                                            // tabuleiro
                                                                                                            // com a
                                                                                                            // margem
+    }
+
+    public interface ShipPositionListener {
+        void shipPositioned(ShipView ship);
     }
 }

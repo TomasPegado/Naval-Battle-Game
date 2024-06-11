@@ -29,5 +29,14 @@ public class PositionPanel extends JPanel {
                 boardPanel.setSelectedShip(selectedShip);
             }
         });
+
+        // Adicionar um listener ao BoardPanel para deselecionar o navio no WeaponsPanel
+        boardPanel.setShipPositionListener(new BoardPanel.ShipPositionListener() {
+            @Override
+            public void shipPositioned(ShipView ship) {
+                weaponsPanel.deselectShip();
+            }
+        });
+
     }
 }

@@ -64,6 +64,14 @@ public class WeaponsPanel extends JPanel {
         repaint();
     }
 
+    protected void deselectShip() {
+        selectedShip.setSelected(false);
+        ships.remove(selectedShip);
+        selectedShip = null;
+        System.out.println("Ship deselected");
+        repaint();
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
