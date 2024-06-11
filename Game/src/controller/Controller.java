@@ -8,14 +8,14 @@ import view.*;
 import model.Player;
 import model.ShipType;
 
-public class BattleShipController {
+public class Controller {
     private final GameFacade gameFacade;
     private final PlayerActionsFacade playerActionsFacade;
     private ShipType selectedWeapon;
     private Player currentPlayer;
     private int currentPlayerIndex;
 
-    public BattleShipController(GameFacade gameFacade, PlayerActionsFacade playerActionsFacade,
+    public Controller(GameFacade gameFacade, PlayerActionsFacade playerActionsFacade,
             String player1, String player2) {
         this.gameFacade = gameFacade;
         this.playerActionsFacade = playerActionsFacade;

@@ -34,7 +34,7 @@ public class BoardPanel extends JPanel {
         for (int i = 0; i < BOARD_WIDTH; i++) {
             List<CoordinateView> row = new ArrayList<>();
             for (int j = 0; j < BOARD_HEIGHT; j++) {
-                row.add(new CoordinateView(i+1, j+1));
+                row.add(new CoordinateView(i + 1, j + 1));
             }
             board.add(row);
         }
@@ -52,8 +52,25 @@ public class BoardPanel extends JPanel {
 
             if (boardX >= 0 && boardX < BOARD_WIDTH && boardY >= 0 && boardY < BOARD_HEIGHT) {
                 CoordinateView coord = board.get(boardX).get(boardY);
-                coord.setShip(selectedShip);
-                coord.setWater(false);
+                if (selectedShip instanceof HydroplaneView) {
+                    coord.setShip(selectedShip);
+                    coord.setWater(false);
+
+                    coord = board.get(boardX - 1).get(boardY + 1);
+                    coord.setShip(selectedShip);
+                    coord.setWater(false);
+
+                    coord = board.get(boardX + 1).get(boardY + 1);
+                    coord.setShip(selectedShip);
+                    coord.setWater(false);
+                } else {
+                    int size = selectedShip.getShipSize();
+                    for (int i = 0; i < size; i++) {
+                        coord = board.get(boardX + i).get(boardY);
+                        coord.setShip(selectedShip);
+                        coord.setWater(false);
+                    }
+                }
                 repaint(); // Repinta o tabuleiro para refletir a nova posição
             }
         }
@@ -84,6 +101,10 @@ public class BoardPanel extends JPanel {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(BOARD_WIDTH * GRID_SIZE + 2 * MARGIN, BOARD_HEIGHT * GRID_SIZE + 2 * MARGIN); // Dimensão do tabuleiro com a margem
+        return new Dimension(BOARD_WIDTH * GRID_SIZE + 2 * MARGIN, BOARD_HEIGHT * GRID_SIZE + 2 * MARGIN); // Dimensão
+                                                                                                           // do
+                                                                                                           // tabuleiro
+                                                                                                           // com a
+                                                                                                           // margem
     }
 }

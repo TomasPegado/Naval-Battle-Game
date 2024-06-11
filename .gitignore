@@ -37,3 +37,4 @@ Game/src/view/CruiserView.class
 Game/src/view/WeaponsPanel.class
 Game/src/view/WeaponsPanel$1.class
 Game/src/view/BoardPanel$1.class
+Game/src/controller/Controller.class
