@@ -1,6 +1,9 @@
 package model;
 
-public class GameBoard {
+import java.util.Observable;
+
+@SuppressWarnings("deprecation")
+public class GameBoard extends Observable {
 
     private PositionPair[][] board;
 
@@ -69,6 +72,8 @@ public class GameBoard {
     protected boolean PositionShip(int x, char y, Ship ship, boolean orientacao) {
 
         int size = ship.GetSize();
+        boolean success = false;
+
         if (ship.GetType() == ShipType.HYDROPLANES) { // Posicionamento do Hidroavião
 
             if (orientacao == true && x + 1 <= board.length && x - 1 >= 0 && y - 65 + 1 <= board.length) {
@@ -98,7 +103,7 @@ public class GameBoard {
                 board[x + 1][y - 65 + 1].setWater(false);
                 ship.addPosition(board[x + 1][y - 65 + 1]);
 
-                return true;
+                success = true;
 
             } else if (orientacao == false && x + 1 <= board.length && y - 65 + 1 <= board.length && y - 65 - 1 >= 0) {
                 // verticalmente hidroavião
@@ -126,7 +131,7 @@ public class GameBoard {
                 board[x + 1][y - 65 - 1].setWater(false);
                 ship.addPosition(board[x + 1][y - 65 - 1]);
 
-                return true;
+                success = true;
             }
         } else {
             if (orientacao == true && x + size - 1 <= board.length) {
@@ -143,7 +148,7 @@ public class GameBoard {
                     board[i][y - 65].setWater(false);
                     ship.addPosition(board[i][y - 65]);
                 }
-                return true;
+                success = true;
 
             } else if (orientacao == false && y + size - 65 - 1 <= board[0].length) {
                 // Verticalmente
@@ -156,11 +161,16 @@ public class GameBoard {
                     board[x][y - 65].setWater(false);
                     ship.addPosition(board[x][j]);
                 }
-                return true;
+                success = true;
             }
         }
 
-        return false;
+        if (success) {
+            setChanged();
+            notifyObservers("Ship positioned at (" + x + ", " + y + ")");
+        }
+
+        return success;
     }
 
     protected boolean shotDefense(PositionPair coordenada) {

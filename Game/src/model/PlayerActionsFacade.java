@@ -10,16 +10,13 @@ public class PlayerActionsFacade {
         return instance;
     }
 
-    public boolean PositionShip(Player player, int x, char y, ShipType shipType, boolean orientacao) {
+    public boolean PositionShip(Player player, int x, char y, int shipSize, boolean orientacao) {
         if (player == null) {
             return false;
         }
+        Ship navio = ShipFactory.createShipSize(shipSize);
 
-        Ship navio = ShipFactory.createShip(shipType);
-
-        player.PositionPlayerShip(navio, x, y, orientacao);
-
-        return true;
+        return player.PositionPlayerShip(navio, x, y, orientacao);
     }
 
     public boolean Attack(Player playerAttacking, Player playerDefending, int coordinateX, char coordinateY) {

@@ -30,6 +30,7 @@ public class BoardPanel extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 int boardX = (e.getX() - MARGIN + 1) / GRID_SIZE;
                 int boardY = (e.getY() - MARGIN + 1) / GRID_SIZE;
+
                 if (boardX >= 0 && boardX < BOARD_WIDTH && boardY >= 0 && boardY < BOARD_HEIGHT) {
 
                     CoordinateView coord = board.get(boardX).get(boardY);
@@ -43,9 +44,10 @@ public class BoardPanel extends JPanel {
                             System.out.println("No Ship Selected");
                         }
                     } else {
-                        // Notificar observadores sobre o evento de clique
+                        // Notificar observadores sobre o evento de clique com informações adicionais
+                        ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, boardX, boardY);
                         observableHelper.setChanged();
-                        observableHelper.notifyObservers("Mouse clicked at (" + boardX + ", " + boardY + ")");
+                        observableHelper.notifyObservers(event);
                         placeShip(boardX, boardY);
                     }
                 }
@@ -82,7 +84,7 @@ public class BoardPanel extends JPanel {
         repaint();
     }
 
-    private void placeShip(int boardX, int boardY) {
+    public void placeShip(int boardX, int boardY) {
         CoordinateView coord = board.get(boardX).get(boardY);
         if (!selectedShip.coordenadas.isEmpty()) {
             for (CoordinateView previousCoord : selectedShip.coordenadas) {

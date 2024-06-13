@@ -4,8 +4,15 @@ import java.awt.*;
 import javax.swing.*;
 
 public class GameFrame extends JFrame {
-
+    private static GameFrame instance;
     private PositionPanel positioning;
+
+    public static synchronized GameFrame getInstance() {
+        if (instance == null) {
+            instance = new GameFrame("Batalha Naval");
+        }
+        return instance;
+    }
 
     public GameFrame(String title) {
 
@@ -16,7 +23,7 @@ public class GameFrame extends JFrame {
         this.add(positioning);
         this.pack();
         this.setLocationRelativeTo(null);
-        this.setVisible(true);
+        this.setVisible(false);
     }
 
     public PositionPanel getPositionPanel() {

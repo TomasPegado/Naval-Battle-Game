@@ -34,7 +34,7 @@ public class Player {
         return true;
     }
 
-    GameBoard GetTabuleiroNavios() {
+    public GameBoard GetTabuleiroNavios() {
         return DefenseMap;
     }
 

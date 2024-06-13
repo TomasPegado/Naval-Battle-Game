@@ -41,3 +41,5 @@ Game/src/controller/Controller.class
 Game/src/view/BoardPanel$ShipPositionListener.class
 Game/src/view/PositionPanel$2.class
 Game/src/view/CoordinateView.class
+Game/src/view/ShipPlacementEvent.class
+Game/src/view/ViewActionsFacade.class
