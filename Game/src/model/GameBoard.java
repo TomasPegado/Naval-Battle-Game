@@ -23,11 +23,11 @@ public class GameBoard extends Observable {
         PositionPair position = board[x][y];
         if (position.is_Water()) { // se for agua checa as fronteiras
 
-            if (x + 1 <= board.length) {
+            if (x + 1 < board.length) {
                 if (!board[x + 1][y].is_Water())
                     return false; // fronteira direita
 
-                if (y + 1 <= board.length) {
+                if (y + 1 < board.length) {
                     if (!board[x + 1][y + 1].is_Water())
                         return false; // fronteira direita embaixo
                 }
@@ -42,7 +42,7 @@ public class GameBoard extends Observable {
                 if (!board[x - 1][y].is_Water())
                     return false; // fronteira esquerda
 
-                if (y + 1 <= board.length) {
+                if (y + 1 < board.length) {
                     if (!board[x - 1][y + 1].is_Water())
                         return false; // fronteira esquerda embaixo
                 }
@@ -52,7 +52,7 @@ public class GameBoard extends Observable {
                 }
             }
 
-            if (y + 1 <= board.length) {
+            if (y + 1 < board.length) {
                 if (!board[x][y + 1].is_Water())
                     return false; // fronteira embaixo
             }
@@ -91,6 +91,15 @@ public class GameBoard extends Observable {
                     }
                 }
 
+                if (!ship.getPositionsList().isEmpty()) {
+                    System.out.println("Rodou Aqui");
+                    for (PositionPair coord : ship.getPositionsList()) {
+                        coord.setShip(null);
+                        coord.setWater(true);
+                    }
+                    ship.getPositionsList().clear();
+                }
+
                 board[x][y - 65].setShip(ship);
                 board[x][y - 65].setWater(false);
                 ship.addPosition(board[x][y - 65]);
@@ -119,6 +128,14 @@ public class GameBoard extends Observable {
                     }
                 }
 
+                if (!ship.getPositionsList().isEmpty()) {
+                    for (PositionPair coord : ship.getPositionsList()) {
+                        coord.setShip(null);
+                        coord.setWater(true);
+                    }
+                    ship.getPositionsList().clear();
+                }
+
                 board[x][y - 65].setShip(ship);
                 board[x][y - 65].setWater(false);
                 ship.addPosition(board[x][y - 65]);
@@ -143,6 +160,14 @@ public class GameBoard extends Observable {
                     }
                 }
 
+                if (!ship.getPositionsList().isEmpty()) {
+                    for (PositionPair coord : ship.getPositionsList()) {
+                        coord.setShip(null);
+                        coord.setWater(true);
+                    }
+                    ship.getPositionsList().clear();
+                }
+
                 for (int i = x; i < x + size; i++) {
                     board[i][y - 65].setShip(ship);
                     board[i][y - 65].setWater(false);
@@ -156,6 +181,13 @@ public class GameBoard extends Observable {
                     if (!is_ValidPosition(x, j))
                         return false;
                 }
+                if (!ship.getPositionsList().isEmpty()) {
+                    for (PositionPair coord : ship.getPositionsList()) {
+                        coord.setShip(null);
+                        coord.setWater(true);
+                    }
+                    ship.getPositionsList().clear();
+                }
                 for (int j = y - 65; j < y + size - 65; j++) {
                     board[x][j].setShip(ship);
                     board[x][y - 65].setWater(false);
@@ -167,7 +199,10 @@ public class GameBoard extends Observable {
 
         if (success) {
             setChanged();
-            notifyObservers("Ship positioned at (" + x + ", " + y + ")");
+            notifyObservers("Ship positioned at (" + (x + 1) + ", " + y + ")");
+        } else {
+            setChanged();
+            notifyObservers("Ship NOT positioned at (" + (x + 1) + ", " + y + ")");
         }
 
         return success;

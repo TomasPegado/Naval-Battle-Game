@@ -17,6 +17,7 @@ public class BoardPanel extends JPanel {
     private ShipView selectedShip;
     private ShipPositionListener shipPositionListener;
     private ObservableHelper observableHelper; // Instância de Observable
+    protected List<ShipView> shipsList = new ArrayList<>();
 
     public BoardPanel() {
         // Define o tamanho preferido com a margem incluída
@@ -38,7 +39,6 @@ public class BoardPanel extends JPanel {
 
                         if (coord.getShip() != null) {
                             selectedShip = coord.getShip();
-
                             replaceShip();
                         } else {
                             System.out.println("No Ship Selected");
@@ -48,7 +48,7 @@ public class BoardPanel extends JPanel {
                         ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, boardX, boardY);
                         observableHelper.setChanged();
                         observableHelper.notifyObservers(event);
-                        placeShip(boardX, boardY);
+
                     }
                 }
 
@@ -84,7 +84,7 @@ public class BoardPanel extends JPanel {
         repaint();
     }
 
-    public void placeShip(int boardX, int boardY) {
+    protected void placeShip(int boardX, int boardY) {
         CoordinateView coord = board.get(boardX).get(boardY);
         if (!selectedShip.coordenadas.isEmpty()) {
             for (CoordinateView previousCoord : selectedShip.coordenadas) {
@@ -118,11 +118,22 @@ public class BoardPanel extends JPanel {
                 selectedShip.coordenadas.add(coord);
             }
         }
-        System.out.println("Ship added to the board");
+        if (shipsList.contains(selectedShip)) {
+            System.out
+                    .println(selectedShip + "Changed Position to (" + (boardX + 1) + ", " + (char) (boardY + 65) + ")");
+        } else {
+            shipsList.add(selectedShip);
+            System.out.println("Ship added to the board");
+        }
+
         repaint(); // Repinta o tabuleiro para refletir a nova posição
 
         selectedShip = null; // Deseleciona o navio após posicionar
 
+    }
+
+    public List<ShipView> getShipsList() {
+        return shipsList;
     }
 
     @Override

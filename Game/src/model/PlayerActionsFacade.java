@@ -1,5 +1,8 @@
 package model;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class PlayerActionsFacade {
     private static PlayerActionsFacade instance;
 
@@ -8,6 +11,21 @@ public class PlayerActionsFacade {
             instance = new PlayerActionsFacade();
         }
         return instance;
+    }
+
+    public void updateShipPosition(Player player, int x, char y, boolean orientacao, int newX, char newY) {
+        if (player != null) {
+
+            for (Ship ship : player.getShips()) {
+                List<PositionPair> positions = ship.getPositionsList();
+                for (PositionPair coord : positions) {
+                    if (coord.getCoordenadaX() == x && coord.getCoordenadaY() == y) {
+                        player.PositionPlayerShip(ship, newX, newY, orientacao);
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     public boolean PositionShip(Player player, int x, char y, int shipSize, boolean orientacao) {
@@ -47,5 +65,9 @@ public class PlayerActionsFacade {
         PositionPair coordenada = attackMap.getCoordinate(coordinateX, coordinateY);
 
         return coordenada.getHit();
+    }
+
+    public List<Ship> getPlayerShips(Player player) {
+        return player.getShips();
     }
 }

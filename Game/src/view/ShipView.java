@@ -32,48 +32,48 @@ public abstract class ShipView extends JPanel {
 
     abstract void paintShip(Graphics2D g2d);
 
-    public int getPanelPositionX() {
+    protected int getPanelPositionX() {
         return panelPositionX;
     }
 
-    public int getPanelPositionY() {
+    protected int getPanelPositionY() {
         return panelPositionY;
     }
 
-    public int getShipSize() {
+    protected int getShipSize() {
         return shipSize;
     }
 
-    public void setPanelPositionX(int panelPositionX) {
+    protected void setPanelPositionX(int panelPositionX) {
         this.panelPositionX = panelPositionX;
     }
 
-    public void setPanelPositionY(int panelPositionY) {
+    protected void setPanelPositionY(int panelPositionY) {
         this.panelPositionY = panelPositionY;
     }
 
-    public void setBoardPosition(int x, int y) {
+    protected void setBoardPosition(int x, int y) {
         this.panelPositionX = x;
         this.panelPositionY = y;
     }
 
-    public void setShipSize(int shipSize) {
+    protected void setShipSize(int shipSize) {
         this.shipSize = shipSize;
     }
 
-    public void setColor(String color) {
+    protected void setColor(String color) {
         this.color = color;
     }
 
-    public String getColor() {
+    protected String getColor() {
         return color;
     }
 
-    public boolean isSelected() {
+    protected boolean isSelected() {
         return selected;
     }
 
-    public void setSelected(boolean selected) {
+    protected void setSelected(boolean selected) {
         this.selected = selected;
     }
 

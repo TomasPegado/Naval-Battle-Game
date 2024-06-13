@@ -1,5 +1,8 @@
 package view;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class ViewActionsFacade {
     private static ViewActionsFacade instance;
 
@@ -18,6 +21,22 @@ public class ViewActionsFacade {
 
         board.placeShip(x, y);
         return true;
+    }
+
+    public List<ShipView> getBoardShips(BoardPanel board) {
+        return board.getShipsList();
+    }
+
+    public int getShipBoardX(ShipView ship) {
+        return ship.getPanelPositionX();
+    }
+
+    public int getShipBoardY(ShipView ship) {
+        return ship.getPanelPositionY();
+    }
+
+    public int getShipSize(ShipView ship) {
+        return ship.getShipSize();
     }
 
 }

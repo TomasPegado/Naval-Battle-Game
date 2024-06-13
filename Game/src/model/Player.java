@@ -18,8 +18,8 @@ public class Player {
         this.PlayerOrderId = playerOrderId;
         this.DefenseMap = new GameBoard();
         this.AttackMap = new GameBoard();
-        this.ShipsLeft = 15;
         this.shipsList = new ArrayList<>();
+        this.ShipsLeft = shipsList.size();
 
     }
 
@@ -28,10 +28,13 @@ public class Player {
         return shipsList;
     }
 
-    boolean PositionPlayerShip(Ship ship, int coordinateX, char coordinateY, boolean orientation) {
-        DefenseMap.PositionShip(coordinateX, coordinateY, ship, orientation);
-        shipsList.add(ship);
-        return true;
+    protected boolean PositionPlayerShip(Ship ship, int coordinateX, char coordinateY, boolean orientation) {
+        if (DefenseMap.PositionShip(coordinateX, coordinateY, ship, orientation)) {
+            shipsList.add(ship);
+            return true;
+        }
+
+        return false;
     }
 
     public GameBoard GetTabuleiroNavios() {
