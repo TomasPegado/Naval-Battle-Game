@@ -39,4 +39,9 @@ public class PositionPanel extends JPanel {
         });
 
     }
+
+    public BoardPanel getBoardPanel() {
+        return boardPanel;
+    }
+
 }

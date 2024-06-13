@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class GameFrame extends JFrame {
 
-    PositionPanel positioning;
+    private PositionPanel positioning;
 
     public GameFrame(String title) {
 
@@ -17,6 +17,10 @@ public class GameFrame extends JFrame {
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    public PositionPanel getPositionPanel() {
+        return positioning;
     }
 
 }

@@ -16,18 +16,22 @@ public class BoardPanel extends JPanel {
     private List<List<CoordinateView>> board; // Matriz de coordenadas
     private ShipView selectedShip;
     private ShipPositionListener shipPositionListener;
+    private ObservableHelper observableHelper; // Instância de Observable
 
     public BoardPanel() {
         // Define o tamanho preferido com a margem incluída
         setPreferredSize(new Dimension(BOARD_WIDTH * GRID_SIZE + 2 * MARGIN, BOARD_HEIGHT * GRID_SIZE + 2 * MARGIN));
         initializeBoard();
+        observableHelper = new ObservableHelper(); // Inicializa a instância de Observable
 
         addMouseListener(new MouseAdapter() {
+            @SuppressWarnings("deprecation")
             @Override
             public void mouseClicked(MouseEvent e) {
                 int boardX = (e.getX() - MARGIN + 1) / GRID_SIZE;
                 int boardY = (e.getY() - MARGIN + 1) / GRID_SIZE;
                 if (boardX >= 0 && boardX < BOARD_WIDTH && boardY >= 0 && boardY < BOARD_HEIGHT) {
+
                     CoordinateView coord = board.get(boardX).get(boardY);
                     if (selectedShip == null) {
 
@@ -39,6 +43,9 @@ public class BoardPanel extends JPanel {
                             System.out.println("No Ship Selected");
                         }
                     } else {
+                        // Notificar observadores sobre o evento de clique
+                        observableHelper.setChanged();
+                        observableHelper.notifyObservers("Mouse clicked at (" + boardX + ", " + boardY + ")");
                         placeShip(boardX, boardY);
                     }
                 }
@@ -150,5 +157,10 @@ public class BoardPanel extends JPanel {
 
     public interface ShipPositionListener {
         void shipPositioned(ShipView ship);
+    }
+
+    @SuppressWarnings("deprecation")
+    public void addObserver(java.util.Observer observer) {
+        observableHelper.addObserver(observer);
     }
 }
