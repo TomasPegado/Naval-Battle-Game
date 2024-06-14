@@ -17,49 +17,48 @@ public class GameBoard extends Observable {
         }
     }
 
-    protected boolean is_ValidPosition(int coordinateX, char coordinateY) {
+    protected boolean is_ValidPosition(Ship ship, int coordinateX, char coordinateY) {
         int y = coordinateY - 65;
         int x = coordinateX;
-        System.out.println(coordinateY);
-        System.out.println(y);
+
         PositionPair position = board[x][y];
         if (position.is_Water()) { // se for agua checa as fronteiras
 
             if (x + 1 < board.length) {
-                if (!board[x + 1][y].is_Water())
+                if (!board[x + 1][y].is_Water() && board[x + 1][y].getShip() != ship)
                     return false; // fronteira direita
 
                 if (y + 1 < board.length) {
-                    if (!board[x + 1][y + 1].is_Water())
+                    if (!board[x + 1][y + 1].is_Water() && board[x + 1][y + 1].getShip() != ship)
                         return false; // fronteira direita embaixo
                 }
 
                 if (y - 1 >= 0) {
-                    if (!board[x + 1][y - 1].is_Water())
+                    if (!board[x + 1][y - 1].is_Water() && board[x + 1][y - 1].getShip() != ship)
                         return false; // fronteira direita em cima
                 }
             }
 
             if (x - 1 >= 0) {
-                if (!board[x - 1][y].is_Water())
+                if (!board[x - 1][y].is_Water() && board[x - 1][y].getShip() != ship)
                     return false; // fronteira esquerda
 
                 if (y + 1 < board.length) {
-                    if (!board[x - 1][y + 1].is_Water())
+                    if (!board[x - 1][y + 1].is_Water() && board[x - 1][y + 1].getShip() != ship)
                         return false; // fronteira esquerda embaixo
                 }
                 if (y - 1 >= 0) {
-                    if (!board[x - 1][y - 1].is_Water())
+                    if (!board[x - 1][y - 1].is_Water() && board[x - 1][y - 1].getShip() != ship)
                         return false; // fronteira esquerda em cima
                 }
             }
 
             if (y + 1 < board.length) {
-                if (!board[x][y + 1].is_Water())
+                if (!board[x][y + 1].is_Water() && board[x][y + 1].getShip() != ship)
                     return false; // fronteira embaixo
             }
             if (y - 1 >= 0) {
-                if (!board[x][y - 1].is_Water())
+                if (!board[x][y - 1].is_Water() && board[x][y - 1].getShip() != ship)
                     return false; // fronteira em cima
             }
 
@@ -78,16 +77,16 @@ public class GameBoard extends Observable {
 
         if (ship.GetType() == ShipType.HYDROPLANES) { // Posicionamento do Hidroavião
 
-            if (orientacao == true && x + 1 <= board.length && x - 1 >= 0 && y - 65 + 1 <= board.length) {
+            if (orientacao == true && x + 1 < board.length && x - 1 >= 0 && y - 65 + 1 < board.length) {
                 // horizontalmente hidroavião
 
-                if (!is_ValidPosition(x, y)) {
+                if (!is_ValidPosition(ship, x, y)) {
                     return false;
                 } else {
-                    if (!is_ValidPosition(x - 1, (char) (y + 1))) {
+                    if (!is_ValidPosition(ship, x - 1, (char) (y + 1))) {
                         return false;
                     } else {
-                        if (!is_ValidPosition(x + 1, (char) (y + 1))) {
+                        if (!is_ValidPosition(ship, x + 1, (char) (y + 1))) {
                             return false;
                         }
                     }
@@ -116,15 +115,15 @@ public class GameBoard extends Observable {
 
                 success = true;
 
-            } else if (orientacao == false && x + 1 <= board.length && y - 65 + 1 <= board.length && y - 65 - 1 >= 0) {
+            } else if (orientacao == false && x + 1 < board.length && y - 65 + 1 < board.length && y - 65 - 1 >= 0) {
                 // verticalmente hidroavião
-                if (!is_ValidPosition(x, y)) {
+                if (!is_ValidPosition(ship, x, y)) {
                     return false;
                 } else {
-                    if (!is_ValidPosition(x + 1, (char) (y - 1))) {
+                    if (!is_ValidPosition(ship, x + 1, (char) (y - 1))) {
                         return false;
                     } else {
-                        if (!is_ValidPosition(x + 1, (char) (y + 1))) {
+                        if (!is_ValidPosition(ship, x + 1, (char) (y + 1))) {
                             return false;
                         }
                     }
@@ -154,11 +153,11 @@ public class GameBoard extends Observable {
                 success = true;
             }
         } else {
-            if (orientacao == true && x + size - 1 <= board.length) {
+            if (orientacao == true && x + size - 1 < board.length) {
                 // Horizontalmente
 
                 for (int i = x; i < x + size; i++) {
-                    if (!is_ValidPosition(i, y)) {
+                    if (!is_ValidPosition(ship, i, y)) {
                         return false;
                     }
                 }
@@ -179,10 +178,10 @@ public class GameBoard extends Observable {
                 }
                 success = true;
 
-            } else if (orientacao == false && y + size - 65 - 1 <= board[0].length) {
+            } else if (orientacao == false && y + size - 65 - 1 < board[0].length) {
                 // Verticalmente
                 for (int j = y - 65; j < y + size - 65; j++) {
-                    if (!is_ValidPosition(x, (char) j))
+                    if (!is_ValidPosition(ship, x, (char) j))
                         return false;
                 }
                 if (!ship.getPositionsList().isEmpty()) {
