@@ -17,6 +17,7 @@ public class Controller implements Observer {
     private final PlayerActionsFacade playerActionsFacade;
     private final ViewActionsFacade viewActionsFacade;
     private BoardPanel boardPanel;
+    private PositionPanel positionPanel;
     private int currentPlayerIndex = 0;
     private Player currentPlayer;
     private int boardX;
@@ -33,12 +34,17 @@ public class Controller implements Observer {
 
         // Observe the game boards of the players
         for (Player player : gameFacade.getJogadores()) {
+            player.addObserver(this);
             player.GetTabuleiroNavios().addObserver(this);
         }
     }
 
     public void setBoardPanel(BoardPanel boardPanel) {
         this.boardPanel = boardPanel;
+    }
+
+    public void setPositionPanel(PositionPanel positionPanel) {
+        this.positionPanel = positionPanel;
     }
 
     public void setBoardX(int boardX) {
@@ -76,9 +82,6 @@ public class Controller implements Observer {
                 playerActionsFacade.PositionShip(currentPlayer, event.getBoardX(), (char) (event.getBoardY() + 65),
                         viewActionsFacade.getShipSize(event.getSelectedShip()), true);
             }
-            // playerActionsFacade.PositionShip(currentPlayer, event.getBoardX(), (char)
-            // (event.getBoardY() + 65),
-            // viewActionsFacade.getShipSize(event.getSelectedShip()), true);
 
         } else if (o instanceof GameBoard) {
             if (arg instanceof String) {
@@ -95,6 +98,20 @@ public class Controller implements Observer {
                     // Handle shot hit event
                 }
             }
+        } else if (o instanceof Player) {
+            if (arg instanceof String) {
+                String playerEventDescription = (String) arg;
+                System.out.println("Controller observed event from Player: " + playerEventDescription);
+
+                if (playerEventDescription.startsWith("All Ships Positioned: ")) {
+                    if (currentPlayerIndex == 0) {
+                        viewActionsFacade.setVisibleNextPlayerButton(positionPanel);
+                        currentPlayerIndex += 1;
+                    } else {
+                        viewActionsFacade.setVisibleStartGameButton(positionPanel);
+                    }
+                }
+            }
         }
     }
 
@@ -109,8 +126,10 @@ public class Controller implements Observer {
 
         SwingUtilities.invokeLater(() -> {
             GameFrame frame = GameFrame.getInstance();
+            PositionPanel positionPanel = frame.getPositionPanel();
             BoardPanel boardPanel = frame.getPositionPanel().getBoardPanel();
             boardPanel.addObserver(controller); // Register observer after the frame creation
+            controller.setPositionPanel(positionPanel);
             controller.setBoardPanel(boardPanel);
             frame.setVisible(true);
         });

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class BoardPanel extends JPanel {
 
-    private static final int MARGIN = 20; // Margem ao redor do tabuleiro
+    private static final int MARGIN = 25; // Margem ao redor do tabuleiro
     private static final int GRID_SIZE = 30; // Tamanho de cada célula
     private static final int BOARD_WIDTH = 15;
     private static final int BOARD_HEIGHT = 15;

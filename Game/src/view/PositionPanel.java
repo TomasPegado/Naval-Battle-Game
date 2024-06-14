@@ -8,6 +8,8 @@ public class PositionPanel extends JPanel {
 
     private WeaponsPanel weaponsPanel;
     private BoardPanel boardPanel;
+    private JButton nextPlayerButton;
+    private JButton startGameButton;
 
     PositionPanel() {
 
@@ -15,7 +17,7 @@ public class PositionPanel extends JPanel {
         this.setLayout(new BorderLayout());
 
         this.weaponsPanel = new WeaponsPanel();
-        boardPanel = new BoardPanel();
+        this.boardPanel = new BoardPanel();
 
         add(weaponsPanel, BorderLayout.WEST);
         add(boardPanel, BorderLayout.EAST);
@@ -38,10 +40,48 @@ public class PositionPanel extends JPanel {
             }
         });
 
+        // Crie o botão e adicione um listener
+        nextPlayerButton = new JButton("Next Player");
+        nextPlayerButton.setVisible(false);
+        nextPlayerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Aqui você pode adicionar a lógica para passar para o próximo jogador
+                nextPlayerButton.setVisible(false);
+                System.out.println("Next Player button clicked");
+            }
+        });
+
+        startGameButton = new JButton("Start Game");
+        startGameButton.setVisible(false);
+        startGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Aqui você pode adicionar a lógica para passar para o próximo jogador
+                startGameButton.setVisible(false);
+                System.out.println("Start Game button clicked");
+            }
+        });
+
+        // Adicionar o botão na parte inferior central
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.add(nextPlayerButton);
+        buttonPanel.add(startGameButton);
+        add(buttonPanel, BorderLayout.SOUTH);
+
     }
 
     public BoardPanel getBoardPanel() {
         return boardPanel;
+    }
+
+    public JButton getNextPlayerButton() {
+        return nextPlayerButton;
+    }
+
+    public JButton getStartGameButton() {
+        return startGameButton;
     }
 
 }

@@ -1,6 +1,9 @@
 package view;
 
 import java.util.List;
+
+import javax.swing.JButton;
+
 import java.util.ArrayList;
 
 public class ViewActionsFacade {
@@ -37,6 +40,16 @@ public class ViewActionsFacade {
 
     public int getCurrentPositionY(BoardPanel board) {
         return board.getCurrentPositionY();
+    }
+
+    public void setVisibleNextPlayerButton(PositionPanel panel) {
+        JButton next = panel.getNextPlayerButton();
+        next.setVisible(true);
+    }
+
+    public void setVisibleStartGameButton(PositionPanel panel) {
+        JButton next = panel.getStartGameButton();
+        next.setVisible(true);
     }
 
 }

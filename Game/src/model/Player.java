@@ -1,9 +1,11 @@
 package model;
 
 import java.util.List;
+import java.util.Observable;
 import java.util.ArrayList;
 
-public class Player {
+@SuppressWarnings("deprecation")
+public class Player extends Observable {
     private String Name;
     private int PlayerOrderId;
     private GameBoard DefenseMap;
@@ -32,6 +34,11 @@ public class Player {
         if (DefenseMap.PositionShip(coordinateX, coordinateY, ship, orientation)) {
             if (!shipsList.contains(ship)) {
                 shipsList.add(ship);
+                System.out.println(shipsList.size());
+            }
+            if (shipsList.size() == 15) {
+                setChanged();
+                notifyObservers("All Ships Positioned: " + this.getName());
             }
 
             return true;
