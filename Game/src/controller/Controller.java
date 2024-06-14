@@ -16,6 +16,7 @@ public class Controller implements Observer {
     private final GameFacade gameFacade;
     private final PlayerActionsFacade playerActionsFacade;
     private final ViewActionsFacade viewActionsFacade;
+    private GameFrame frame;
     private BoardPanel boardPanel;
     private PositionPanel positionPanel;
     private int currentPlayerIndex = 0;
@@ -37,6 +38,10 @@ public class Controller implements Observer {
             player.addObserver(this);
             player.GetTabuleiroNavios().addObserver(this);
         }
+    }
+
+    public void setFrame(GameFrame frame) {
+        this.frame = frame;
     }
 
     public void setBoardPanel(BoardPanel boardPanel) {
@@ -106,10 +111,22 @@ public class Controller implements Observer {
                 if (playerEventDescription.startsWith("All Ships Positioned: ")) {
                     if (currentPlayerIndex == 0) {
                         viewActionsFacade.setVisibleNextPlayerButton(positionPanel);
-                        currentPlayerIndex += 1;
+
                     } else {
                         viewActionsFacade.setVisibleStartGameButton(positionPanel);
                     }
+                }
+            }
+        } else if (o instanceof ObservableHelper) {
+
+            if (arg instanceof String) {
+                String eventDescription = (String) arg;
+
+                if (eventDescription.startsWith("Next Player Positioning")) {
+                    currentPlayerIndex += 1;
+                    currentPlayer = gameFacade.getJogadores().get(currentPlayerIndex);
+                    this.setBoardPanel(frame.getPositionPanel().getBoardPanel());
+                    this.boardPanel.addObserver(this);
                 }
             }
         }
@@ -126,7 +143,9 @@ public class Controller implements Observer {
 
         SwingUtilities.invokeLater(() -> {
             GameFrame frame = GameFrame.getInstance();
+            controller.setFrame(frame);
             PositionPanel positionPanel = frame.getPositionPanel();
+            positionPanel.addObserver(controller);
             BoardPanel boardPanel = frame.getPositionPanel().getBoardPanel();
             boardPanel.addObserver(controller); // Register observer after the frame creation
             controller.setPositionPanel(positionPanel);

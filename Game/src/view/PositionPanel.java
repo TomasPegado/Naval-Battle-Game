@@ -10,8 +10,11 @@ public class PositionPanel extends JPanel {
     private BoardPanel boardPanel;
     private JButton nextPlayerButton;
     private JButton startGameButton;
+    private ObservableHelper observableHelper; // Instância de Observable
 
     PositionPanel() {
+
+        observableHelper = new ObservableHelper(); // Inicializa a instância de Observable
 
         this.setPreferredSize(new Dimension(1000, 600));
         this.setLayout(new BorderLayout());
@@ -44,11 +47,15 @@ public class PositionPanel extends JPanel {
         nextPlayerButton = new JButton("Next Player");
         nextPlayerButton.setVisible(false);
         nextPlayerButton.addActionListener(new ActionListener() {
+            @SuppressWarnings("deprecation")
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Aqui você pode adicionar a lógica para passar para o próximo jogador
+                reset();
                 nextPlayerButton.setVisible(false);
                 System.out.println("Next Player button clicked");
+                observableHelper.setChanged();
+                observableHelper.notifyObservers("Next Player Positioning");
             }
         });
 
@@ -82,6 +89,44 @@ public class PositionPanel extends JPanel {
 
     public JButton getStartGameButton() {
         return startGameButton;
+    }
+
+    public void reset() {
+        // Remove os painéis atuais
+        remove(weaponsPanel);
+        remove(boardPanel);
+
+        // Cria novos painéis para resetar o estado
+        this.weaponsPanel = new WeaponsPanel();
+        this.boardPanel = new BoardPanel();
+
+        add(weaponsPanel, BorderLayout.WEST);
+        add(boardPanel, BorderLayout.EAST);
+
+        // Adicionar novamente os listeners
+        weaponsPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ShipView selectedShip = weaponsPanel.getSelectedShip();
+                boardPanel.setSelectedShip(selectedShip);
+            }
+        });
+
+        boardPanel.setShipPositionListener(new BoardPanel.ShipPositionListener() {
+            @Override
+            public void shipPositioned(ShipView ship) {
+                weaponsPanel.deselectShip();
+            }
+        });
+
+        // Atualiza o painel para refletir as mudanças
+        revalidate();
+        repaint();
+    }
+
+    @SuppressWarnings("deprecation")
+    public void addObserver(java.util.Observer observer) {
+        observableHelper.addObserver(observer);
     }
 
 }
