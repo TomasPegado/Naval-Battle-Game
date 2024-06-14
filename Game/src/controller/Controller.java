@@ -64,25 +64,21 @@ public class Controller implements Observer {
             setBoardX(event.getBoardX());
             setBoardY(event.getBoardY());
 
-            // if
-            // (viewActionsFacade.getBoardShips(boardPanel).contains(event.getSelectedShip()))
-            // {
-            // int currentPositionX =
-            // viewActionsFacade.getShipBoardX(event.getSelectedShip());
-            // char currentPositionY = (char)
-            // (viewActionsFacade.getShipBoardY(event.getSelectedShip()) + 65);
+            if (viewActionsFacade.getBoardShips(boardPanel).contains(event.getSelectedShip())) {
+                int currentPositionX = viewActionsFacade.getCurrentPositionX(boardPanel);
+                char currentPositionY = (char) (viewActionsFacade.getCurrentPositionY(boardPanel) + 65);
 
-            // playerActionsFacade.updateShipPosition(currentPlayer, currentPositionX,
-            // currentPositionY, false,
-            // event.getBoardX(), (char) (event.getBoardY() + 65));
+                playerActionsFacade.updateShipPosition(currentPlayer, currentPositionX,
+                        currentPositionY, true,
+                        event.getBoardX(), (char) (event.getBoardY() + 65));
 
-            // } else {
+            } else {
+                playerActionsFacade.PositionShip(currentPlayer, event.getBoardX(), (char) (event.getBoardY() + 65),
+                        viewActionsFacade.getShipSize(event.getSelectedShip()), true);
+            }
             // playerActionsFacade.PositionShip(currentPlayer, event.getBoardX(), (char)
             // (event.getBoardY() + 65),
             // viewActionsFacade.getShipSize(event.getSelectedShip()), true);
-            // }
-            playerActionsFacade.PositionShip(currentPlayer, event.getBoardX(), (char) (event.getBoardY() + 65),
-                    viewActionsFacade.getShipSize(event.getSelectedShip()), true);
 
         } else if (o instanceof GameBoard) {
             if (arg instanceof String) {

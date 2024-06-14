@@ -17,9 +17,11 @@ public class GameBoard extends Observable {
         }
     }
 
-    protected boolean is_ValidPosition(int coordinateX, int coordinateY) {
+    protected boolean is_ValidPosition(int coordinateX, char coordinateY) {
         int y = coordinateY - 65;
         int x = coordinateX;
+        System.out.println(coordinateY);
+        System.out.println(y);
         PositionPair position = board[x][y];
         if (position.is_Water()) { // se for agua checa as fronteiras
 
@@ -82,17 +84,17 @@ public class GameBoard extends Observable {
                 if (!is_ValidPosition(x, y)) {
                     return false;
                 } else {
-                    if (!is_ValidPosition(x - 1, y + 1)) {
+                    if (!is_ValidPosition(x - 1, (char) (y + 1))) {
                         return false;
                     } else {
-                        if (!is_ValidPosition(x + 1, y + 1)) {
+                        if (!is_ValidPosition(x + 1, (char) (y + 1))) {
                             return false;
                         }
                     }
                 }
 
                 if (!ship.getPositionsList().isEmpty()) {
-                    System.out.println("Rodou Aqui");
+
                     for (PositionPair coord : ship.getPositionsList()) {
                         coord.setShip(null);
                         coord.setWater(true);
@@ -119,16 +121,17 @@ public class GameBoard extends Observable {
                 if (!is_ValidPosition(x, y)) {
                     return false;
                 } else {
-                    if (!is_ValidPosition(x + 1, y - 1)) {
+                    if (!is_ValidPosition(x + 1, (char) (y - 1))) {
                         return false;
                     } else {
-                        if (!is_ValidPosition(x + 1, y + 1)) {
+                        if (!is_ValidPosition(x + 1, (char) (y + 1))) {
                             return false;
                         }
                     }
                 }
 
                 if (!ship.getPositionsList().isEmpty()) {
+
                     for (PositionPair coord : ship.getPositionsList()) {
                         coord.setShip(null);
                         coord.setWater(true);
@@ -161,6 +164,7 @@ public class GameBoard extends Observable {
                 }
 
                 if (!ship.getPositionsList().isEmpty()) {
+
                     for (PositionPair coord : ship.getPositionsList()) {
                         coord.setShip(null);
                         coord.setWater(true);
@@ -178,10 +182,11 @@ public class GameBoard extends Observable {
             } else if (orientacao == false && y + size - 65 - 1 <= board[0].length) {
                 // Verticalmente
                 for (int j = y - 65; j < y + size - 65; j++) {
-                    if (!is_ValidPosition(x, j))
+                    if (!is_ValidPosition(x, (char) j))
                         return false;
                 }
                 if (!ship.getPositionsList().isEmpty()) {
+
                     for (PositionPair coord : ship.getPositionsList()) {
                         coord.setShip(null);
                         coord.setWater(true);

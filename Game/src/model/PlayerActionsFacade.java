@@ -20,6 +20,7 @@ public class PlayerActionsFacade {
                 List<PositionPair> positions = ship.getPositionsList();
                 for (PositionPair coord : positions) {
                     if (coord.getCoordenadaX() == x && coord.getCoordenadaY() == y) {
+
                         player.PositionPlayerShip(ship, newX, newY, orientacao);
                         return;
                     }

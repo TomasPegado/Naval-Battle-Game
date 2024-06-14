@@ -30,7 +30,10 @@ public class Player {
 
     protected boolean PositionPlayerShip(Ship ship, int coordinateX, char coordinateY, boolean orientation) {
         if (DefenseMap.PositionShip(coordinateX, coordinateY, ship, orientation)) {
-            shipsList.add(ship);
+            if (!shipsList.contains(ship)) {
+                shipsList.add(ship);
+            }
+
             return true;
         }
 

@@ -27,16 +27,16 @@ public class ViewActionsFacade {
         return board.getShipsList();
     }
 
-    public int getShipBoardX(ShipView ship) {
-        return ship.getPanelPositionX();
-    }
-
-    public int getShipBoardY(ShipView ship) {
-        return ship.getPanelPositionY();
-    }
-
     public int getShipSize(ShipView ship) {
         return ship.getShipSize();
+    }
+
+    public int getCurrentPositionX(BoardPanel board) {
+        return board.getCurrentPositionX();
+    }
+
+    public int getCurrentPositionY(BoardPanel board) {
+        return board.getCurrentPositionY();
     }
 
 }

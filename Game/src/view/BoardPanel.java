@@ -18,6 +18,8 @@ public class BoardPanel extends JPanel {
     private ShipPositionListener shipPositionListener;
     private ObservableHelper observableHelper; // Instância de Observable
     protected List<ShipView> shipsList = new ArrayList<>();
+    private int currentPositionX;
+    private int currentPositionY;
 
     public BoardPanel() {
         // Define o tamanho preferido com a margem incluída
@@ -39,6 +41,8 @@ public class BoardPanel extends JPanel {
 
                         if (coord.getShip() != null) {
                             selectedShip = coord.getShip();
+                            setCurrentPositionX(boardX);
+                            setCurrentPositionY(boardY);
                             replaceShip();
                         } else {
                             System.out.println("No Ship Selected");
@@ -134,6 +138,22 @@ public class BoardPanel extends JPanel {
 
     public List<ShipView> getShipsList() {
         return shipsList;
+    }
+
+    public void setCurrentPositionX(int currentPositionX) {
+        this.currentPositionX = currentPositionX;
+    }
+
+    public void setCurrentPositionY(int currentPositionY) {
+        this.currentPositionY = currentPositionY;
+    }
+
+    public int getCurrentPositionX() {
+        return currentPositionX;
+    }
+
+    public int getCurrentPositionY() {
+        return currentPositionY;
     }
 
     @Override
