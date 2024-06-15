@@ -198,7 +198,7 @@ public class GameBoard extends Observable {
                 }
                 for (int j = y - 65; j < y + size - 65; j++) {
                     board[x][j].setShip(ship);
-                    board[x][y - 65].setWater(false);
+                    board[x][j].setWater(false);
                     ship.addPosition(board[x][j]);
                 }
                 success = true;
