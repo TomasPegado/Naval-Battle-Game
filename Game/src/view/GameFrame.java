@@ -32,7 +32,7 @@ public class GameFrame extends JFrame {
         return positioning;
     }
 
-    public AttackPanel getAttacking() {
+    public AttackPanel getAttackingPanel() {
         return attacking;
     }
 

@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observer;
 
 public class BoardPanel extends JPanel {
 
@@ -244,5 +245,10 @@ public class BoardPanel extends JPanel {
     @SuppressWarnings("deprecation")
     public void addObserver(java.util.Observer observer) {
         observableHelper.addObserver(observer);
+    }
+
+    @SuppressWarnings("deprecation")
+    protected void removeObserver(Observer observer) {
+        observableHelper.deleteObserver(observer);
     }
 }

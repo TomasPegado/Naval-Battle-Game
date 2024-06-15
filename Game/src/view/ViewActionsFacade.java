@@ -50,4 +50,9 @@ public class ViewActionsFacade {
         next.setVisible(true);
     }
 
+    public BoardPanel getAttackBoard1(AttackPanel attackPanel) {
+
+        return attackPanel.getAttackBoard1();
+    }
+
 }

@@ -12,7 +12,7 @@ public class CoordinateView {
     public CoordinateView(int x, int y) {
         this.x = x;
         this.y = y;
-        this.isWater = true; // Inicialmente, todas as coordenadas são água
+        this.isWater = false;
     }
 
     public int getX() {
@@ -29,7 +29,7 @@ public class CoordinateView {
 
     public void setShip(ShipView ship) {
         this.ship = ship;
-        this.isWater = (ship == null); // Se não há navio, é água
+        // this.isWater = (ship == null); // Se não há navio, é água
     }
 
     public boolean isWater() {
@@ -38,9 +38,9 @@ public class CoordinateView {
 
     public void setWater(boolean isWater) {
         this.isWater = isWater;
-        if (isWater) {
-            this.ship = null; // Se for definido como água, remove qualquer navio
-        }
+        // if (isWater) {
+        // this.ship = null; // Se for definido como água, remove qualquer navio
+        // }
     }
 
     public void draw(Graphics2D g2d, int size) {
@@ -51,6 +51,8 @@ public class CoordinateView {
             if (selected) {
                 g2d.setColor(Color.RED);
             }
+        } else {
+            g2d.setColor(Color.decode("#F2FDFB"));
         }
         g2d.fillRect(x * size, y * size, size, size);
         g2d.setColor(Color.BLACK);

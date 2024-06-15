@@ -18,6 +18,7 @@ public class Controller implements Observer {
     private GameFrame frame;
     private BoardPanel boardPanel;
     private PositionPanel positionPanel;
+    private AttackPanel attackPanel;
     private int currentPlayerIndex = 0;
     private Player currentPlayer;
     private int boardX;
@@ -40,31 +41,31 @@ public class Controller implements Observer {
         }
     }
 
-    public void setFrame(GameFrame frame) {
+    private void setFrame(GameFrame frame) {
         this.frame = frame;
     }
 
-    public void setBoardPanel(BoardPanel boardPanel) {
+    private void setBoardPanel(BoardPanel boardPanel) {
         this.boardPanel = boardPanel;
     }
 
-    public void setPositionPanel(PositionPanel positionPanel) {
+    private void setPositionPanel(PositionPanel positionPanel) {
         this.positionPanel = positionPanel;
     }
 
-    public void setBoardX(int boardX) {
+    private void setBoardX(int boardX) {
         this.boardX = boardX;
     }
 
-    public void setBoardY(int boardY) {
+    private void setBoardY(int boardY) {
         this.boardY = boardY;
     }
 
-    public int getBoardX() {
+    private int getBoardX() {
         return boardX;
     }
 
-    public int getBoardY() {
+    private int getBoardY() {
         return boardY;
     }
 
@@ -130,10 +131,18 @@ public class Controller implements Observer {
                     currentPlayer = gameFacade.getJogadores().get(currentPlayerIndex);
                     this.setBoardPanel(frame.getPositionPanel().getBoardPanel());
                     this.boardPanel.addObserver(this);
+
                 } else if (eventDescription.startsWith("Positioning Finished")) {
                     currentPlayerIndex = 0;
                     currentPlayer = gameFacade.getJogadores().get(currentPlayerIndex);
                     frame.switchToAttackPanel();
+                    this.attackPanel = frame.getAttackingPanel();
+                    attackPanel.addObserver(this);
+                } else if (eventDescription.startsWith("Start Game button clicked")) {
+                    System.out.println("Controller Observed that Game Started");
+                    viewActionsFacade.getAttackBoard1(attackPanel).addObserver(this);
+                } else {
+                    System.out.println(eventDescription);
                 }
             }
         }
