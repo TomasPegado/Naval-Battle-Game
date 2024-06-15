@@ -10,6 +10,11 @@ public class BattleShipView extends ShipView {
         setColor("#663A00");
     }
 
+    protected BattleShipView(int size) {
+        super(size);
+        setColor("#663A00");
+    }
+
     int x = this.panelPositionX;
     int y = this.panelPositionY;
 

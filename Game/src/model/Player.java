@@ -59,7 +59,7 @@ public class Player extends Observable {
         PlayerOrderId = playerOrderId;
     }
 
-    protected GameBoard GetTabuleiroAtaques() {
+    public GameBoard GetTabuleiroAtaques() {
         return AttackMap;
     }
 

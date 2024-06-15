@@ -10,6 +10,11 @@ public class SubmarineView extends ShipView {
         setColor("#5eed4e");
     }
 
+    protected SubmarineView(int size) {
+        super(size);
+        setColor("#5eed4e");
+    }
+
     int x = this.panelPositionX;
     int y = this.panelPositionY;
 

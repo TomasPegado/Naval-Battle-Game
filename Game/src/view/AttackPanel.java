@@ -1,5 +1,8 @@
 package view;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -16,6 +19,7 @@ public class AttackPanel extends JPanel {
     private JLabel player2Label;
     private ObservableHelper observableHelper; // Instância de Observable
     private int currentPlayerIndex = 0;
+    private List<BoardPanel> attackBoards;
 
     AttackPanel() {
 
@@ -24,8 +28,12 @@ public class AttackPanel extends JPanel {
         this.setPreferredSize(new Dimension(1000, 600));
         this.setLayout(new BorderLayout());
 
+        this.attackBoards = new ArrayList<>();
+
         this.attackBoard1 = new BoardPanel();
         this.attackBoard2 = new BoardPanel();
+        attackBoards.add(attackBoard1);
+        attackBoards.add(attackBoard2);
 
         attackBoard1.setIs_PositionBoard(false);
         attackBoard2.setIs_PositionBoard(false);
@@ -107,6 +115,10 @@ public class AttackPanel extends JPanel {
 
     protected JButton getNextPlayerButton() {
         return nextPlayerButton;
+    }
+
+    public List<BoardPanel> getAttackBoards() {
+        return attackBoards;
     }
 
     @SuppressWarnings("deprecation")

@@ -5,7 +5,7 @@ public enum ShipType {
     CRUISER(4),
     DESTROYER(2),
     SUBMARINE(1),
-    HYDROPLANES(3); // Assume que o hidroavião ocupa um espaço especial no tabuleiro.
+    HYDROPLANES(3);
 
     private final int size;
 

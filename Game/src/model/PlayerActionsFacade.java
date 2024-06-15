@@ -65,7 +65,7 @@ public class PlayerActionsFacade {
         GameBoard attackMap = playerAttacking.GetTabuleiroAtaques();
         PositionPair coordenada = attackMap.getCoordinate(coordinateX, coordinateY);
 
-        return coordenada.getHit();
+        return !coordenada.getHit();
     }
 
     public List<Ship> getPlayerShips(Player player) {

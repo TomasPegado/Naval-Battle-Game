@@ -29,7 +29,7 @@ public class CoordinateView {
 
     public void setShip(ShipView ship) {
         this.ship = ship;
-        // this.isWater = (ship == null); // Se não há navio, é água
+
     }
 
     public boolean isWater() {
@@ -38,9 +38,7 @@ public class CoordinateView {
 
     public void setWater(boolean isWater) {
         this.isWater = isWater;
-        // if (isWater) {
-        // this.ship = null; // Se for definido como água, remove qualquer navio
-        // }
+
     }
 
     public void draw(Graphics2D g2d, int size) {

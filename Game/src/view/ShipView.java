@@ -14,6 +14,10 @@ public abstract class ShipView extends JPanel {
     protected boolean selected = false;
     protected List<CoordinateView> coordenadas;
 
+    ShipView(int size) {
+        this.shipSize = size;
+    }
+
     ShipView(int x, int y) {
 
         this.panelPositionX = x;

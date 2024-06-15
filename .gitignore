@@ -53,3 +53,8 @@ Game/src/view/AttackPanel$2.class
 Game/src/view/CoordinateView.class
 Game/src/view/CoordinateView.class
 Game/src/view/ShotEvent.class
+Game/src/view/CoordinateView.class
+Game/src/model/ModelShotHitEvent.class
+Game/src/view/CoordinateView.class
+Game/src/view/CruiserView.class
+Game/src/view/ShipFactoryView.class

@@ -10,6 +10,11 @@ public class DestroyerView extends ShipView {
         setColor("#f0f00e");
     }
 
+    protected DestroyerView(int size) {
+        super(size);
+        setColor("#f0f00e");
+    }
+
     int x = this.panelPositionX;
     int y = this.panelPositionY;
 

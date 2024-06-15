@@ -6,6 +6,7 @@ import java.util.Observer;
 
 import model.GameBoard;
 import model.GameFacade;
+import model.ModelShotHitEvent;
 import model.PlayerActionsFacade;
 import view.*;
 import model.Player;
@@ -38,6 +39,7 @@ public class Controller implements Observer {
         for (Player player : gameFacade.getJogadores()) {
             player.addObserver(this);
             player.GetTabuleiroNavios().addObserver(this);
+            player.GetTabuleiroAtaques().addObserver(this);
         }
     }
 
@@ -100,10 +102,15 @@ public class Controller implements Observer {
                 if (eventDescription.startsWith("Ship positioned at")) {
                     viewActionsFacade.placeShip(boardPanel, getBoardX(), getBoardY(), shipOrientation);
                     System.out.println(playerActionsFacade.getPlayerShips(currentPlayer));
-                } else if (eventDescription.startsWith("Shot at")) {
-                    // Handle shot event
-                } else if (eventDescription.startsWith("Shot hit at")) {
-                    // Handle shot hit event
+                }
+            } else if (arg instanceof ModelShotHitEvent) {
+
+                ModelShotHitEvent event = (ModelShotHitEvent) arg;
+                if (event.isWater()) {
+                    viewActionsFacade.shotWater(attackPanel.getAttackBoards().get(currentPlayerIndex), boardX, boardY);
+                } else {
+                    viewActionsFacade.shotHit(attackPanel.getAttackBoards().get(currentPlayerIndex), boardX, boardY,
+                            event.getShipSize());
                 }
             }
         } else if (o instanceof Player) {
@@ -125,6 +132,11 @@ public class Controller implements Observer {
             setBoardX(event.getBoardX());
             setBoardY(event.getBoardY());
             System.out.println("Shot fired at " + boardX + ", " + boardY);
+            if (playerActionsFacade.ValidateAttack(currentPlayer, boardX, (char) (boardY + 65))) {
+
+                playerActionsFacade.Attack(currentPlayer, gameFacade.getJogadores().get(currentPlayerIndex + 1 % 2),
+                        boardX, (char) (boardY + 65));
+            }
         }
 
         else if (o instanceof ObservableHelper) {
@@ -144,6 +156,7 @@ public class Controller implements Observer {
                     frame.switchToAttackPanel();
                     this.attackPanel = frame.getAttackingPanel();
                     attackPanel.addObserver(this);
+
                 } else if (eventDescription.startsWith("Start Game button clicked")) {
                     System.out.println("Controller Observed that Game Started");
                     viewActionsFacade.getAttackBoard1(attackPanel).addObserver(this);

@@ -226,6 +226,9 @@ public class GameBoard extends Observable {
             ship.got_Hit();
             return true;
         }
+        ModelShotHitEvent event = new ModelShotHitEvent(true);
+        setChanged();
+        notifyObservers(event);
         return false;
 
     }
@@ -234,6 +237,9 @@ public class GameBoard extends Observable {
 
         coordenada.setShip(ship);
         coordenada.setWater(false);
+        ModelShotHitEvent event = new ModelShotHitEvent(ship.GetSize(), ship.is_Active());
+        setChanged();
+        notifyObservers(event);
 
     }
 

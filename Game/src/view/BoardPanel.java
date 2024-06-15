@@ -186,6 +186,24 @@ public class BoardPanel extends JPanel {
 
     }
 
+    protected void shotHit(int boardX, int boardY, int size) {
+        CoordinateView coord = board.get(boardX).get(boardY);
+        ShipView ship = ShipFactoryView.creatShipView(size);
+
+        coord.setShip(ship);
+        repaint();
+        System.out.println("BoardPanel painted shot at " + boardX + ", " + boardY);
+
+    }
+
+    protected void shotWater(int boardX, int boardY) {
+        CoordinateView coord = board.get(boardX).get(boardY);
+        coord.setWater(true);
+        repaint();
+        System.out.println("BoardPanel painted water hit at " + boardX + ", " + boardY);
+
+    }
+
     public List<ShipView> getShipsList() {
         return shipsList;
     }

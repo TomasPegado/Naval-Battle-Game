@@ -10,6 +10,11 @@ public class CruiserView extends ShipView {
         setColor("#f7860c");
     }
 
+    protected CruiserView(int size) {
+        super(size);
+        setColor("#f7860c");
+    }
+
     int x = this.panelPositionX;
     int y = this.panelPositionY;
 

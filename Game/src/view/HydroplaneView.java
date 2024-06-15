@@ -10,6 +10,11 @@ public class HydroplaneView extends ShipView {
         setColor("#326B00");
     }
 
+    protected HydroplaneView(int size) {
+        super(size);
+        setColor("#326B00");
+    }
+
     int x = this.panelPositionX;
     int y = this.panelPositionY;
 
