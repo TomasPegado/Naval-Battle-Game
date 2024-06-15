@@ -38,6 +38,8 @@ public class GameFrame extends JFrame {
 
     // Método para trocar o painel de posicionamento pelo painel de ataque
     public void switchToAttackPanel() {
+        this.positioning.remove(positioning.getWeaponsPanel());
+        this.positioning.remove(positioning.getBoardPanel());
         this.remove(positioning); // Remove o painel de posicionamento
         this.add(attacking); // Adiciona o painel de ataque
         this.revalidate(); // Atualiza o layout do contêiner

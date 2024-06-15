@@ -73,11 +73,14 @@ public class AttackPanel extends JPanel {
         startGameButton = new JButton("Start Game");
         startGameButton.setVisible(true);
         startGameButton.addActionListener(new ActionListener() {
+            @SuppressWarnings("deprecation")
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Aqui você pode adicionar a lógica para passar para o próximo jogador
                 startGameButton.setVisible(false);
                 System.out.println("Start Game button clicked");
+                observableHelper.setChanged();
+                observableHelper.notifyObservers("Start Game button clicked");
             }
         });
 

@@ -76,7 +76,6 @@ public class Controller implements Observer {
             setBoardX(event.getBoardX());
             setBoardY(event.getBoardY());
             shipOrientation = event.isOrientation();
-            System.out.println("Orientacao: " + shipOrientation);
 
             if (viewActionsFacade.getBoardShips(boardPanel).contains(event.getSelectedShip())) {
                 int currentPositionX = viewActionsFacade.getCurrentPositionX(boardPanel);
@@ -121,7 +120,14 @@ public class Controller implements Observer {
                     }
                 }
             }
-        } else if (o instanceof ObservableHelper) {
+        } else if (arg instanceof ShotEvent) {
+            ShotEvent event = (ShotEvent) arg;
+            setBoardX(event.getBoardX());
+            setBoardY(event.getBoardY());
+            System.out.println("Shot fired at " + boardX + ", " + boardY);
+        }
+
+        else if (o instanceof ObservableHelper) {
 
             if (arg instanceof String) {
                 String eventDescription = (String) arg;
@@ -141,8 +147,6 @@ public class Controller implements Observer {
                 } else if (eventDescription.startsWith("Start Game button clicked")) {
                     System.out.println("Controller Observed that Game Started");
                     viewActionsFacade.getAttackBoard1(attackPanel).addObserver(this);
-                } else {
-                    System.out.println(eventDescription);
                 }
             }
         }

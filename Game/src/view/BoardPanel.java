@@ -39,29 +39,37 @@ public class BoardPanel extends JPanel {
                 if (boardX >= 0 && boardX < BOARD_WIDTH && boardY >= 0 && boardY < BOARD_HEIGHT) {
                     CoordinateView coord = board.get(boardX).get(boardY);
 
-                    if (SwingUtilities.isRightMouseButton(e)) {
-                        if (selectedShip != null) {
-                            ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, boardX, boardY, false);
+                    if (is_PositionBoard) {
+                        if (SwingUtilities.isRightMouseButton(e)) {
+                            if (selectedShip != null) {
+                                ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, boardX, boardY, false);
+                                observableHelper.setChanged();
+                                observableHelper.notifyObservers(event);
+                            }
+                        } else if (selectedShip == null) {
+
+                            if (coord.getShip() != null) {
+                                selectedShip = coord.getShip();
+                                setCurrentPositionX(boardX);
+                                setCurrentPositionY(boardY);
+                                replaceShip();
+                            } else {
+                                System.out.println("No Ship Selected on the Board");
+                            }
+                        } else {
+                            // Notificar observadores sobre o evento de clique com informações adicionais
+                            ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, boardX, boardY, true);
                             observableHelper.setChanged();
                             observableHelper.notifyObservers(event);
-                        }
-                    } else if (selectedShip == null) {
 
-                        if (coord.getShip() != null) {
-                            selectedShip = coord.getShip();
-                            setCurrentPositionX(boardX);
-                            setCurrentPositionY(boardY);
-                            replaceShip();
-                        } else {
-                            System.out.println("No Ship Selected");
                         }
                     } else {
-                        // Notificar observadores sobre o evento de clique com informações adicionais
-                        ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, boardX, boardY, true);
+
+                        ShotEvent event = new ShotEvent(boardX, boardY);
                         observableHelper.setChanged();
                         observableHelper.notifyObservers(event);
-
                     }
+
                 }
 
             }

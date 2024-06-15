@@ -95,6 +95,10 @@ public class PositionPanel extends JPanel {
         return startGameButton;
     }
 
+    public WeaponsPanel getWeaponsPanel() {
+        return weaponsPanel;
+    }
+
     public void reset() {
         // Remove os painéis atuais
         remove(weaponsPanel);
@@ -103,6 +107,7 @@ public class PositionPanel extends JPanel {
         // Cria novos painéis para resetar o estado
         this.weaponsPanel = new WeaponsPanel();
         this.boardPanel = new BoardPanel();
+        boardPanel.setIs_PositionBoard(true);
 
         add(weaponsPanel, BorderLayout.WEST);
         add(boardPanel, BorderLayout.EAST);
