@@ -130,6 +130,10 @@ public class Controller implements Observer {
                     currentPlayer = gameFacade.getJogadores().get(currentPlayerIndex);
                     this.setBoardPanel(frame.getPositionPanel().getBoardPanel());
                     this.boardPanel.addObserver(this);
+                } else if (eventDescription.startsWith("Positioning Finished")) {
+                    currentPlayerIndex = 0;
+                    currentPlayer = gameFacade.getJogadores().get(currentPlayerIndex);
+                    frame.switchToAttackPanel();
                 }
             }
         }

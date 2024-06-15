@@ -20,6 +20,7 @@ public class BoardPanel extends JPanel {
     protected List<ShipView> shipsList = new ArrayList<>();
     private int currentPositionX;
     private int currentPositionY;
+    private boolean is_PositionBoard;
 
     public BoardPanel() {
         // Define o tamanho preferido com a margem incluída
@@ -194,6 +195,14 @@ public class BoardPanel extends JPanel {
 
     public int getCurrentPositionY() {
         return currentPositionY;
+    }
+
+    public void setIs_PositionBoard(boolean is_PositionBoard) {
+        this.is_PositionBoard = is_PositionBoard;
+    }
+
+    public boolean is_PositionBoard() {
+        return is_PositionBoard;
     }
 
     @Override

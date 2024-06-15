@@ -21,6 +21,7 @@ public class PositionPanel extends JPanel {
 
         this.weaponsPanel = new WeaponsPanel();
         this.boardPanel = new BoardPanel();
+        boardPanel.setIs_PositionBoard(true);
 
         add(weaponsPanel, BorderLayout.WEST);
         add(boardPanel, BorderLayout.EAST);
@@ -62,11 +63,14 @@ public class PositionPanel extends JPanel {
         startGameButton = new JButton("Start Game");
         startGameButton.setVisible(false);
         startGameButton.addActionListener(new ActionListener() {
+            @SuppressWarnings("deprecation")
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Aqui você pode adicionar a lógica para passar para o próximo jogador
                 startGameButton.setVisible(false);
                 System.out.println("Start Game button clicked");
+                observableHelper.setChanged();
+                observableHelper.notifyObservers("Positioning Finished");
             }
         });
 
