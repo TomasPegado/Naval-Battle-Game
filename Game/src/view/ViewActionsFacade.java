@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.swing.JButton;
 
-import java.util.ArrayList;
-
 public class ViewActionsFacade {
     private static ViewActionsFacade instance;
 
@@ -16,13 +14,13 @@ public class ViewActionsFacade {
         return instance;
     }
 
-    public boolean placeShip(BoardPanel board, int x, int y) {
+    public boolean placeShip(BoardPanel board, int x, int y, boolean orientation) {
 
         if (board == null) {
             return false;
         }
 
-        board.placeShip(x, y);
+        board.placeShip(x, y, orientation);
         return true;
     }
 

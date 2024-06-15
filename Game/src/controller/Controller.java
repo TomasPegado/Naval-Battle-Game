@@ -1,7 +1,6 @@
 package controller;
 
 import javax.swing.*;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -23,6 +22,7 @@ public class Controller implements Observer {
     private Player currentPlayer;
     private int boardX;
     private int boardY;
+    private boolean shipOrientation;
 
     public Controller(GameFacade gameFacade, PlayerActionsFacade playerActionsFacade, String player1, String player2,
             ViewActionsFacade viewActionsFacade) {
@@ -74,18 +74,21 @@ public class Controller implements Observer {
             ShipPlacementEvent event = (ShipPlacementEvent) arg;
             setBoardX(event.getBoardX());
             setBoardY(event.getBoardY());
+            shipOrientation = event.isOrientation();
+            System.out.println("Orientacao: " + shipOrientation);
 
             if (viewActionsFacade.getBoardShips(boardPanel).contains(event.getSelectedShip())) {
                 int currentPositionX = viewActionsFacade.getCurrentPositionX(boardPanel);
                 char currentPositionY = (char) (viewActionsFacade.getCurrentPositionY(boardPanel) + 65);
 
                 playerActionsFacade.updateShipPosition(currentPlayer, currentPositionX,
-                        currentPositionY, true,
+                        currentPositionY, shipOrientation,
                         event.getBoardX(), (char) (event.getBoardY() + 65));
 
             } else {
+
                 playerActionsFacade.PositionShip(currentPlayer, event.getBoardX(), (char) (event.getBoardY() + 65),
-                        viewActionsFacade.getShipSize(event.getSelectedShip()), true);
+                        viewActionsFacade.getShipSize(event.getSelectedShip()), shipOrientation);
             }
 
         } else if (o instanceof GameBoard) {
@@ -95,7 +98,7 @@ public class Controller implements Observer {
 
                 // Handle specific events from GameBoard if needed
                 if (eventDescription.startsWith("Ship positioned at")) {
-                    viewActionsFacade.placeShip(boardPanel, getBoardX(), getBoardY());
+                    viewActionsFacade.placeShip(boardPanel, getBoardX(), getBoardY(), shipOrientation);
                     System.out.println(playerActionsFacade.getPlayerShips(currentPlayer));
                 } else if (eventDescription.startsWith("Shot at")) {
                     // Handle shot event

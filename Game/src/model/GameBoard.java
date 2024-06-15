@@ -22,7 +22,7 @@ public class GameBoard extends Observable {
         int x = coordinateX;
 
         PositionPair position = board[x][y];
-        if (position.is_Water()) { // se for agua checa as fronteiras
+        if (position.is_Water() || position.getShip() == ship) { // se for agua checa as fronteiras
 
             if (x + 1 < board.length) {
                 if (!board[x + 1][y].is_Water() && board[x + 1][y].getShip() != ship)
@@ -181,8 +181,12 @@ public class GameBoard extends Observable {
             } else if (orientacao == false && y + size - 65 - 1 < board[0].length) {
                 // Verticalmente
                 for (int j = y - 65; j < y + size - 65; j++) {
-                    if (!is_ValidPosition(ship, x, (char) j))
+                    System.out.println(j);
+                    if (!is_ValidPosition(ship, x, (char) (j + 65))) {
+                        System.out.println("Falso aqui j = " + j);
                         return false;
+                    }
+
                 }
                 if (!ship.getPositionsList().isEmpty()) {
 

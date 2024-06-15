@@ -35,9 +35,15 @@ public class BoardPanel extends JPanel {
                 int boardY = (e.getY() - MARGIN + 1) / GRID_SIZE;
 
                 if (boardX >= 0 && boardX < BOARD_WIDTH && boardY >= 0 && boardY < BOARD_HEIGHT) {
-
                     CoordinateView coord = board.get(boardX).get(boardY);
-                    if (selectedShip == null) {
+
+                    if (SwingUtilities.isRightMouseButton(e)) {
+                        if (selectedShip != null) {
+                            ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, boardX, boardY, false);
+                            observableHelper.setChanged();
+                            observableHelper.notifyObservers(event);
+                        }
+                    } else if (selectedShip == null) {
 
                         if (coord.getShip() != null) {
                             selectedShip = coord.getShip();
@@ -49,7 +55,7 @@ public class BoardPanel extends JPanel {
                         }
                     } else {
                         // Notificar observadores sobre o evento de clique com informações adicionais
-                        ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, boardX, boardY);
+                        ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, boardX, boardY, true);
                         observableHelper.setChanged();
                         observableHelper.notifyObservers(event);
 
@@ -88,8 +94,10 @@ public class BoardPanel extends JPanel {
         repaint();
     }
 
-    protected void placeShip(int boardX, int boardY) {
+    protected void placeShip(int boardX, int boardY, boolean orientation) {
         CoordinateView coord = board.get(boardX).get(boardY);
+        int size = selectedShip.getShipSize();
+
         if (!selectedShip.coordenadas.isEmpty()) {
             for (CoordinateView previousCoord : selectedShip.coordenadas) {
                 previousCoord.setSelected(false);
@@ -99,29 +107,61 @@ public class BoardPanel extends JPanel {
         } else if (shipPositionListener != null) {
             shipPositionListener.shipPositioned(selectedShip);
         }
-        if (selectedShip instanceof HydroplaneView) {
-            coord.setShip(selectedShip);
-            coord.setWater(false);
-            selectedShip.coordenadas.add(coord);
 
-            coord = board.get(boardX - 1).get(boardY + 1);
-            coord.setShip(selectedShip);
-            coord.setWater(false);
-            selectedShip.coordenadas.add(coord);
+        if (orientation) { // Posicionamento na horizontal
+            if (selectedShip instanceof HydroplaneView) {
 
-            coord = board.get(boardX + 1).get(boardY + 1);
-            coord.setShip(selectedShip);
-            coord.setWater(false);
-            selectedShip.coordenadas.add(coord);
-        } else {
-            int size = selectedShip.getShipSize();
-            for (int i = 0; i < size; i++) {
-                coord = board.get(boardX + i).get(boardY);
                 coord.setShip(selectedShip);
                 coord.setWater(false);
                 selectedShip.coordenadas.add(coord);
+
+                coord = board.get(boardX - 1).get(boardY + 1);
+                coord.setShip(selectedShip);
+                coord.setWater(false);
+                selectedShip.coordenadas.add(coord);
+
+                coord = board.get(boardX + 1).get(boardY + 1);
+                coord.setShip(selectedShip);
+                coord.setWater(false);
+                selectedShip.coordenadas.add(coord);
+            } else {
+
+                for (int i = 0; i < size; i++) {
+                    coord = board.get(boardX + i).get(boardY);
+                    coord.setShip(selectedShip);
+                    coord.setWater(false);
+                    selectedShip.coordenadas.add(coord);
+                }
+            }
+        } else { // Posicionamento na vertical
+
+            if (selectedShip instanceof HydroplaneView) {
+
+                coord.setShip(selectedShip);
+                coord.setWater(false);
+                selectedShip.coordenadas.add(coord);
+
+                coord = board.get(boardX + 1).get(boardY + 1);
+                coord.setShip(selectedShip);
+                coord.setWater(false);
+                selectedShip.coordenadas.add(coord);
+
+                coord = board.get(boardX + 1).get(boardY - 1);
+                coord.setShip(selectedShip);
+                coord.setWater(false);
+                selectedShip.coordenadas.add(coord);
+
+            } else {
+
+                for (int i = 0; i < size; i++) {
+                    coord = board.get(boardX).get(boardY + i);
+                    coord.setShip(selectedShip);
+                    coord.setWater(false);
+                    selectedShip.coordenadas.add(coord);
+                }
             }
         }
+
         if (shipsList.contains(selectedShip)) {
             System.out
                     .println(selectedShip + "Changed Position to (" + (boardX + 1) + ", " + (char) (boardY + 65) + ")");
