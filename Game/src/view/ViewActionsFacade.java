@@ -55,9 +55,15 @@ public class ViewActionsFacade {
         return attackPanel.getAttackBoard1();
     }
 
-    public void shotHit(BoardPanel attackBoard, int boardX, int boardY, int size) {
+    public void firstShotHit(BoardPanel attackBoard, int boardX, int boardY, int size) {
 
-        attackBoard.shotHit(boardX, boardY, size);
+        attackBoard.firstShotHit(boardX, boardY, size);
+    }
+
+    public void shotHitAgain(BoardPanel attackBoard, int boardX, int boardY, int previousHitCoordX,
+            int previousHitCoordY) {
+
+        attackBoard.shotHitAgain(boardX, boardY, previousHitCoordX, previousHitCoordY);
     }
 
     public void shotWater(BoardPanel attackBoard, int boardX, int boardY) {

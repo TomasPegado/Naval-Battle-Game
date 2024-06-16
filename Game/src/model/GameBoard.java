@@ -237,7 +237,17 @@ public class GameBoard extends Observable {
 
         coordenada.setShip(ship);
         coordenada.setWater(false);
-        ModelShotHitEvent event = new ModelShotHitEvent(ship.GetSize(), ship.is_Active());
+
+        for (PositionPair coord : ship.getPositionsList()) {
+            if (!compareCoords(coord, coordenada) && coord.getHit()) {
+                ModelShotHitEvent event = new ModelShotHitEvent(true, coord.getCoordenadaX(),
+                        (int) (coord.getCoordenadaY() - 65));
+                setChanged();
+                notifyObservers(event);
+                return;
+            }
+        }
+        ModelShotHitEvent event = new ModelShotHitEvent(ship.GetSize());
         setChanged();
         notifyObservers(event);
 
@@ -246,6 +256,14 @@ public class GameBoard extends Observable {
     protected PositionPair getCoordinate(int coordinateX, char coordinateY) {
 
         return board[coordinateX][coordinateY - 65];
+    }
+
+    private boolean compareCoords(PositionPair coord1, PositionPair coord2) {
+
+        if (coord1.getCoordenadaX() == coord2.getCoordenadaX() && coord1.getCoordenadaY() == coord2.getCoordenadaY()) {
+            return true;
+        }
+        return false;
     }
 
 }

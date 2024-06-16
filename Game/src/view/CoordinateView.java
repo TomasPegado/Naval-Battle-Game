@@ -48,6 +48,8 @@ public class CoordinateView {
             g2d.setColor(Color.decode(ship.getColor())); // Cor do navio
             if (selected) {
                 g2d.setColor(Color.RED);
+            } else if (ship.isSunk()) {
+                g2d.setColor(Color.RED);
             }
         } else {
             g2d.setColor(Color.decode("#F2FDFB"));

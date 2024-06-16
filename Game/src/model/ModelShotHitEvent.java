@@ -4,11 +4,19 @@ public class ModelShotHitEvent {
 
     private int shipSize;
     private boolean water = false;
-    private boolean sunk = false;
+    private boolean hitBefore = false;
+    private int previousHitCoordX;
+    private int previousHitCoordY;
 
-    protected ModelShotHitEvent(int size, boolean sunk) {
+    protected ModelShotHitEvent(boolean hitBefore, int boardX, int boardY) {
+
+        this.hitBefore = hitBefore;
+        this.previousHitCoordX = boardX;
+        this.previousHitCoordY = boardY;
+    }
+
+    protected ModelShotHitEvent(int size) {
         this.shipSize = size;
-        this.sunk = sunk;
     }
 
     protected ModelShotHitEvent(boolean is_Water) {
@@ -24,8 +32,16 @@ public class ModelShotHitEvent {
         return water;
     }
 
-    public boolean isSunk() {
-        return sunk;
+    public boolean isHitBefore() {
+        return hitBefore;
+    }
+
+    public int getPreviousHitCoordX() {
+        return previousHitCoordX;
+    }
+
+    public int getPreviousHitCoordY() {
+        return previousHitCoordY;
     }
 
 }

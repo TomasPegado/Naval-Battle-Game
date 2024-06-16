@@ -13,9 +13,11 @@ public abstract class ShipView extends JPanel {
     protected String color;
     protected boolean selected = false;
     protected List<CoordinateView> coordenadas;
+    protected boolean sunk = false;
 
     ShipView(int size) {
         this.shipSize = size;
+        this.coordenadas = new ArrayList<>();
     }
 
     ShipView(int x, int y) {
@@ -79,6 +81,14 @@ public abstract class ShipView extends JPanel {
 
     protected void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public boolean isSunk() {
+        return sunk;
+    }
+
+    public void setSunk(boolean sunk) {
+        this.sunk = sunk;
     }
 
 }

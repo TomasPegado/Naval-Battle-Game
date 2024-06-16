@@ -98,7 +98,6 @@ public class Controller implements Observer {
                 String eventDescription = (String) arg;
                 System.out.println("Controller observed event from GameBoard: " + eventDescription);
 
-                // Handle specific events from GameBoard if needed
                 if (eventDescription.startsWith("Ship positioned at")) {
                     viewActionsFacade.placeShip(boardPanel, getBoardX(), getBoardY(), shipOrientation);
                     System.out.println(playerActionsFacade.getPlayerShips(currentPlayer));
@@ -108,8 +107,12 @@ public class Controller implements Observer {
                 ModelShotHitEvent event = (ModelShotHitEvent) arg;
                 if (event.isWater()) {
                     viewActionsFacade.shotWater(attackPanel.getAttackBoards().get(currentPlayerIndex), boardX, boardY);
+                } else if (event.isHitBefore()) {
+                    viewActionsFacade.shotHitAgain(attackPanel.getAttackBoards().get(currentPlayerIndex), boardX,
+                            boardY, event.getPreviousHitCoordX(), event.getPreviousHitCoordY());
                 } else {
-                    viewActionsFacade.shotHit(attackPanel.getAttackBoards().get(currentPlayerIndex), boardX, boardY,
+                    viewActionsFacade.firstShotHit(attackPanel.getAttackBoards().get(currentPlayerIndex), boardX,
+                            boardY,
                             event.getShipSize());
                 }
             }
