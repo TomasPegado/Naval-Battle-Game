@@ -61,9 +61,9 @@ public class ViewActionsFacade {
     }
 
     public void shotHitAgain(BoardPanel attackBoard, int boardX, int boardY, int previousHitCoordX,
-            int previousHitCoordY) {
+            int previousHitCoordY, boolean sunk) {
 
-        attackBoard.shotHitAgain(boardX, boardY, previousHitCoordX, previousHitCoordY);
+        attackBoard.shotHitAgain(boardX, boardY, previousHitCoordX, previousHitCoordY, sunk);
     }
 
     public void shotWater(BoardPanel attackBoard, int boardX, int boardY) {

@@ -109,7 +109,7 @@ public class Controller implements Observer {
                     viewActionsFacade.shotWater(attackPanel.getAttackBoards().get(currentPlayerIndex), boardX, boardY);
                 } else if (event.isHitBefore()) {
                     viewActionsFacade.shotHitAgain(attackPanel.getAttackBoards().get(currentPlayerIndex), boardX,
-                            boardY, event.getPreviousHitCoordX(), event.getPreviousHitCoordY());
+                            boardY, event.getPreviousHitCoordX(), event.getPreviousHitCoordY(), event.isSunk());
                 } else {
                     viewActionsFacade.firstShotHit(attackPanel.getAttackBoards().get(currentPlayerIndex), boardX,
                             boardY,

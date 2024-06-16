@@ -7,6 +7,7 @@ public class ModelShotHitEvent {
     private boolean hitBefore = false;
     private int previousHitCoordX;
     private int previousHitCoordY;
+    private boolean sunk = false;
 
     protected ModelShotHitEvent(boolean hitBefore, int boardX, int boardY) {
 
@@ -42,6 +43,14 @@ public class ModelShotHitEvent {
 
     public int getPreviousHitCoordY() {
         return previousHitCoordY;
+    }
+
+    protected void setSunk(boolean sunk) {
+        this.sunk = sunk;
+    }
+
+    public boolean isSunk() {
+        return sunk;
     }
 
 }

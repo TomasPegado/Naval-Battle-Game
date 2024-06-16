@@ -242,6 +242,10 @@ public class GameBoard extends Observable {
             if (!compareCoords(coord, coordenada) && coord.getHit()) {
                 ModelShotHitEvent event = new ModelShotHitEvent(true, coord.getCoordenadaX(),
                         (int) (coord.getCoordenadaY() - 65));
+
+                if (!ship.is_Active()) {
+                    event.setSunk(true);
+                }
                 setChanged();
                 notifyObservers(event);
                 return;

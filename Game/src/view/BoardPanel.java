@@ -191,18 +191,25 @@ public class BoardPanel extends JPanel {
         ShipView ship = ShipFactoryView.creatShipView(size);
 
         coord.setShip(ship);
+        if (size == 1) {
+            ship.setSunk(true);
+        }
         repaint();
         System.out.println("BoardPanel painted shot at " + boardX + ", " + boardY);
 
     }
 
-    protected void shotHitAgain(int boardX, int boardY, int previousHitCoordX, int previousHitCoordY) {
+    protected void shotHitAgain(int boardX, int boardY, int previousHitCoordX, int previousHitCoordY, boolean sunk) {
 
         CoordinateView previousHitCoord = board.get(previousHitCoordX).get(previousHitCoordY);
         ShipView ship = previousHitCoord.getShip();
         CoordinateView coord = board.get(boardX).get(boardY);
         ship.coordenadas.add(coord);
         coord.setShip(ship);
+
+        if (sunk) {
+            ship.setSunk(sunk);
+        }
         repaint();
         System.out.println("BoardPanel painted new hit at " + boardX + ", " + boardY);
 
