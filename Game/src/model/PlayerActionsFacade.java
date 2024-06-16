@@ -3,16 +3,17 @@ package model;
 import java.util.List;
 import java.util.ArrayList;
 
-public class PlayerActionsFacade {
-    private static PlayerActionsFacade instance;
+public class PlayerActionsFacade implements IPlayerActionsFacade {
+    private static IPlayerActionsFacade instance;
 
-    public static synchronized PlayerActionsFacade getInstance() {
+    public static synchronized IPlayerActionsFacade getInstance() {
         if (instance == null) {
             instance = new PlayerActionsFacade();
         }
         return instance;
     }
 
+    @Override
     public void updateShipPosition(Player player, int x, char y, boolean orientacao, int newX, char newY) {
         if (player != null) {
 
@@ -29,6 +30,7 @@ public class PlayerActionsFacade {
         }
     }
 
+    @Override
     public boolean PositionShip(Player player, int x, char y, int shipSize, boolean orientacao) {
         if (player == null) {
             return false;
@@ -38,6 +40,7 @@ public class PlayerActionsFacade {
         return player.PositionPlayerShip(navio, x, y, orientacao);
     }
 
+    @Override
     public boolean Attack(Player playerAttacking, Player playerDefending, int coordinateX, char coordinateY) {
         if (playerAttacking == null || playerDefending == null) {
             return false;
@@ -63,6 +66,7 @@ public class PlayerActionsFacade {
         return true;
     }
 
+    @Override
     public boolean ValidateAttack(Player playerAttacking, int coordinateX, char coordinateY) {
         GameBoard attackMap = playerAttacking.GetTabuleiroAtaques();
         PositionPair coordenada = attackMap.getCoordinate(coordinateX, coordinateY);
@@ -70,6 +74,7 @@ public class PlayerActionsFacade {
         return !coordenada.getHit();
     }
 
+    @Override
     public List<Ship> getPlayerShips(Player player) {
         return player.getShips();
     }

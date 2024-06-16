@@ -5,13 +5,14 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 import model.GameFacade;
+import model.IGameFacade;
 import model.Player;
 
 public class GameFacadeTest {
 
     @Test
     public void testStartGame() {
-        GameFacade facade = GameFacade.getInstance();
+        IGameFacade facade = GameFacade.getInstance();
 
    
         assertEquals(2, facade.getJogadores().size());
@@ -19,7 +20,7 @@ public class GameFacadeTest {
 
     @Test
     public void testEndGame() {
-        GameFacade facade = GameFacade.getInstance();
+        IGameFacade facade = GameFacade.getInstance();
 
         
         List<Player> players = new ArrayList<>();
@@ -40,14 +41,14 @@ public class GameFacadeTest {
 
     @Test
     public void testSaveGame() {
-        GameFacade facade = GameFacade.getInstance();
+        IGameFacade facade = GameFacade.getInstance();
         facade.saveGame("testSaveGame.dat");
        
     }
 
     @Test
     public void testLoadGame() {
-        GameFacade facade = GameFacade.getInstance();
+        IGameFacade facade = GameFacade.getInstance();
         facade.loadGame("testSaveGame.dat");
        
     }
