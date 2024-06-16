@@ -1,11 +1,21 @@
 package controller;
 
 import javax.swing.*;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.Observable;
 import java.util.Observer;
 
 import model.GameBoard;
 import model.GameFacade;
+import model.IGameFacade;
+import model.IPlayerActionsFacade;
 import model.ModelShotHitEvent;
 import model.PlayerActionsFacade;
 import view.*;
@@ -13,21 +23,26 @@ import model.Player;
 
 @SuppressWarnings("deprecation")
 public class Controller implements Observer {
-    private final GameFacade gameFacade;
-    private final PlayerActionsFacade playerActionsFacade;
+    private IGameFacade gameFacade;
+    private final IPlayerActionsFacade playerActionsFacade;
     private final ViewActionsFacade viewActionsFacade;
     private GameFrame frame;
     private BoardPanel boardPanel;
     private PositionPanel positionPanel;
     private AttackPanel attackPanel;
-    private int currentPlayerIndex = 0;
+    private int currentPlayerIndex;
     private Player currentPlayer;
     private int boardX;
     private int boardY;
     private boolean shipOrientation;
 
-    public Controller(GameFacade gameFacade, PlayerActionsFacade playerActionsFacade, String player1, String player2,
+    public Controller(
+            IGameFacade gameFacade,
+            IPlayerActionsFacade playerActionsFacade,
+            String player1,
+            String player2,
             ViewActionsFacade viewActionsFacade) {
+        this.currentPlayerIndex = 0;
         this.gameFacade = gameFacade;
         this.playerActionsFacade = playerActionsFacade;
         this.viewActionsFacade = viewActionsFacade;
@@ -41,6 +56,25 @@ public class Controller implements Observer {
             player.GetTabuleiroNavios().addObserver(this);
             player.GetTabuleiroAtaques().addObserver(this);
         }
+    }
+
+    public void saveGame(String filePath) {
+        gameFacade.saveGame(filePath);
+    }
+
+    public void loadGame(String filePath) {
+        gameFacade.loadGame(filePath);
+        reconfigureObservers();
+    }
+
+    private void reconfigureObservers() {
+        for (Player player : gameFacade.getJogadores()) {
+            player.addObserver(this);
+            player.GetTabuleiroNavios().addObserver(this);
+            player.GetTabuleiroAtaques().addObserver(this);
+        }
+        currentPlayerIndex = 0;
+        currentPlayer = gameFacade.getJogadores().get(currentPlayerIndex);
     }
 
     private void setFrame(GameFrame frame) {
@@ -207,15 +241,15 @@ public class Controller implements Observer {
 
     public static void main(String[] args) {
 
-        GameFacade gameFacade = GameFacade.getInstance();
-        PlayerActionsFacade playerActionsFacade = PlayerActionsFacade.getInstance();
+        IGameFacade gameFacade = GameFacade.getInstance();
+        IPlayerActionsFacade playerActionsFacade = PlayerActionsFacade.getInstance();
         ViewActionsFacade viewActionsFacade = ViewActionsFacade.getInstance();
 
         Controller controller = new Controller(gameFacade, playerActionsFacade, "Player1", "Player2",
                 viewActionsFacade);
 
         SwingUtilities.invokeLater(() -> {
-            GameFrame frame = GameFrame.getInstance();
+            GameFrame frame = GameFrame.getInstance(controller);
             frame.addObserver(controller);
             controller.setFrame(frame);
             PositionPanel positionPanel = frame.getPositionPanel();

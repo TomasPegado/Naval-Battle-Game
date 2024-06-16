@@ -1,10 +1,12 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Observable;
 
 @SuppressWarnings("deprecation")
-public class GameBoard extends Observable {
+public class GameBoard extends Observable implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private PositionPair[][] board;
 
     public GameBoard() {

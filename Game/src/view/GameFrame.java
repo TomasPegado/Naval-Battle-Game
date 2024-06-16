@@ -1,37 +1,93 @@
 package view;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import controller.Controller;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class GameFrame extends JFrame {
     private static GameFrame instance;
     private PositionPanel positioning;
     private AttackPanel attacking;
     private ObservableHelper observableHelper; // Instância de Observable
+    private Controller controller;
 
-    public static synchronized GameFrame getInstance() {
+    public static synchronized GameFrame getInstance(Controller controller) {
         if (instance == null) {
-            instance = new GameFrame("Batalha Naval");
+            instance = new GameFrame("Batalha Naval", controller);
         }
         return instance;
     }
+    
 
-    public GameFrame(String title) {
-
+    public GameFrame(String title, Controller controller) {
         this.setTitle(title);
+        this.controller = controller; // Inicializa o controlador
         positioning = new PositionPanel();
         attacking = new AttackPanel();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+    
         observableHelper = new ObservableHelper(); // Inicializa a instância de Observable
-
+    
         this.add(positioning);
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(false);
+    
+        setJMenuBar(createMenuBar());
+    }
+    
+    private JMenuBar createMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+
+        JMenuItem saveItem = new JMenuItem("Save Game");
+        saveItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setFileFilter(new FileNameExtensionFilter("Save files (*.sav)", "sav"));
+                int option = fileChooser.showSaveDialog(GameFrame.this);
+                if (option == JFileChooser.APPROVE_OPTION) {
+                    File file = fileChooser.getSelectedFile();
+                    if (!file.getName().endsWith(".sav")) {
+                        file = new File(file.getAbsolutePath() + ".sav");
+                    }
+                    controller.saveGame(file.getAbsolutePath());
+                }
+            }
+        });
+
+        JMenuItem loadItem = new JMenuItem("Load Game");
+        loadItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setFileFilter(new FileNameExtensionFilter("Save files (*.sav)", "sav"));
+                int option = fileChooser.showOpenDialog(GameFrame.this);
+                if (option == JFileChooser.APPROVE_OPTION) {
+                    File file = fileChooser.getSelectedFile();
+                    controller.loadGame(file.getAbsolutePath());
+                }
+            }
+        });
+
+        fileMenu.add(saveItem);
+        fileMenu.add(loadItem);
+        menuBar.add(fileMenu);
+
+        return menuBar;
     }
 
     public PositionPanel getPositionPanel() {
@@ -40,6 +96,14 @@ public class GameFrame extends JFrame {
 
     public AttackPanel getAttackingPanel() {
         return attacking;
+    }
+    
+    public Controller getController() {
+        return controller;
+    }
+    
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 
     public void showGameOverDialog(String message) {
@@ -117,5 +181,4 @@ public class GameFrame extends JFrame {
     public void addObserver(java.util.Observer observer) {
         observableHelper.addObserver(observer);
     }
-
 }

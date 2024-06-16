@@ -2,10 +2,11 @@ package model;
 
 import java.util.List;
 import java.util.Observable;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 @SuppressWarnings("deprecation")
-public class Player extends Observable {
+public class Player extends Observable implements Serializable {
     private String Name;
     private int PlayerOrderId;
     private GameBoard DefenseMap;
