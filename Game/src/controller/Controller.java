@@ -174,12 +174,17 @@ public class Controller implements Observer {
                 } else if (eventDescription.startsWith("Start Game button clicked")) {
                     System.out.println("Controller Observed that Game Started");
                     viewActionsFacade.getCurrentAttackerBoard(attackPanel, currentPlayerIndex).addObserver(this);
+                    viewActionsFacade.getCurrentAttackerBoard(attackPanel, currentPlayerIndex + 1).setVisible(false);
 
                 } else if (eventDescription.startsWith("Next Player Attacking")) {
                     System.out.println("Controller Observed that next player turn started");
+
+                    viewActionsFacade.getCurrentAttackerBoard(attackPanel, currentPlayerIndex).setVisible(false);
+
                     currentPlayerIndex = (currentPlayerIndex + 1) % 2;
                     currentPlayer = gameFacade.getJogadores().get(currentPlayerIndex);
                     viewActionsFacade.getCurrentAttackerBoard(attackPanel, currentPlayerIndex).addObserver(this);
+                    viewActionsFacade.getCurrentAttackerBoard(attackPanel, currentPlayerIndex).setVisible(true);
 
                 } else if (eventDescription.startsWith("Game Restarted")) {
                     System.out.println("Controller Observed that Game Restarted");
