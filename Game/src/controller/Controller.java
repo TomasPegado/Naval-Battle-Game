@@ -137,7 +137,7 @@ public class Controller implements Observer {
                 } else if (playerEventDescription.startsWith("Game Over")) {
 
                     frame.showGameOverDialog(
-                            gameFacade.getJogadores().get((currentPlayerIndex) % 2).getName() + "Won!");
+                            gameFacade.getJogadores().get((currentPlayerIndex) % 2).getName() + " Won!");
 
                 }
             }
@@ -180,6 +180,21 @@ public class Controller implements Observer {
                     currentPlayerIndex = (currentPlayerIndex + 1) % 2;
                     currentPlayer = gameFacade.getJogadores().get(currentPlayerIndex);
                     viewActionsFacade.getCurrentAttackerBoard(attackPanel, currentPlayerIndex).addObserver(this);
+
+                } else if (eventDescription.startsWith("Game Restarted")) {
+                    System.out.println("Controller Observed that Game Restarted");
+                    gameFacade.restartGame(this);
+                    currentPlayerIndex = 0;
+                    currentPlayer = gameFacade.getJogadores().get(currentPlayerIndex);
+
+                    SwingUtilities.invokeLater(() -> {
+                        PositionPanel positionPanel = frame.getPositionPanel();
+                        positionPanel.addObserver(this);
+                        boardPanel = frame.getPositionPanel().getBoardPanel();
+                        boardPanel.addObserver(this); // Register observer after the frame creation
+                        this.setPositionPanel(positionPanel);
+                        this.setBoardPanel(boardPanel);
+                    });
                 }
             }
         }
@@ -196,6 +211,7 @@ public class Controller implements Observer {
 
         SwingUtilities.invokeLater(() -> {
             GameFrame frame = GameFrame.getInstance();
+            frame.addObserver(controller);
             controller.setFrame(frame);
             PositionPanel positionPanel = frame.getPositionPanel();
             positionPanel.addObserver(controller);

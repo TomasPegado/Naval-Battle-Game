@@ -4,6 +4,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.List;
+
+import controller.Controller;
+
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -26,6 +29,30 @@ public class GameFacade {
 
         jogadores.add(jogador1);
         jogadores.add(jogador2);
+    }
+
+    @SuppressWarnings("deprecation")
+    public void restartGame(Controller controller) {
+
+        Player jogador_novo1 = new Player(jogadores.get(0).getName(), 0);
+        Player jogador_novo2 = new Player(jogadores.get(1).getName(), 1);
+
+        for (Player player : jogadores) {
+            player.deleteObserver(controller);
+            player.GetTabuleiroNavios().deleteObserver(controller);
+            player.GetTabuleiroAtaques().deleteObserver(controller);
+        }
+
+        jogadores.clear();
+        jogadores.add(jogador_novo1);
+        jogadores.add(jogador_novo2);
+
+        // Observe the game boards of the players
+        for (Player player : jogadores) {
+            player.addObserver(controller);
+            player.GetTabuleiroNavios().addObserver(controller);
+            player.GetTabuleiroAtaques().addObserver(controller);
+        }
     }
 
     public boolean endGame(List<Player> players) {
