@@ -36,6 +36,10 @@ public class GameFrame extends JFrame {
         return attacking;
     }
 
+    public void showGameOverDialog(String message) {
+        JOptionPane.showMessageDialog(null, message, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+    }
+
     // Método para trocar o painel de posicionamento pelo painel de ataque
     public void switchToAttackPanel() {
         this.positioning.remove(positioning.getWeaponsPanel());

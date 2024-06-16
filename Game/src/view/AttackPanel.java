@@ -73,6 +73,7 @@ public class AttackPanel extends JPanel {
 
                 currentPlayerIndex = (currentPlayerIndex + 1) % 2;
                 System.out.println("Next Player button clicked");
+                nextPlayerButton.setVisible(false);
                 observableHelper.setChanged();
                 observableHelper.notifyObservers("Next Player Attacking");
             }
@@ -99,14 +100,6 @@ public class AttackPanel extends JPanel {
         buttonPanel.add(startGameButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
-    }
-
-    protected BoardPanel getAttackBoard1() {
-        return attackBoard1;
-    }
-
-    protected BoardPanel getAttackBoard2() {
-        return attackBoard2;
     }
 
     protected JButton getStartGameButton() {

@@ -128,6 +128,17 @@ public class Controller implements Observer {
                     } else {
                         viewActionsFacade.setVisibleStartGameButton(positionPanel);
                     }
+                } else if (playerEventDescription.startsWith("3 Shots Given")) {
+
+                    attackPanel.getAttackBoards().get(currentPlayerIndex).removeObserver(this);
+                    viewActionsFacade.setVisibleNextPlayerButton(attackPanel,
+                            gameFacade.getJogadores().get((currentPlayerIndex + 1) % 2).getName());
+
+                } else if (playerEventDescription.startsWith("Game Over")) {
+
+                    frame.showGameOverDialog(
+                            gameFacade.getJogadores().get((currentPlayerIndex) % 2).getName() + "Won!");
+
                 }
             }
         } else if (arg instanceof ShotEvent) {
@@ -137,7 +148,7 @@ public class Controller implements Observer {
             System.out.println("Shot fired at " + boardX + ", " + boardY);
             if (playerActionsFacade.ValidateAttack(currentPlayer, boardX, (char) (boardY + 65))) {
 
-                playerActionsFacade.Attack(currentPlayer, gameFacade.getJogadores().get(currentPlayerIndex + 1 % 2),
+                playerActionsFacade.Attack(currentPlayer, gameFacade.getJogadores().get((currentPlayerIndex + 1) % 2),
                         boardX, (char) (boardY + 65));
             }
         }
@@ -148,7 +159,7 @@ public class Controller implements Observer {
                 String eventDescription = (String) arg;
 
                 if (eventDescription.startsWith("Next Player Positioning")) {
-                    currentPlayerIndex += 1;
+                    currentPlayerIndex = (currentPlayerIndex + 1) % 2;
                     currentPlayer = gameFacade.getJogadores().get(currentPlayerIndex);
                     this.setBoardPanel(frame.getPositionPanel().getBoardPanel());
                     this.boardPanel.addObserver(this);
@@ -162,7 +173,13 @@ public class Controller implements Observer {
 
                 } else if (eventDescription.startsWith("Start Game button clicked")) {
                     System.out.println("Controller Observed that Game Started");
-                    viewActionsFacade.getAttackBoard1(attackPanel).addObserver(this);
+                    viewActionsFacade.getCurrentAttackerBoard(attackPanel, currentPlayerIndex).addObserver(this);
+
+                } else if (eventDescription.startsWith("Next Player Attacking")) {
+                    System.out.println("Controller Observed that next player turn started");
+                    currentPlayerIndex = (currentPlayerIndex + 1) % 2;
+                    currentPlayer = gameFacade.getJogadores().get(currentPlayerIndex);
+                    viewActionsFacade.getCurrentAttackerBoard(attackPanel, currentPlayerIndex).addObserver(this);
                 }
             }
         }

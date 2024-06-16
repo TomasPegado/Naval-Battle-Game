@@ -293,7 +293,7 @@ public class BoardPanel extends JPanel {
     }
 
     @SuppressWarnings("deprecation")
-    protected void removeObserver(Observer observer) {
+    public void removeObserver(Observer observer) {
         observableHelper.deleteObserver(observer);
     }
 }

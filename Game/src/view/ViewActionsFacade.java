@@ -55,6 +55,11 @@ public class ViewActionsFacade {
         return attackPanel.getAttackBoard1();
     }
 
+    public BoardPanel getCurrentAttackerBoard(AttackPanel attackPanel, int index) {
+
+        return attackPanel.getAttackBoards().get(index);
+    }
+
     public void firstShotHit(BoardPanel attackBoard, int boardX, int boardY, int size) {
 
         attackBoard.firstShotHit(boardX, boardY, size);
@@ -70,6 +75,12 @@ public class ViewActionsFacade {
 
         attackBoard.shotWater(boardX, boardY);
 
+    }
+
+    public void setVisibleNextPlayerButton(AttackPanel attackPanel, String name) {
+        JButton next = attackPanel.getNextPlayerButton();
+        next.setText(name + "'s turn");
+        next.setVisible(true);
     }
 
 }

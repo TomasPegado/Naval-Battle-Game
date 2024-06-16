@@ -12,6 +12,7 @@ public class Player extends Observable {
     private GameBoard AttackMap;
     private int ShipsLeft;
     private List<Ship> shipsList;
+    private int shotsFired = 0;
 
     public Player(
             String name,
@@ -63,7 +64,7 @@ public class Player extends Observable {
         return AttackMap;
     }
 
-    int GetTotalShipsLeft() {
+    protected int GetTotalShipsLeft() {
         return ShipsLeft;
     }
 
@@ -87,4 +88,32 @@ public class Player extends Observable {
     public int getPlayerOrderId() {
         return PlayerOrderId;
     }
+
+    protected int getShotsFired() {
+        return shotsFired;
+    }
+
+    protected void setShotsFired(int shotsFired) {
+        this.shotsFired = shotsFired;
+        if (shotsFired == 3) {
+            setChanged();
+            notifyObservers("3 Shots Given");
+            this.shotsFired = 0;
+        }
+    }
+
+    protected void calculateShipsLeft() {
+
+        int count = 0;
+        for (Ship ship : shipsList) {
+            if (ship.is_Active()) {
+                count += 1;
+            }
+        }
+        if (count == 0) {
+            setChanged();
+            notifyObservers("Game Over");
+        }
+    }
+
 }

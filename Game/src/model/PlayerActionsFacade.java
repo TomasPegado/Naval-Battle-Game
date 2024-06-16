@@ -57,6 +57,8 @@ public class PlayerActionsFacade {
         }
 
         coordenadaAtaque.got_Hit();
+        playerAttacking.setShotsFired(playerAttacking.getShotsFired() + 1);
+        playerDefending.calculateShipsLeft();
 
         return true;
     }
