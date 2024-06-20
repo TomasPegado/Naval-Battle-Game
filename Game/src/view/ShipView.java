@@ -30,7 +30,7 @@ public abstract class ShipView extends JPanel {
     }
 
     protected boolean placeShip(BoardPanel gameBoard, int x, int y, int orientacao) {
-
+        System.out.println("Chamou ShipView - placeShip");
         List<List<CoordinateView>> board = gameBoard.getBoard();
 
         if (orientacao == 0) { // Posicionamento em 0° graus

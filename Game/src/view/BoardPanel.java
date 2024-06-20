@@ -61,6 +61,7 @@ public class BoardPanel extends JPanel {
                                 ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, turnCoords.x,
                                         turnCoords.y,
                                         (selectedShip.getOrientacao() + 1) % 4);
+                                System.out.println("Orientação: " + (selectedShip.getOrientacao() + 1) % 4);
                                 observableHelper.setChanged();
                                 observableHelper.notifyObservers(event);
 

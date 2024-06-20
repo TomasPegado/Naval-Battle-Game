@@ -55,6 +55,7 @@ abstract class Ship implements Serializable {
 
     protected void addShipPosition(GameBoard gameBoard, int x, char y) {
 
+        System.out.println("Ship - addShipPosition: " + x + ", " + y);
         PositionPair[][] board = gameBoard.board;
         board[x][y - 65].setShip(this);
         board[x][y - 65].setWater(false);
@@ -91,6 +92,7 @@ abstract class Ship implements Serializable {
             for (int i = BoardX; i < BoardX + this.GetSize(); i++) {
                 this.addShipPosition(gameBoard, i, BoardY);
             }
+            this.orientacao = orientacao;
             return true;
 
         } else if (orientacao == 1 && BoardY - 65 - this.GetSize() + 1 >= 0) { // Posicionamento em 90°
@@ -106,6 +108,7 @@ abstract class Ship implements Serializable {
             for (int i = BoardY - 65; i > BoardY - 65 - this.GetSize(); i--) {
                 this.addShipPosition(gameBoard, BoardX, (char) (i + 65));
             }
+            this.orientacao = orientacao;
             return true;
 
         } else if (orientacao == 2 && BoardX - this.GetSize() + 1 >= 0) { // Posicionamento em 180° graus
@@ -120,20 +123,22 @@ abstract class Ship implements Serializable {
             for (int i = BoardX; i > BoardX - this.GetSize(); i--) {
                 this.addShipPosition(gameBoard, i, BoardY);
             }
+            this.orientacao = orientacao;
             return true;
 
         } else if (orientacao == 3 && BoardY - 65 + this.GetSize() - 1 < board.length) { // Posicion em 270° graus
 
-            for (int i = BoardY; i < BoardY - 65 + this.GetSize(); i++) {
+            for (int i = BoardY - 65; i < BoardY - 65 + this.GetSize(); i++) {
                 if (!gameBoard.is_ValidPosition(this, BoardX, (char) (i + 65))) {
                     return false;
                 }
             }
 
             this.clearPositions();
-            for (int i = BoardY; i < BoardY - 65 + this.GetSize(); i++) {
+            for (int i = BoardY - 65; i < BoardY - 65 + this.GetSize(); i++) {
                 this.addShipPosition(gameBoard, BoardX, (char) (i + 65));
             }
+            this.orientacao = orientacao;
             return true;
         }
 
