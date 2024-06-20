@@ -20,8 +20,7 @@ public class PlayerActionsFacade implements IPlayerActionsFacade {
                 List<PositionPair> positions = ship.getPositionsList();
                 System.out.println(positions);
                 for (PositionPair coord : positions) {
-                    System.out.println("Update Position: " + coord.getCoordenadaX() + " = " + x + ", "
-                            + coord.getCoordenadaY() + " = " + y);
+
                     if (coord.getCoordenadaX() == x && coord.getCoordenadaY() == y) {
 
                         player.PositionPlayerShip(ship, newX, newY, orientacao);

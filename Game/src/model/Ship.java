@@ -55,7 +55,6 @@ abstract class Ship implements Serializable {
 
     protected void addShipPosition(GameBoard gameBoard, int x, char y) {
 
-        System.out.println("Ship - addShipPosition: " + x + ", " + y);
         PositionPair[][] board = gameBoard.board;
         board[x][y - 65].setShip(this);
         board[x][y - 65].setWater(false);

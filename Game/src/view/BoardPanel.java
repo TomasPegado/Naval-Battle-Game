@@ -51,13 +51,9 @@ public class BoardPanel extends JPanel {
                                 }
                                 Coordinates turnCoords = new Coordinates(selectedShip.coordenadas.get(0).getX() - 1,
                                         selectedShip.coordenadas.get(0).getY() - 1);
-                                System.out.println(
-                                        "Turn Coordinates " + turnCoords.x + ", " + (char) (turnCoords.y + 65 - 1)
-                                                + ", " + turnCoords.y);
+
                                 selectedShip.turnCoordinates(turnCoords);
-                                System.out.println(
-                                        "Turn Coordinates " + turnCoords.x + ", " + (char) (turnCoords.y + 65 - 1)
-                                                + ", " + turnCoords.y);
+
                                 ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, turnCoords.x,
                                         turnCoords.y,
                                         (selectedShip.getOrientacao() + 1) % 4);
