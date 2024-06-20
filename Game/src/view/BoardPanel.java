@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observer;
 
+@SuppressWarnings("deprecation")
 public class BoardPanel extends JPanel {
 
     private static final int MARGIN = 25; // Margem ao redor do tabuleiro
@@ -34,7 +35,6 @@ public class BoardPanel extends JPanel {
         observableHelper = new ObservableHelper(); // Inicializa a instância de Observable
 
         addMouseListener(new MouseAdapter() {
-            @SuppressWarnings("deprecation")
             @Override
             public void mouseClicked(MouseEvent e) {
                 int boardX = (e.getX() - MARGIN + 1) / GRID_SIZE;
@@ -46,9 +46,24 @@ public class BoardPanel extends JPanel {
                     if (is_PositionBoard) {
                         if (SwingUtilities.isRightMouseButton(e)) {
                             if (selectedShip != null) {
-                                ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, boardX, boardY, false);
+                                for (CoordinateView c : selectedShip.coordenadas) {
+                                    System.out.println("Selected Ship coordenadas: " + c.getX() + ", " + c.getY());
+                                }
+                                Coordinates turnCoords = new Coordinates(selectedShip.coordenadas.get(0).getX() - 1,
+                                        selectedShip.coordenadas.get(0).getY() - 1);
+                                System.out.println(
+                                        "Turn Coordinates " + turnCoords.x + ", " + (char) (turnCoords.y + 65 - 1)
+                                                + ", " + turnCoords.y);
+                                selectedShip.turnCoordinates(turnCoords);
+                                System.out.println(
+                                        "Turn Coordinates " + turnCoords.x + ", " + (char) (turnCoords.y + 65 - 1)
+                                                + ", " + turnCoords.y);
+                                ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, turnCoords.x,
+                                        turnCoords.y,
+                                        (selectedShip.getOrientacao() + 1) % 4);
                                 observableHelper.setChanged();
                                 observableHelper.notifyObservers(event);
+
                             }
                         } else if (selectedShip == null) {
 
@@ -62,7 +77,8 @@ public class BoardPanel extends JPanel {
                             }
                         } else {
                             // Notificar observadores sobre o evento de clique com informações adicionais
-                            ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, boardX, boardY, true);
+                            ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, boardX, boardY,
+                                    selectedShip.getOrientacao());
                             observableHelper.setChanged();
                             observableHelper.notifyObservers(event);
 
@@ -108,80 +124,30 @@ public class BoardPanel extends JPanel {
         repaint();
     }
 
-    protected void placeShip(int boardX, int boardY, boolean orientation) {
-        CoordinateView coord = board.get(boardX).get(boardY);
-        int size = selectedShip.getShipSize();
+    protected void placeShip(int boardX, int boardY, int orientacao) {
 
-        if (!selectedShip.coordenadas.isEmpty()) {
-            for (CoordinateView previousCoord : selectedShip.coordenadas) {
-                previousCoord.setSelected(false);
-                previousCoord.setShip(null);
-            }
-            selectedShip.coordenadas.clear();
-        } else if (shipPositionListener != null) {
-            shipPositionListener.shipPositioned(selectedShip);
-        }
-
-        if (orientation) { // Posicionamento na horizontal
-            if (selectedShip instanceof HydroplaneView) {
-
-                coord.setShip(selectedShip);
-                coord.setWater(false);
-                selectedShip.coordenadas.add(coord);
-
-                coord = board.get(boardX - 1).get(boardY + 1);
-                coord.setShip(selectedShip);
-                coord.setWater(false);
-                selectedShip.coordenadas.add(coord);
-
-                coord = board.get(boardX + 1).get(boardY + 1);
-                coord.setShip(selectedShip);
-                coord.setWater(false);
-                selectedShip.coordenadas.add(coord);
-            } else {
-
-                for (int i = 0; i < size; i++) {
-                    coord = board.get(boardX + i).get(boardY);
-                    coord.setShip(selectedShip);
-                    coord.setWater(false);
-                    selectedShip.coordenadas.add(coord);
-                }
-            }
-        } else { // Posicionamento na vertical
-
-            if (selectedShip instanceof HydroplaneView) {
-
-                coord.setShip(selectedShip);
-                coord.setWater(false);
-                selectedShip.coordenadas.add(coord);
-
-                coord = board.get(boardX + 1).get(boardY + 1);
-                coord.setShip(selectedShip);
-                coord.setWater(false);
-                selectedShip.coordenadas.add(coord);
-
-                coord = board.get(boardX + 1).get(boardY - 1);
-                coord.setShip(selectedShip);
-                coord.setWater(false);
-                selectedShip.coordenadas.add(coord);
-
-            } else {
-
-                for (int i = 0; i < size; i++) {
-                    coord = board.get(boardX).get(boardY + i);
-                    coord.setShip(selectedShip);
-                    coord.setWater(false);
-                    selectedShip.coordenadas.add(coord);
-                }
+        if (!selectedShip.clearCoordinates()) {
+            if (shipPositionListener != null) {
+                shipPositionListener.shipPositioned(selectedShip);
             }
         }
 
-        if (shipsList.contains(selectedShip)) {
-            System.out
-                    .println(selectedShip + "Changed Position to (" + (boardX + 1) + ", " + (char) (boardY + 65) + ")");
+        boolean success = selectedShip.placeShip(this, boardX, boardY, orientacao);
+
+        if (success) {
+            if (shipsList.contains(selectedShip)) {
+                System.out
+                        .println(selectedShip + "Changed Position to (" + (boardX + 1) + ", " + (char) (boardY + 65)
+                                + ")");
+            } else {
+                shipsList.add(selectedShip);
+                System.out.println("Ship added to the board");
+            }
+            selectedShip.setOrientacao(orientacao);
+
         } else {
-            shipsList.add(selectedShip);
-            System.out.println("Ship added to the board");
+            System.out.println(
+                    "Failed to Place Ship in the given Coordinates " + (boardX + 1) + ", " + (char) (boardY + 65));
         }
 
         repaint(); // Repinta o tabuleiro para refletir a nova posição
@@ -202,7 +168,6 @@ public class BoardPanel extends JPanel {
         System.out.println("BoardPanel painted shot at " + boardX + ", " + boardY);
 
     }
-
 
     protected void shotHitAgain(int boardX, int boardY, int previousHitCoordX, int previousHitCoordY, boolean sunk) {
 
@@ -256,6 +221,10 @@ public class BoardPanel extends JPanel {
         return is_PositionBoard;
     }
 
+    protected List<List<CoordinateView>> getBoard() {
+        return board;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -292,13 +261,21 @@ public class BoardPanel extends JPanel {
         void shipPositioned(ShipView ship);
     }
 
-    @SuppressWarnings("deprecation")
     public void addObserver(java.util.Observer observer) {
         observableHelper.addObserver(observer);
     }
 
-    @SuppressWarnings("deprecation")
     public void removeObserver(Observer observer) {
         observableHelper.deleteObserver(observer);
+    }
+
+    protected class Coordinates {
+        protected int x;
+        protected int y;
+
+        protected Coordinates(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
     }
 }

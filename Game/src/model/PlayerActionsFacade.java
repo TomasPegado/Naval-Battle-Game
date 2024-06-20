@@ -1,7 +1,6 @@
 package model;
 
 import java.util.List;
-import java.util.ArrayList;
 
 public class PlayerActionsFacade implements IPlayerActionsFacade {
     private static IPlayerActionsFacade instance;
@@ -14,7 +13,7 @@ public class PlayerActionsFacade implements IPlayerActionsFacade {
     }
 
     @Override
-    public void updateShipPosition(Player player, int x, char y, boolean orientacao, int newX, char newY) {
+    public void updateShipPosition(Player player, int x, char y, int orientacao, int newX, char newY) {
         if (player != null) {
 
             for (Ship ship : player.getShips()) {
@@ -31,7 +30,7 @@ public class PlayerActionsFacade implements IPlayerActionsFacade {
     }
 
     @Override
-    public boolean PositionShip(Player player, int x, char y, int shipSize, boolean orientacao) {
+    public boolean PositionShip(Player player, int x, char y, int shipSize, int orientacao) {
         if (player == null) {
             return false;
         }

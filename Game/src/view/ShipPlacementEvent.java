@@ -5,9 +5,9 @@ public class ShipPlacementEvent {
     private ShipView selectedShip;
     private int boardX;
     private int boardY;
-    private boolean orientation;
+    private int orientation;
 
-    public ShipPlacementEvent(ShipView selectedShip, int boardX, int boardY, boolean orientation) {
+    public ShipPlacementEvent(ShipView selectedShip, int boardX, int boardY, int orientation) {
         this.selectedShip = selectedShip;
         this.boardX = boardX;
         this.boardY = boardY;
@@ -26,7 +26,7 @@ public class ShipPlacementEvent {
         return boardY;
     }
 
-    public boolean isOrientation() {
+    public int getOrientation() {
         return orientation;
     }
 

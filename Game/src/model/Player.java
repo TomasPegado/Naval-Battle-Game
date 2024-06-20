@@ -32,7 +32,7 @@ public class Player extends Observable implements Serializable {
         return shipsList;
     }
 
-    protected boolean PositionPlayerShip(Ship ship, int coordinateX, char coordinateY, boolean orientation) {
+    protected boolean PositionPlayerShip(Ship ship, int coordinateX, char coordinateY, int orientation) {
         if (DefenseMap.PositionShip(coordinateX, coordinateY, ship, orientation)) {
             if (!shipsList.contains(ship)) {
                 shipsList.add(ship);

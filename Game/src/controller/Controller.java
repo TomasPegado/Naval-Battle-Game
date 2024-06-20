@@ -34,7 +34,7 @@ public class Controller implements Observer {
     private Player currentPlayer;
     private int boardX;
     private int boardY;
-    private boolean shipOrientation;
+    private int shipOrientation;
 
     public Controller(
             IGameFacade gameFacade,
@@ -111,7 +111,7 @@ public class Controller implements Observer {
             ShipPlacementEvent event = (ShipPlacementEvent) arg;
             setBoardX(event.getBoardX());
             setBoardY(event.getBoardY());
-            shipOrientation = event.isOrientation();
+            shipOrientation = event.getOrientation();
 
             if (viewActionsFacade.getBoardShips(boardPanel).contains(event.getSelectedShip())) {
                 int currentPositionX = viewActionsFacade.getCurrentPositionX(boardPanel);

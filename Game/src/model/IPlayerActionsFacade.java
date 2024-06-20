@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface IPlayerActionsFacade {
 
-    void updateShipPosition(Player player, int x, char y, boolean orientacao, int newX, char newY);
+    void updateShipPosition(Player player, int x, char y, int orientacao, int newX, char newY);
 
-    boolean PositionShip(Player player, int x, char y, int shipSize, boolean orientacao);
+    boolean PositionShip(Player player, int x, char y, int shipSize, int orientacao);
 
     boolean Attack(Player playerAttacking, Player playerDefending, int coordinateX, char coordinateY);
 

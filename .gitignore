@@ -59,3 +59,8 @@ Game/src/view/CoordinateView.class
 Game/src/view/CruiserView.class
 Game/src/view/ShipFactoryView.class
 Game/src/view/GameFrame$1.class
+Game/src/model/IGameFacade.class
+Game/src/model/IPlayerActionsFacade.class
+Game/src/view/GameFrame$2.class
+Game/src/view/GameFrame$3.class
+Game/src/view/BoardPanel$Coordinates.class

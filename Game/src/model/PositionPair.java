@@ -2,7 +2,7 @@ package model;
 
 import java.io.Serializable;
 
-public class PositionPair implements Serializable{
+public class PositionPair implements Serializable {
 
     private int coordenadaX;
     private char coordenadaY;

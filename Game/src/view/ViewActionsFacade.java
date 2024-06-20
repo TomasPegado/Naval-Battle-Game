@@ -14,11 +14,13 @@ public class ViewActionsFacade {
         return instance;
     }
 
-    public boolean placeShip(BoardPanel board, int x, int y, boolean orientation) {
+    public boolean placeShip(BoardPanel board, int x, int y, int orientation) {
 
         if (board == null) {
             return false;
         }
+
+        System.out.println("View Facade: " + x + ", " + y);
 
         board.placeShip(x, y, orientation);
         return true;

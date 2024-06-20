@@ -7,7 +7,7 @@ import java.util.Observable;
 public class GameBoard extends Observable implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private PositionPair[][] board;
+    protected PositionPair[][] board;
 
     public GameBoard() {
         // Inicializar o tabuleiro com água
@@ -24,7 +24,8 @@ public class GameBoard extends Observable implements Serializable {
         int x = coordinateX;
 
         PositionPair position = board[x][y];
-        if (position.is_Water() || position.getShip() == ship) { // se for agua checa as fronteiras
+        if (position.is_Water() || position.getShip() == ship) { // se for agua ou se for o mesmo navio checa as
+                                                                 // fronteiras
 
             if (x + 1 < board.length) {
                 if (!board[x + 1][y].is_Water() && board[x + 1][y].getShip() != ship)
@@ -72,140 +73,11 @@ public class GameBoard extends Observable implements Serializable {
 
     }
 
-    protected boolean PositionShip(int x, char y, Ship ship, boolean orientacao) {
+    protected boolean PositionShip(int x, char y, Ship ship, int orientacao) {
 
-        int size = ship.GetSize();
         boolean success = false;
 
-        if (ship.GetType() == ShipType.HYDROPLANES) { // Posicionamento do Hidroavião
-
-            if (orientacao == true && x + 1 < board.length && x - 1 >= 0 && y - 65 + 1 < board.length) {
-                // horizontalmente hidroavião
-
-                if (!is_ValidPosition(ship, x, y)) {
-                    return false;
-                } else {
-                    if (!is_ValidPosition(ship, x - 1, (char) (y + 1))) {
-                        return false;
-                    } else {
-                        if (!is_ValidPosition(ship, x + 1, (char) (y + 1))) {
-                            return false;
-                        }
-                    }
-                }
-
-                if (!ship.getPositionsList().isEmpty()) {
-
-                    for (PositionPair coord : ship.getPositionsList()) {
-                        coord.setShip(null);
-                        coord.setWater(true);
-                    }
-                    ship.getPositionsList().clear();
-                }
-
-                board[x][y - 65].setShip(ship);
-                board[x][y - 65].setWater(false);
-                ship.addPosition(board[x][y - 65]);
-
-                board[x - 1][y - 65 + 1].setShip(ship);
-                board[x - 1][y - 65 + 1].setWater(false);
-                ship.addPosition(board[x - 1][y - 65 + 1]);
-
-                board[x + 1][y - 65 + 1].setShip(ship);
-                board[x + 1][y - 65 + 1].setWater(false);
-                ship.addPosition(board[x + 1][y - 65 + 1]);
-
-                success = true;
-
-            } else if (orientacao == false && x + 1 < board.length && y - 65 + 1 < board.length && y - 65 - 1 >= 0) {
-                // verticalmente hidroavião
-                if (!is_ValidPosition(ship, x, y)) {
-                    return false;
-                } else {
-                    if (!is_ValidPosition(ship, x + 1, (char) (y - 1))) {
-                        return false;
-                    } else {
-                        if (!is_ValidPosition(ship, x + 1, (char) (y + 1))) {
-                            return false;
-                        }
-                    }
-                }
-
-                if (!ship.getPositionsList().isEmpty()) {
-
-                    for (PositionPair coord : ship.getPositionsList()) {
-                        coord.setShip(null);
-                        coord.setWater(true);
-                    }
-                    ship.getPositionsList().clear();
-                }
-
-                board[x][y - 65].setShip(ship);
-                board[x][y - 65].setWater(false);
-                ship.addPosition(board[x][y - 65]);
-
-                board[x + 1][y - 65 + 1].setShip(ship);
-                board[x + 1][y - 65 + 1].setWater(false);
-                ship.addPosition(board[x + 1][y - 65 + 1]);
-
-                board[x + 1][y - 65 - 1].setShip(ship);
-                board[x + 1][y - 65 - 1].setWater(false);
-                ship.addPosition(board[x + 1][y - 65 - 1]);
-
-                success = true;
-            }
-        } else {
-            if (orientacao == true && x + size - 1 < board.length) {
-                // Horizontalmente
-
-                for (int i = x; i < x + size; i++) {
-                    if (!is_ValidPosition(ship, i, y)) {
-                        return false;
-                    }
-                }
-
-                if (!ship.getPositionsList().isEmpty()) {
-
-                    for (PositionPair coord : ship.getPositionsList()) {
-                        coord.setShip(null);
-                        coord.setWater(true);
-                    }
-                    ship.getPositionsList().clear();
-                }
-
-                for (int i = x; i < x + size; i++) {
-                    board[i][y - 65].setShip(ship);
-                    board[i][y - 65].setWater(false);
-                    ship.addPosition(board[i][y - 65]);
-                }
-                success = true;
-
-            } else if (orientacao == false && y + size - 65 - 1 < board[0].length) {
-                // Verticalmente
-                for (int j = y - 65; j < y + size - 65; j++) {
-                    System.out.println(j);
-                    if (!is_ValidPosition(ship, x, (char) (j + 65))) {
-                        System.out.println("Falso aqui j = " + j);
-                        return false;
-                    }
-
-                }
-                if (!ship.getPositionsList().isEmpty()) {
-
-                    for (PositionPair coord : ship.getPositionsList()) {
-                        coord.setShip(null);
-                        coord.setWater(true);
-                    }
-                    ship.getPositionsList().clear();
-                }
-                for (int j = y - 65; j < y + size - 65; j++) {
-                    board[x][j].setShip(ship);
-                    board[x][j].setWater(false);
-                    ship.addPosition(board[x][j]);
-                }
-                success = true;
-            }
-        }
+        success = ship.positionShip(this, x, y, orientacao);
 
         if (success) {
             setChanged();
