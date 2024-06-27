@@ -10,10 +10,11 @@ public class Hydroplanes extends Ship {
 
         PositionPair[][] board = gameBoard.board;
         if (!gameBoard.is_ValidPosition(this, BoardX, BoardY)) {
+
             return false;
         }
 
-        if (BoardX + 1 < board.length && BoardX - 1 >= 0 && BoardY - 65 + 1 < board.length) {
+        if (BoardX < board.length && BoardX >= 0 && BoardY - 65 >= 0 && BoardY - 65 < board.length) {
 
             if (orientacao == 0) { // Posicionamento em 0° graus
 
@@ -50,9 +51,11 @@ public class Hydroplanes extends Ship {
             } else if (orientacao == 2) { // Posicionamento em 180° graus
 
                 if (!gameBoard.is_ValidPosition(this, BoardX - 1, (char) (BoardY - 1))) {
+
                     return false;
                 } else {
                     if (!gameBoard.is_ValidPosition(this, BoardX + 1, (char) (BoardY - 1))) {
+
                         return false;
                     }
                 }
@@ -65,6 +68,7 @@ public class Hydroplanes extends Ship {
             } else if (orientacao == 3) { // Posicionamento em 270° graus
 
                 if (!gameBoard.is_ValidPosition(this, BoardX - 1, (char) (BoardY - 1))) {
+
                     return false;
                 } else {
                     if (!gameBoard.is_ValidPosition(this, BoardX - 1, (char) (BoardY + 1))) {
