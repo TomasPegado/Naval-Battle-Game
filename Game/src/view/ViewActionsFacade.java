@@ -20,8 +20,6 @@ public class ViewActionsFacade {
             return false;
         }
 
-        System.out.println("View Facade: " + x + ", " + y);
-
         board.placeShip(x, y, orientation, invalidPosition);
         return true;
     }

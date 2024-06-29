@@ -8,6 +8,8 @@ import model.PositionPair;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -58,10 +60,12 @@ public class BoardPanel extends JPanel {
 
                                 selectedShip.turnCoordinates(turnCoords);
 
+                                setCurrentPositionX(selectedShip.coordenadas.get(0).getX() - 1);
+                                setCurrentPositionY(selectedShip.coordenadas.get(0).getY() - 1);
                                 ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, turnCoords.x,
                                         turnCoords.y,
                                         (selectedShip.getOrientacao() + 1) % 4);
-                                System.out.println("Orientação: " + (selectedShip.getOrientacao() + 1) % 4);
+
                                 observableHelper.setChanged();
                                 observableHelper.notifyObservers(event);
 
@@ -78,8 +82,15 @@ public class BoardPanel extends JPanel {
                             }
                         } else {
                             // Notificar observadores sobre o evento de clique com informações adicionais
+                            System.out.println("Board Panel antes do ShipPlacement Event: boardX = " + boardX
+                                    + " boardY = " + boardY);
                             ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, boardX, boardY,
                                     selectedShip.getOrientacao());
+                            if (!selectedShip.coordenadas.isEmpty()) {
+                                setCurrentPositionX(selectedShip.coordenadas.get(0).getX() - 1);
+                                setCurrentPositionY(selectedShip.coordenadas.get(0).getY() - 1);
+                            }
+
                             observableHelper.setChanged();
                             observableHelper.notifyObservers(event);
 
@@ -95,6 +106,34 @@ public class BoardPanel extends JPanel {
 
             }
         });
+
+        // Configura o Key Binding para a tecla ESC
+        bindKeyToAction("ESCAPE", KeyEvent.VK_ESCAPE, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Código a ser executado quando a tecla ESC for pressionada
+                if (is_PositionBoard) {
+
+                    if (selectedShip != null) {
+                        if (!selectedShip.isInvalidPosition()) {
+                            selectedShip.deselectShip();
+                            selectedShip = null;
+                            repaint();
+                        }
+
+                    }
+                }
+
+            }
+        });
+    }
+
+    private void bindKeyToAction(String name, int keyCode, Action action) {
+        InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = getActionMap();
+
+        inputMap.put(KeyStroke.getKeyStroke(keyCode, 0), name);
+        actionMap.put(name, action);
     }
 
     private void initializeBoard() {
@@ -119,9 +158,7 @@ public class BoardPanel extends JPanel {
 
     private void replaceShip() {
 
-        for (CoordinateView coord : selectedShip.coordenadas) {
-            coord.setSelected(true);
-        }
+        selectedShip.selectShip();
         repaint();
     }
 
@@ -155,7 +192,7 @@ public class BoardPanel extends JPanel {
 
         repaint(); // Repinta o tabuleiro para refletir a nova posição
 
-        selectedShip = null; // Deseleciona o navio após posicionar
+        // selectedShip = null; // Deseleciona o navio após posicionar
 
     }
 

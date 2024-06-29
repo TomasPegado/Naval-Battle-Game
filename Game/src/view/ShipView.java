@@ -186,4 +186,16 @@ public abstract class ShipView extends JPanel {
         this.invalidPosition = invalidPosition;
     }
 
+    protected void deselectShip() {
+        for (CoordinateView coord : coordenadas) {
+            coord.setSelected(false);
+        }
+    }
+
+    protected void selectShip() {
+        for (CoordinateView coord : coordenadas) {
+            coord.setSelected(true);
+        }
+    }
+
 }

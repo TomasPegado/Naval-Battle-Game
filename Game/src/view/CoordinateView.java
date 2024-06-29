@@ -7,7 +7,7 @@ public class CoordinateView {
     private int y;
     private ShipView ship;
     private boolean isWater;
-    private boolean selected = false; // quando é selecionada com um navio
+    private boolean selected = true; // quando é selecionada com um navio
 
     public CoordinateView(int x, int y) {
         this.x = x;
@@ -50,7 +50,8 @@ public class CoordinateView {
                 g2d.setColor(Color.CYAN);
             } else if (ship.isSunk()) {
                 g2d.setColor(Color.BLACK);
-            } else if (ship.isInvalidPosition()) {
+            }
+            if (ship.isInvalidPosition()) {
                 g2d.setColor(Color.RED);
             }
         } else {

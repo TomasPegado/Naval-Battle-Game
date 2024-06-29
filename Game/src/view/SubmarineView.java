@@ -21,7 +21,7 @@ public class SubmarineView extends ShipView {
     void paintShip(Graphics2D g2D) {
 
         if (this.selected) {
-            g2D.setColor(Color.RED); // Alterar cor para indicar seleção
+            g2D.setColor(Color.CYAN); // Alterar cor para indicar seleção
         } else {
             g2D.setColor(Color.decode(this.getColor()));
         }

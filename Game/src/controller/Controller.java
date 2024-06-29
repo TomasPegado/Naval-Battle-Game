@@ -137,6 +137,8 @@ public class Controller implements Observer {
                 int currentPositionX = viewActionsFacade.getCurrentPositionX(boardPanel);
                 char currentPositionY = (char) (viewActionsFacade.getCurrentPositionY(boardPanel) + 65);
 
+                System.out.println("Controller anets do updateShipPosition: BoardX = " + event.getBoardX()
+                        + " BoardY = " + event.getBoardY());
                 playerActionsFacade.updateShipPosition(currentPlayer, currentPositionX,
                         currentPositionY, shipOrientation,
                         event.getBoardX(), (char) (event.getBoardY() + 65));
