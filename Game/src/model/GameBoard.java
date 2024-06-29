@@ -19,7 +19,7 @@ public class GameBoard extends Observable implements Serializable {
         }
     }
 
-    public PositionPair[][] GetGameBoard(){
+    public PositionPair[][] GetGameBoard() {
         return board;
     }
 
@@ -33,13 +33,13 @@ public class GameBoard extends Observable implements Serializable {
             ship.setInvalidPosition(1, false); // Marca que não está sobrepondo nenhum navio
             if (x + 1 < board.length) {
                 if (!board[x + 1][y].is_Water() && board[x + 1][y].getShip() != ship) {
-                    ship.setInvalidPosition(0, true);
+                    position.setInvalidPosition(true);
                     return; // fronteira direita
                 }
 
                 if (y + 1 < board.length) {
                     if (!board[x + 1][y + 1].is_Water() && board[x + 1][y + 1].getShip() != ship) {
-                        ship.setInvalidPosition(0, true);
+                        position.setInvalidPosition(true);
                         return; // fronteira direita embaixo
                     }
 
@@ -47,7 +47,7 @@ public class GameBoard extends Observable implements Serializable {
 
                 if (y - 1 >= 0) {
                     if (!board[x + 1][y - 1].is_Water() && board[x + 1][y - 1].getShip() != ship) {
-                        ship.setInvalidPosition(0, true);
+                        position.setInvalidPosition(true);
                         return; // fronteira direita em cima
                     }
 
@@ -56,20 +56,20 @@ public class GameBoard extends Observable implements Serializable {
 
             if (x - 1 >= 0) {
                 if (!board[x - 1][y].is_Water() && board[x - 1][y].getShip() != ship) {
-                    ship.setInvalidPosition(0, true);
+                    position.setInvalidPosition(true);
                     return; // fronteira esquerda
                 }
 
                 if (y + 1 < board.length) {
                     if (!board[x - 1][y + 1].is_Water() && board[x - 1][y + 1].getShip() != ship) {
-                        ship.setInvalidPosition(0, true);
+                        position.setInvalidPosition(true);
                         return; // fronteira esquerda embaixo
                     }
 
                 }
                 if (y - 1 >= 0) {
                     if (!board[x - 1][y - 1].is_Water() && board[x - 1][y - 1].getShip() != ship) {
-                        ship.setInvalidPosition(0, true);
+                        position.setInvalidPosition(true);
                         return; // fronteira esquerda em cima
                     }
 
@@ -78,41 +78,43 @@ public class GameBoard extends Observable implements Serializable {
 
             if (y + 1 < board.length) {
                 if (!board[x][y + 1].is_Water() && board[x][y + 1].getShip() != ship) {
-                    ship.setInvalidPosition(0, true);
+                    position.setInvalidPosition(true);
                     return; // fronteira embaixo
                 }
 
             }
             if (y - 1 >= 0) {
                 if (!board[x][y - 1].is_Water() && board[x][y - 1].getShip() != ship) {
-                    ship.setInvalidPosition(0, true);
+                    position.setInvalidPosition(true);
                     return; // fronteira em cima
                 }
 
             }
 
-            ship.setInvalidPosition(0, false);
+            position.setInvalidPosition(false);
             return;
 
         }
 
-        ship.setInvalidPosition(1, true);
+        ship.setInvalidPosition(1, true); // marca que posição está sobrepondo outro navio
 
     }
 
     protected boolean PositionShip(int x, char y, Ship ship, int orientacao) {
 
         boolean success = false;
+        boolean invalidPosition;
 
         success = ship.positionShip(this, x, y, orientacao);
+        invalidPosition = ship.isInvalidPosition();
 
         if (success) {
             setChanged();
-            ModelPlacementEvent event = new ModelPlacementEvent(ship.getInvalidPosition(0), success, x, y);
+            ModelPlacementEvent event = new ModelPlacementEvent(invalidPosition, success, x, y);
             notifyObservers(event);
         } else {
             setChanged();
-            ModelPlacementEvent event = new ModelPlacementEvent(ship.getInvalidPosition(0), success, x, y);
+            ModelPlacementEvent event = new ModelPlacementEvent(invalidPosition, success, x, y);
             notifyObservers(event);
         }
 

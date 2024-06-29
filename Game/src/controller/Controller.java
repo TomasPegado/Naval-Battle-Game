@@ -59,11 +59,11 @@ public class Controller implements Observer {
         }
     }
 
-    public int GetCurrentPlayerIndex(){
+    public int GetCurrentPlayerIndex() {
         return currentPlayerIndex;
     }
 
-    public IGameFacade GetGameFacade(){
+    public IGameFacade GetGameFacade() {
         return gameFacade;
     }
 
@@ -74,7 +74,7 @@ public class Controller implements Observer {
     public void loadGame(String filePath) {
         gameFacade.loadGame(filePath);
         reconfigureObservers();
-        frame.loadGame(filePath); 
+        frame.loadGame(filePath);
     }
 
     private void reconfigureObservers() {
@@ -155,6 +155,7 @@ public class Controller implements Observer {
                 if (eventDescription.isPlacement()) {
                     viewActionsFacade.placeShip(boardPanel, getBoardX(), getBoardY(), shipOrientation,
                             eventDescription.isInvalidPosition());
+                    System.out.println("Posição Invalida: " + eventDescription.isInvalidPosition());
                     System.out.println(playerActionsFacade.getPlayerShips(currentPlayer));
                 }
             } else if (arg instanceof ModelShotHitEvent) {

@@ -50,6 +50,17 @@ public class Ship implements Serializable {
         return invalidPosition.get(index);
     }
 
+    public boolean isInvalidPosition() {
+        for (PositionPair coord : positionsList) {
+            if (coord.isInvalidPosition()) {
+                this.setInvalidPosition(0, true);
+                return this.getInvalidPosition(0);
+            }
+        }
+        this.setInvalidPosition(0, false);
+        return this.getInvalidPosition(0);
+    }
+
     private void addPosition(PositionPair coordenada) {
         positionsList.add(coordenada);
     }

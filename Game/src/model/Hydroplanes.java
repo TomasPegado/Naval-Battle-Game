@@ -23,7 +23,7 @@ public class Hydroplanes extends Ship {
                 if (this.getInvalidPosition(1)) {
                     return false;
                 } else {
-                    gameBoard.is_ValidPosition(this, orientacao, (char) (BoardY + 1));
+                    gameBoard.is_ValidPosition(this, BoardX + 1, (char) (BoardY + 1));
                     if (this.getInvalidPosition(1)) {
                         return false;
                     }

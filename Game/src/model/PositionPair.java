@@ -9,6 +9,7 @@ public class PositionPair implements Serializable {
     private boolean water = true;
     private Ship ship;
     private boolean hit = false;
+    private boolean invalidPosition;
 
     protected PositionPair() {
         this.coordenadaX = 1;
@@ -66,6 +67,14 @@ public class PositionPair implements Serializable {
 
     protected void got_Hit() {
         this.hit = true;
+    }
+
+    public boolean isInvalidPosition() {
+        return invalidPosition;
+    }
+
+    public void setInvalidPosition(boolean invalidPosition) {
+        this.invalidPosition = invalidPosition;
     }
 
 }
