@@ -16,6 +16,7 @@ import model.GameBoard;
 import model.GameFacade;
 import model.IGameFacade;
 import model.IPlayerActionsFacade;
+import model.ModelPlacementEvent;
 import model.ModelShotHitEvent;
 import model.PlayerActionsFacade;
 import view.*;
@@ -128,12 +129,13 @@ public class Controller implements Observer {
             }
 
         } else if (o instanceof GameBoard) {
-            if (arg instanceof String) {
-                String eventDescription = (String) arg;
+            if (arg instanceof ModelPlacementEvent) {
+                ModelPlacementEvent eventDescription = (ModelPlacementEvent) arg;
                 System.out.println("Controller observed event from GameBoard: " + eventDescription);
 
-                if (eventDescription.startsWith("Ship positioned at")) {
-                    viewActionsFacade.placeShip(boardPanel, getBoardX(), getBoardY(), shipOrientation);
+                if (eventDescription.isPlacement()) {
+                    viewActionsFacade.placeShip(boardPanel, getBoardX(), getBoardY(), shipOrientation,
+                            eventDescription.isInvalidPosition());
                     System.out.println(playerActionsFacade.getPlayerShips(currentPlayer));
                 }
             } else if (arg instanceof ModelShotHitEvent) {

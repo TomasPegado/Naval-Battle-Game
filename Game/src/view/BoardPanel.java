@@ -121,7 +121,7 @@ public class BoardPanel extends JPanel {
         repaint();
     }
 
-    protected void placeShip(int boardX, int boardY, int orientacao) {
+    protected void placeShip(int boardX, int boardY, int orientacao, boolean invalidPosition) {
 
         if (!selectedShip.clearCoordinates()) {
             if (shipPositionListener != null) {
@@ -132,6 +132,8 @@ public class BoardPanel extends JPanel {
         boolean success = selectedShip.placeShip(this, boardX, boardY, orientacao);
 
         if (success) {
+
+            selectedShip.setInvalidPosition(invalidPosition);
             if (shipsList.contains(selectedShip)) {
                 System.out
                         .println(selectedShip + "Changed Position to (" + (boardX + 1) + ", " + (char) (boardY + 65)

@@ -15,6 +15,7 @@ public abstract class ShipView extends JPanel {
     protected List<CoordinateView> coordenadas;
     protected boolean sunk = false;
     protected int orientacao = 0;
+    protected boolean invalidPosition;
 
     ShipView(int size) {
         this.shipSize = size;
@@ -175,6 +176,14 @@ public abstract class ShipView extends JPanel {
 
     public void setOrientacao(int orientacao) {
         this.orientacao = orientacao;
+    }
+
+    public boolean isInvalidPosition() {
+        return invalidPosition;
+    }
+
+    public void setInvalidPosition(boolean invalidPosition) {
+        this.invalidPosition = invalidPosition;
     }
 
 }

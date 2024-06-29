@@ -9,7 +9,8 @@ public class Hydroplanes extends Ship {
     protected boolean positionShip(GameBoard gameBoard, int BoardX, char BoardY, int orientacao) {
 
         PositionPair[][] board = gameBoard.board;
-        if (!gameBoard.is_ValidPosition(this, BoardX, BoardY)) {
+        gameBoard.is_ValidPosition(this, BoardX, BoardY);
+        if (this.getInvalidPosition(1)) {
 
             return false;
         }
@@ -18,10 +19,12 @@ public class Hydroplanes extends Ship {
 
             if (orientacao == 0) { // Posicionamento em 0° graus
 
-                if (!gameBoard.is_ValidPosition(this, BoardX - 1, (char) (BoardY + 1))) {
+                gameBoard.is_ValidPosition(this, BoardX - 1, (char) (BoardY + 1));
+                if (this.getInvalidPosition(1)) {
                     return false;
                 } else {
-                    if (!gameBoard.is_ValidPosition(this, orientacao, (char) (BoardY + 1))) {
+                    gameBoard.is_ValidPosition(this, orientacao, (char) (BoardY + 1));
+                    if (this.getInvalidPosition(1)) {
                         return false;
                     }
                 }
@@ -34,10 +37,12 @@ public class Hydroplanes extends Ship {
 
             } else if (orientacao == 1) { // Posicionamento em 90° graus
 
-                if (!gameBoard.is_ValidPosition(this, BoardX + 1, (char) (BoardY - 1))) {
+                gameBoard.is_ValidPosition(this, BoardX + 1, (char) (BoardY - 1));
+                if (this.getInvalidPosition(1)) {
                     return false;
                 } else {
-                    if (!gameBoard.is_ValidPosition(this, BoardX + 1, (char) (BoardY + 1))) {
+                    gameBoard.is_ValidPosition(this, BoardX + 1, (char) (BoardY + 1));
+                    if (this.getInvalidPosition(1)) {
                         return false;
                     }
                 }
@@ -50,11 +55,13 @@ public class Hydroplanes extends Ship {
 
             } else if (orientacao == 2) { // Posicionamento em 180° graus
 
-                if (!gameBoard.is_ValidPosition(this, BoardX - 1, (char) (BoardY - 1))) {
+                gameBoard.is_ValidPosition(this, BoardX - 1, (char) (BoardY - 1));
+                if (this.getInvalidPosition(1)) {
 
                     return false;
                 } else {
-                    if (!gameBoard.is_ValidPosition(this, BoardX + 1, (char) (BoardY - 1))) {
+                    gameBoard.is_ValidPosition(this, BoardX + 1, (char) (BoardY - 1));
+                    if (this.getInvalidPosition(1)) {
 
                         return false;
                     }
@@ -67,11 +74,13 @@ public class Hydroplanes extends Ship {
 
             } else if (orientacao == 3) { // Posicionamento em 270° graus
 
-                if (!gameBoard.is_ValidPosition(this, BoardX - 1, (char) (BoardY - 1))) {
+                gameBoard.is_ValidPosition(this, BoardX - 1, (char) (BoardY - 1));
+                if (this.getInvalidPosition(1)) {
 
                     return false;
                 } else {
-                    if (!gameBoard.is_ValidPosition(this, BoardX - 1, (char) (BoardY + 1))) {
+                    gameBoard.is_ValidPosition(this, BoardX - 1, (char) (BoardY + 1));
+                    if (this.getInvalidPosition(1)) {
                         return false;
                     }
                 }

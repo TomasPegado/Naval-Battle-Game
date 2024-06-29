@@ -64,3 +64,4 @@ Game/src/model/IPlayerActionsFacade.class
 Game/src/view/GameFrame$2.class
 Game/src/view/GameFrame$3.class
 Game/src/view/BoardPanel$Coordinates.class
+Game/src/model/ModelPlacementEvent.class
