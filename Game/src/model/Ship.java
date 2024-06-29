@@ -4,7 +4,7 @@ import java.util.List;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-abstract class Ship implements Serializable {
+public class Ship implements Serializable {
     private static final long serialVersionUID = 1L;
     private ShipType type;
     private int size;

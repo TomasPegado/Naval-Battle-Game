@@ -59,6 +59,14 @@ public class Controller implements Observer {
         }
     }
 
+    public int GetCurrentPlayerIndex(){
+        return currentPlayerIndex;
+    }
+
+    public IGameFacade GetGameFacade(){
+        return gameFacade;
+    }
+
     public void saveGame(String filePath) {
         gameFacade.saveGame(filePath);
     }
@@ -66,14 +74,25 @@ public class Controller implements Observer {
     public void loadGame(String filePath) {
         gameFacade.loadGame(filePath);
         reconfigureObservers();
+        frame.loadGame(filePath); 
     }
 
     private void reconfigureObservers() {
+        // Remove existing observers from the old game state
+        for (Player player : gameFacade.getJogadores()) {
+            player.deleteObserver(this);
+            player.GetTabuleiroNavios().deleteObserver(this);
+            player.GetTabuleiroAtaques().deleteObserver(this);
+        }
+
+        // Add observers for the newly loaded game state
         for (Player player : gameFacade.getJogadores()) {
             player.addObserver(this);
             player.GetTabuleiroNavios().addObserver(this);
             player.GetTabuleiroAtaques().addObserver(this);
         }
+
+        // Update the current player
         currentPlayerIndex = 0;
         currentPlayer = gameFacade.getJogadores().get(currentPlayerIndex);
     }

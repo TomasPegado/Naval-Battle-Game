@@ -8,6 +8,8 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.Controller;
+import model.GameFacade;
+import model.IGameFacade;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -22,6 +24,8 @@ public class GameFrame extends JFrame {
     private AttackPanel attacking;
     private ObservableHelper observableHelper; // Instância de Observable
     private Controller controller;
+    private IGameFacade gameFacade; // Add GameFacade reference
+    private int currentPlayerIndex;
 
     public static synchronized GameFrame getInstance(Controller controller) {
         if (instance == null) {
@@ -88,6 +92,24 @@ public class GameFrame extends JFrame {
         menuBar.add(fileMenu);
 
         return menuBar;
+    }
+
+    public void loadGame(String filePath) {
+        gameFacade = controller.GetGameFacade();
+        currentPlayerIndex = controller.GetCurrentPlayerIndex();
+    
+        positioning.getBoardPanel().updateBoard(gameFacade.getJogadores().get(0).GetTabuleiroNavios());
+        positioning.getBoardPanel().updateBoard(gameFacade.getJogadores().get(1).GetTabuleiroNavios());
+
+        updatePlayerNames(gameFacade.getJogadores().get(0).getName(), gameFacade.getJogadores().get(1).getName());
+    
+        setCurrentPlayer(gameFacade.getJogadores().get(currentPlayerIndex).getName());
+    
+        if (gameFacade.getIsGameStarted()) {
+            showAttackPanel();
+        } else {
+            showPositionPanel();
+        }
     }
 
     public PositionPanel getPositionPanel() {
@@ -175,6 +197,32 @@ public class GameFrame extends JFrame {
 
         observableHelper.setChanged();
         observableHelper.notifyObservers("Game Restarted");
+    }
+
+    // Implement the missing methods
+    private void updatePlayerNames(String player1Name, String player2Name) {
+        // Update the UI elements that display player names
+        // For example, if you have labels named player1Label and player2Label:
+        // player1Label.setText(player1Name);
+        // player2Label.setText(player2Name);
+    }
+
+    private void setCurrentPlayer(String playerName) {
+        // Update the UI element that displays the current player
+        // For example, if you have a label named currentPlayerLabel:
+        // currentPlayerLabel.setText("Current Player: " + playerName);
+    }
+
+    private void showAttackPanel() {
+        // Make the attacking panel visible and hide the positioning panel
+        attacking.setVisible(true);
+        positioning.setVisible(false);
+    }
+
+    private void showPositionPanel() {
+        // Make the positioning panel visible and hide the attacking panel
+        positioning.setVisible(true);
+        attacking.setVisible(false);
     }
 
     @SuppressWarnings("deprecation")

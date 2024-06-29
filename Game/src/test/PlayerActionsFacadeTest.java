@@ -18,10 +18,10 @@ public class PlayerActionsFacadeTest {
         Player player = new Player(name, playerOrderId); // Supondo que a classe Player tenha um construtor padrão
 
         // Testando com uma posição válida
-        assertTrue(facade.PositionShip(player, 0, 'A', 3, true));
+        assertTrue(facade.PositionShip(player, 0, 'A', 3, 1));
 
         // Testando com uma posição inválida
-        assertFalse(facade.PositionShip(null, 0, 'A', 3, true));
+        assertFalse(facade.PositionShip(null, 0, 'A', 3, 1));
     }
 
     @Test

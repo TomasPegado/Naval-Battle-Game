@@ -6,6 +6,8 @@ import controller.Controller;
 
 public interface IGameFacade {
 
+    boolean getIsGameStarted();
+    
     void startGame(String player1, String player2);
 
     void restartGame(Controller controller);

@@ -19,6 +19,10 @@ public class GameBoard extends Observable implements Serializable {
         }
     }
 
+    public PositionPair[][] GetGameBoard(){
+        return board;
+    }
+
     protected void is_ValidPosition(Ship ship, int coordinateX, char coordinateY) {
         int y = coordinateY - 65;
         int x = coordinateX;

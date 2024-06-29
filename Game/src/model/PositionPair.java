@@ -60,7 +60,7 @@ public class PositionPair implements Serializable {
         this.ship = ship;
     }
 
-    protected boolean getHit() {
+    public boolean getHit() {
         return hit;
     }
 

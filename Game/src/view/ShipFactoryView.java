@@ -2,7 +2,7 @@ package view;
 
 public class ShipFactoryView {
 
-    protected static ShipView creatShipView(int size) {
+    public static ShipView createShipView(int size) {
 
         switch (size) {
             case 5:

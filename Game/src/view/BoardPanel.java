@@ -1,6 +1,10 @@
 package view;
 
 import javax.swing.*;
+
+import model.GameBoard;
+import model.PositionPair;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -155,9 +159,35 @@ public class BoardPanel extends JPanel {
 
     }
 
+    public void updateBoard(GameBoard gameBoard) {
+        // 1. Get the data from the GameBoard
+        PositionPair[][] gameBoardData = gameBoard.GetGameBoard();
+
+        // 2. Update the CoordinateView objects in your board
+        for (int i = 0; i < BOARD_WIDTH; i++) {
+            for (int j = 0; j < BOARD_HEIGHT; j++) {
+                CoordinateView coordView = board.get(i).get(j);
+                PositionPair gameBoardCoord = gameBoardData[i][j];
+
+                // Update the CoordinateView based on the GameBoard data
+                if (gameBoardCoord.getShip() != null) {
+                    // If there's a ship, create a ShipView and set it on the CoordinateView
+                    ShipView shipView = ShipFactoryView.createShipView(3);
+                    coordView.setShip(shipView); // Set the ShipView on the CoordinateView
+                } else if (gameBoardCoord.getHit()) {
+                    // If it's a hit, mark the CoordinateView as hit
+                    coordView.setWater(true);
+                }
+            }
+        }
+
+        // 3. Repaint the BoardPanel
+        repaint();
+    }
+
     protected void firstShotHit(int boardX, int boardY, int size) {
         CoordinateView coord = board.get(boardX).get(boardY);
-        ShipView ship = ShipFactoryView.creatShipView(size);
+        ShipView ship = ShipFactoryView.createShipView(size);
 
         coord.setShip(ship);
         if (size == 1) {

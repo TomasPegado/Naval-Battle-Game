@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 public class GameFacade implements IGameFacade, Serializable {
     private static IGameFacade instance;
+    public boolean IsGameStarted;
     private List<Player> jogadores = new ArrayList<Player>();
 
     public static synchronized IGameFacade getInstance() {
@@ -21,6 +22,14 @@ public class GameFacade implements IGameFacade, Serializable {
             instance = new GameFacade();
         }
         return instance;
+    }
+
+    public boolean getIsGameStarted() {
+        return IsGameStarted;
+    }
+
+    public void setIsGameStarted(boolean isGameStarted) {
+        IsGameStarted = isGameStarted;
     }
 
     @Override
@@ -31,6 +40,8 @@ public class GameFacade implements IGameFacade, Serializable {
 
         jogadores.add(jogador1);
         jogadores.add(jogador2);
+
+        setIsGameStarted(false);
     }
 
     @Override
@@ -56,6 +67,8 @@ public class GameFacade implements IGameFacade, Serializable {
             player.GetTabuleiroNavios().addObserver(controller);
             player.GetTabuleiroAtaques().addObserver(controller);
         }
+
+        setIsGameStarted(false);
     }
 
     @Override
