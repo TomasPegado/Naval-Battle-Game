@@ -242,7 +242,6 @@ public class BoardPanel extends JPanel {
                 }
             }
         }
-
         // 3. Repaint the BoardPanel
         repaint();
     }

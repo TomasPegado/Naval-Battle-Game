@@ -94,6 +94,8 @@ public class GameFrame extends JFrame {
         return menuBar;
     }
 
+    // Método para resetar o jogo
+    @SuppressWarnings("deprecation")
     public void loadGame() {
         gameFacade = controller.GetGameFacade();
         currentPlayerIndex = controller.GetCurrentPlayerIndex();
@@ -114,6 +116,15 @@ public class GameFrame extends JFrame {
         setCurrentPlayer(gameFacade.getJogadores().get(currentPlayerIndex).getName());
     
         showAttackPanel();
+
+        this.add(attacking);
+        this.remove(positioning);
+        this.revalidate();
+        this.repaint();
+        this.pack();
+
+        observableHelper.setChanged();
+        observableHelper.notifyObservers("Game Loaded"); 
     }
 
     public PositionPanel getPositionPanel() {
