@@ -85,16 +85,6 @@ public class BoardPanel extends JPanel {
                             System.out.println("Board Panel antes do ShipPlacement Event: boardX = " + boardX
                                     + " boardY = " + boardY);
                             shipPlacementEventNotifier(boardX, boardY);
-                            // ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, boardX,
-                            // boardY,
-                            // selectedShip.getOrientacao());
-                            // if (!selectedShip.coordenadas.isEmpty()) {
-                            // setCurrentPositionX(selectedShip.coordenadas.get(0).getX() - 1);
-                            // setCurrentPositionY(selectedShip.coordenadas.get(0).getY() - 1);
-                            // }
-
-                            // observableHelper.setChanged();
-                            // observableHelper.notifyObservers(event);
 
                         }
                     } else {
@@ -217,8 +207,6 @@ public class BoardPanel extends JPanel {
 
         repaint(); // Repinta o tabuleiro para refletir a nova posição
 
-        // selectedShip = null; // Deseleciona o navio após posicionar
-
     }
 
     public void updateBoard(GameBoard gameBoard) {
@@ -268,6 +256,7 @@ public class BoardPanel extends JPanel {
         coord.setShip(ship);
 
         if (sunk) {
+
             ship.setSunk(sunk);
         }
         repaint();

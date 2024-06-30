@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.*;
+import java.awt.desktop.SystemEventListener;
 
 public class CoordinateView {
     private int x;
@@ -48,7 +49,8 @@ public class CoordinateView {
             g2d.setColor(Color.decode(ship.getColor())); // Cor do navio
             if (selected) {
                 g2d.setColor(Color.CYAN);
-            } else if (ship.isSunk()) {
+            }
+            if (ship.isSunk()) {
                 g2d.setColor(Color.RED);
             }
             if (ship.isInvalidPosition()) {
