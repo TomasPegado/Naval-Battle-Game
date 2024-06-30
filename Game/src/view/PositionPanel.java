@@ -32,7 +32,7 @@ public class PositionPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (boardPanel.getSelectedShip() == null) {
-                    System.out.println("Mouse clicked at: " + e.getX() + ", " + e.getY());
+
                     weaponsPanel.selectShip(e.getX(), e.getY());
                     ShipView selectedShip = weaponsPanel.getSelectedShip();
                     boardPanel.setSelectedShip(selectedShip);
@@ -46,6 +46,11 @@ public class PositionPanel extends JPanel {
             @Override
             public void shipPositioned(ShipView ship) {
                 weaponsPanel.deselectShip();
+            }
+
+            @Override
+            public void shipReturned(ShipView ship) {
+                weaponsPanel.returnShip(ship);
             }
         });
 
@@ -121,8 +126,13 @@ public class PositionPanel extends JPanel {
         weaponsPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ShipView selectedShip = weaponsPanel.getSelectedShip();
-                boardPanel.setSelectedShip(selectedShip);
+                if (boardPanel.getSelectedShip() == null) {
+
+                    weaponsPanel.selectShip(e.getX(), e.getY());
+                    ShipView selectedShip = weaponsPanel.getSelectedShip();
+                    boardPanel.setSelectedShip(selectedShip);
+                }
+
             }
         });
 
@@ -130,6 +140,11 @@ public class PositionPanel extends JPanel {
             @Override
             public void shipPositioned(ShipView ship) {
                 weaponsPanel.deselectShip();
+            }
+
+            @Override
+            public void shipReturned(ShipView ship) {
+                weaponsPanel.returnShip(ship);
             }
         });
 

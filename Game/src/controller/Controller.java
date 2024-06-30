@@ -128,25 +128,34 @@ public class Controller implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof ShipPlacementEvent) {
-            ShipPlacementEvent event = (ShipPlacementEvent) arg;
-            setBoardX(event.getBoardX());
-            setBoardY(event.getBoardY());
-            shipOrientation = event.getOrientation();
 
-            if (viewActionsFacade.getBoardShips(boardPanel).contains(event.getSelectedShip())) {
+            ShipPlacementEvent event = (ShipPlacementEvent) arg;
+
+            if (event.isRemoveShip()) {
                 int currentPositionX = viewActionsFacade.getCurrentPositionX(boardPanel);
                 char currentPositionY = (char) (viewActionsFacade.getCurrentPositionY(boardPanel) + 65);
-
-                System.out.println("Controller anets do updateShipPosition: BoardX = " + event.getBoardX()
-                        + " BoardY = " + event.getBoardY());
-                playerActionsFacade.updateShipPosition(currentPlayer, currentPositionX,
-                        currentPositionY, shipOrientation,
-                        event.getBoardX(), (char) (event.getBoardY() + 65));
+                playerActionsFacade.removeShip(currentPlayer, currentPositionX, currentPositionY);
 
             } else {
+                setBoardX(event.getBoardX());
+                setBoardY(event.getBoardY());
+                shipOrientation = event.getOrientation();
 
-                playerActionsFacade.PositionShip(currentPlayer, event.getBoardX(), (char) (event.getBoardY() + 65),
-                        viewActionsFacade.getShipSize(event.getSelectedShip()), shipOrientation);
+                if (viewActionsFacade.getBoardShips(boardPanel).contains(event.getSelectedShip())) {
+                    int currentPositionX = viewActionsFacade.getCurrentPositionX(boardPanel);
+                    char currentPositionY = (char) (viewActionsFacade.getCurrentPositionY(boardPanel) + 65);
+
+                    System.out.println("Controller anets do updateShipPosition: BoardX = " + event.getBoardX()
+                            + " BoardY = " + event.getBoardY());
+                    playerActionsFacade.updateShipPosition(currentPlayer, currentPositionX,
+                            currentPositionY, shipOrientation,
+                            event.getBoardX(), (char) (event.getBoardY() + 65));
+
+                } else {
+
+                    playerActionsFacade.PositionShip(currentPlayer, event.getBoardX(), (char) (event.getBoardY() + 65),
+                            viewActionsFacade.getShipSize(event.getSelectedShip()), shipOrientation);
+                }
             }
 
         } else if (o instanceof GameBoard) {

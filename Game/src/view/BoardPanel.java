@@ -119,6 +119,21 @@ public class BoardPanel extends JPanel {
                             selectedShip.deselectShip();
                             selectedShip = null;
                             repaint();
+                        } else { // Retorna navio para o weapons panel se estiver em uma posição invalida
+                            if (shipPositionListener != null) {
+                                setCurrentPositionX(selectedShip.coordenadas.get(0).getX() - 1);
+                                setCurrentPositionY(selectedShip.coordenadas.get(0).getY() - 1);
+                                selectedShip.clearCoordinates();
+                                shipsList.remove(selectedShip);
+                                shipPositionListener.shipReturned(selectedShip);
+
+                                ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, true);
+                                observableHelper.setChanged();
+                                observableHelper.notifyObservers(event);
+
+                                selectedShip = null;
+                                repaint();
+                            }
                         }
 
                     }
@@ -329,6 +344,8 @@ public class BoardPanel extends JPanel {
 
     public interface ShipPositionListener {
         void shipPositioned(ShipView ship);
+
+        void shipReturned(ShipView ship);
     }
 
     public void addObserver(java.util.Observer observer) {

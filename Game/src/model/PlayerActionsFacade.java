@@ -13,6 +13,28 @@ public class PlayerActionsFacade implements IPlayerActionsFacade {
     }
 
     @Override
+    public void removeShip(Player player, int x, char y) {
+
+        if (player != null) {
+            for (Ship ship : player.getShips()) {
+                List<PositionPair> positions = ship.getPositionsList();
+
+                for (PositionPair coord : positions) {
+                    System.out.println(
+                            "Model Facade Remove Ship: x = " + x + " y = " + y + " , coordX = " + coord.getCoordenadaX()
+                                    + " coordY = " + coord.getCoordenadaY());
+                    if (coord.getCoordenadaX() == x && coord.getCoordenadaY() == y) {
+
+                        player.removePlayerShip(ship);
+
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
     public void updateShipPosition(Player player, int x, char y, int orientacao, int newX, char newY) {
         if (player != null) {
 

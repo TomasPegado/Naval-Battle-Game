@@ -32,11 +32,19 @@ public class Player extends Observable implements Serializable {
         return shipsList;
     }
 
+    protected void removePlayerShip(Ship ship) {
+
+        ship.clearPositions();
+        shipsList.remove(ship);
+        System.out.println("Player´s Ship removed: " + ship);
+        System.out.println("Player Ship List Size: " + shipsList.size());
+    }
+
     protected boolean PositionPlayerShip(Ship ship, int coordinateX, char coordinateY, int orientation) {
         if (DefenseMap.PositionShip(coordinateX, coordinateY, ship, orientation)) {
             if (!shipsList.contains(ship)) {
                 shipsList.add(ship);
-                System.out.println(shipsList.size());
+                System.out.println("Player Ship List Size: " + shipsList.size());
             }
             if (shipsList.size() == 15) {
                 setChanged();

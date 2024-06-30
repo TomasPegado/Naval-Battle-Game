@@ -14,4 +14,6 @@ public interface IPlayerActionsFacade {
 
     List<Ship> getPlayerShips(Player player);
 
+    void removeShip(Player player, int x, char y);
+
 }

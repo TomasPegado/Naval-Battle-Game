@@ -64,6 +64,11 @@ public class WeaponsPanel extends JPanel {
         repaint();
     }
 
+    protected void returnShip(ShipView ship) {
+        ships.add(ship);
+        repaint();
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

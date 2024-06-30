@@ -109,12 +109,13 @@ public class GameBoard extends Observable implements Serializable {
         invalidPosition = ship.isInvalidPosition();
 
         if (success) {
-            setChanged();
             ModelPlacementEvent event = new ModelPlacementEvent(invalidPosition, success, x, y);
+            setChanged();
             notifyObservers(event);
         } else {
-            setChanged();
+            System.out.println("GameBoard: Posicao invalida");
             ModelPlacementEvent event = new ModelPlacementEvent(invalidPosition, success, x, y);
+            setChanged();
             notifyObservers(event);
         }
 
