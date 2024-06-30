@@ -103,6 +103,7 @@ public abstract class ShipView extends JPanel {
         System.out.println("ShipView - addCoordinate: " + coord.getX() + ", " + coord.getY());
         coord.setShip(this);
         coord.setWater(false);
+        coord.setSelected(true);
         this.coordenadas.add(coord);
 
     }

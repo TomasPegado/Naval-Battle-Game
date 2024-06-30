@@ -18,14 +18,12 @@ public class PlayerActionsFacade implements IPlayerActionsFacade {
 
             for (Ship ship : player.getShips()) {
                 List<PositionPair> positions = ship.getPositionsList();
-                System.out.println(positions);
-                System.out.println("Chegou aqui 1");
+
                 for (PositionPair coord : positions) {
                     System.out.println("Model Facade: x = " + x + " y = " + y + " , coordX = " + coord.getCoordenadaX()
                             + " coordY = " + coord.getCoordenadaY());
                     if (coord.getCoordenadaX() == x && coord.getCoordenadaY() == y) {
 
-                        System.out.println("Chegou aqui 2");
                         player.PositionPlayerShip(ship, newX, newY, orientacao);
 
                         return;
