@@ -61,12 +61,12 @@ public class GameFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setFileFilter(new FileNameExtensionFilter("Save files (*.sav)", "sav"));
+                fileChooser.setFileFilter(new FileNameExtensionFilter("Save files (*.txt)", "txt"));
                 int option = fileChooser.showSaveDialog(GameFrame.this);
                 if (option == JFileChooser.APPROVE_OPTION) {
                     File file = fileChooser.getSelectedFile();
-                    if (!file.getName().endsWith(".sav")) {
-                        file = new File(file.getAbsolutePath() + ".sav");
+                    if (!file.getName().endsWith(".txt")) {
+                        file = new File(file.getAbsolutePath() + ".txt");
                     }
                     controller.saveGame(file.getAbsolutePath());
                 }
@@ -78,7 +78,7 @@ public class GameFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setFileFilter(new FileNameExtensionFilter("Save files (*.sav)", "sav"));
+                fileChooser.setFileFilter(new FileNameExtensionFilter("Save files (*.txt)", "txt"));
                 int option = fileChooser.showOpenDialog(GameFrame.this);
                 if (option == JFileChooser.APPROVE_OPTION) {
                     File file = fileChooser.getSelectedFile();
