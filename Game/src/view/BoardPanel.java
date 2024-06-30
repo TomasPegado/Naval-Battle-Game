@@ -247,7 +247,8 @@ public class BoardPanel extends JPanel {
 
     }
 
-    protected void shotHitAgain(int boardX, int boardY, int previousHitCoordX, int previousHitCoordY, boolean sunk) {
+    protected ShipView shotHitAgain(int boardX, int boardY, int previousHitCoordX, int previousHitCoordY,
+            boolean sunk) {
 
         CoordinateView previousHitCoord = board.get(previousHitCoordX).get(previousHitCoordY);
         ShipView ship = previousHitCoord.getShip();
@@ -261,7 +262,7 @@ public class BoardPanel extends JPanel {
         }
         repaint();
         System.out.println("BoardPanel painted new hit at " + boardX + ", " + boardY);
-
+        return ship;
     }
 
     protected void shotWater(int boardX, int boardY) {

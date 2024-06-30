@@ -55,21 +55,55 @@ public class ViewActionsFacade {
         return attackPanel.getAttackBoards().get(index);
     }
 
-    public void firstShotHit(BoardPanel attackBoard, int boardX, int boardY, int size) {
+    public void firstShotHit(BoardPanel attackBoard, int boardX, int boardY, int size, AttackPanel attackPanel) {
 
         attackBoard.firstShotHit(boardX, boardY, size);
+
+        if (size == 5) {
+            attackPanel.setShotResultMessage(
+                    "Coordinates: (" + (char) (boardY + 65) + ", " + (boardX + 1) + ") - BattleShip Hit");
+        } else if (size == 4) {
+            attackPanel.setShotResultMessage(
+                    "Coordinates: (" + (char) (boardY + 65) + ", " + (boardX + 1) + ") - Cruiser Hit");
+        } else if (size == 3) {
+            attackPanel.setShotResultMessage(
+                    "Coordinates: (" + (char) (boardY + 65) + ", " + (boardX + 1) + ") - HydroPlane Hit");
+        } else if (size == 2) {
+            attackPanel.setShotResultMessage(
+                    "Coordinates: (" + (char) (boardY + 65) + ", " + (boardX + 1) + ") - Destroyer Hit");
+        } else if (size == 1) {
+            attackPanel.setShotResultMessage(
+                    "Coordinates: (" + (char) (boardY + 65) + ", " + (boardX + 1) + ") - Submarine Hit");
+        } else {
+            throw new IllegalArgumentException("Unknown ship type: " + size);
+        }
     }
 
     public void shotHitAgain(BoardPanel attackBoard, int boardX, int boardY, int previousHitCoordX,
-            int previousHitCoordY, boolean sunk) {
+            int previousHitCoordY, boolean sunk, AttackPanel attackPanel) {
 
-        attackBoard.shotHitAgain(boardX, boardY, previousHitCoordX, previousHitCoordY, sunk);
+        ShipView ship = attackBoard.shotHitAgain(boardX, boardY, previousHitCoordX, previousHitCoordY, sunk);
+
+        int shipSize = ship.getShipSize();
+
+        if (shipSize == 5) {
+            attackPanel.setShotResultMessage(
+                    "Coordinates: (" + (char) (boardY + 65) + ", " + (boardX + 1) + ") - BattleShip Hit - Sunk: "
+                            + sunk);
+        } else if (shipSize == 4) {
+            attackPanel.setShotResultMessage(
+                    "Coordinates: (" + (char) (boardY + 65) + ", " + (boardX + 1) + ") - Cruiser Hit - Sunk: " + sunk);
+        } else if (shipSize == 3) {
+            attackPanel.setShotResultMessage(
+                    "Coordinates: (" + (char) (boardY + 65) + ", " + (boardX + 1) + ") - HydroPlane Hit - Sunk: "
+                            + sunk);
+        }
     }
 
-    public void shotWater(BoardPanel attackBoard, int boardX, int boardY) {
+    public void shotWater(BoardPanel attackBoard, int boardX, int boardY, AttackPanel attackPanel) {
 
         attackBoard.shotWater(boardX, boardY);
-
+        attackPanel.setShotResultMessage("Shot hitted Water");
     }
 
     public void setVisibleNextPlayerButton(AttackPanel attackPanel, String name) {

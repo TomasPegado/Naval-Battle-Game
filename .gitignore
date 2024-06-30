@@ -68,3 +68,6 @@ Game/src/model/ModelPlacementEvent.class
 Game/src/view/BoardPanel$2.class
 Game/src/view/PositionPanel$7.class
 Game/src/view/PositionPanel$8.class
+Game/src/view/GameFrame$4.class
+Game/src/view/GameFrame$5.class
+Game/src/view/GameFrame$6.class

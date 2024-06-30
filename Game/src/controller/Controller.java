@@ -159,8 +159,6 @@ public class Controller implements Observer {
                     int currentPositionX = viewActionsFacade.getCurrentPositionX(boardPanel);
                     char currentPositionY = (char) (viewActionsFacade.getCurrentPositionY(boardPanel) + 65);
 
-                    System.out.println("Controller anets do updateShipPosition: BoardX = " + event.getBoardX()
-                            + " BoardY = " + event.getBoardY());
                     playerActionsFacade.updateShipPosition(currentPlayer, currentPositionX,
                             currentPositionY, shipOrientation,
                             event.getBoardX(), (char) (event.getBoardY() + 65));
@@ -187,14 +185,17 @@ public class Controller implements Observer {
 
                 ModelShotHitEvent event = (ModelShotHitEvent) arg;
                 if (event.isWater()) {
-                    viewActionsFacade.shotWater(attackPanel.getAttackBoards().get(currentPlayerIndex), boardX, boardY);
+                    viewActionsFacade.shotWater(attackPanel.getAttackBoards().get(currentPlayerIndex), boardX, boardY,
+                            attackPanel);
+
                 } else if (event.isHitBefore()) {
                     viewActionsFacade.shotHitAgain(attackPanel.getAttackBoards().get(currentPlayerIndex), boardX,
-                            boardY, event.getPreviousHitCoordX(), event.getPreviousHitCoordY(), event.isSunk());
+                            boardY, event.getPreviousHitCoordX(), event.getPreviousHitCoordY(), event.isSunk(),
+                            attackPanel);
                 } else {
                     viewActionsFacade.firstShotHit(attackPanel.getAttackBoards().get(currentPlayerIndex), boardX,
                             boardY,
-                            event.getShipSize());
+                            event.getShipSize(), attackPanel);
                 }
             }
         } else if (o instanceof Player) {
@@ -246,6 +247,7 @@ public class Controller implements Observer {
                     this.boardPanel.addObserver(this);
 
                 } else if (eventDescription.startsWith("Positioning Finished")) {
+                    System.out.println("Controller Observed that Positioning Finished");
                     currentPlayerIndex = 0;
                     currentPlayer = gameFacade.getJogadores().get(currentPlayerIndex);
                     frame.switchToAttackPanel();
@@ -313,6 +315,7 @@ public class Controller implements Observer {
             GameFrame frame = GameFrame.getInstance(controller);
             frame.addObserver(controller);
             controller.setFrame(frame);
+
             PositionPanel positionPanel = frame.getPositionPanel();
             positionPanel.addObserver(controller);
             BoardPanel boardPanel = frame.getPositionPanel().getBoardPanel();
