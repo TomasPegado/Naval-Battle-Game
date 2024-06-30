@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import model.PlayerActionsFacade;
 import model.Player;
-import model.ShipType;
 import model.GameBoard;
 import model.IPlayerActionsFacade;
 
