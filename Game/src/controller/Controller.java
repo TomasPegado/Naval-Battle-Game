@@ -281,6 +281,20 @@ public class Controller implements Observer {
                         this.setPositionPanel(positionPanel);
                         this.setBoardPanel(boardPanel);
                     });
+                } else if (eventDescription.startsWith("Game Loaded")) {
+                    System.out.println("Controller Observed that Game Reloaded");
+                    currentPlayerIndex = 0;
+                    currentPlayer = gameFacade.getJogadores().get(currentPlayerIndex);
+
+                    SwingUtilities.invokeLater(() -> {
+                        this.attackPanel = frame.getAttackingPanel();
+                        attackPanel.addObserver(this);
+                        viewActionsFacade.getCurrentAttackerBoard(attackPanel, currentPlayerIndex).addObserver(this);
+
+                        viewActionsFacade.getCurrentAttackerBoard(attackPanel, (currentPlayerIndex + 1) % 2)
+                                .setVisible(false);
+
+                    });
                 }
             }
         }

@@ -49,7 +49,7 @@ public class CoordinateView {
             if (selected) {
                 g2d.setColor(Color.CYAN);
             } else if (ship.isSunk()) {
-                g2d.setColor(Color.BLACK);
+                g2d.setColor(Color.RED);
             }
             if (ship.isInvalidPosition()) {
                 g2d.setColor(Color.RED);
