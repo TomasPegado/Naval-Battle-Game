@@ -2,8 +2,6 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +15,7 @@ public class WeaponsPanel extends JPanel {
         setPreferredSize(new Dimension(400, 600));
         ships = new ArrayList<>();
         initializeShips();
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("Mouse clicked at: " + e.getX() + ", " + e.getY());
-                selectShip(e.getX(), e.getY());
-            }
-        });
+
     }
 
     private void initializeShips() {
@@ -45,7 +37,7 @@ public class WeaponsPanel extends JPanel {
         System.out.println("Navios inicializados");
     }
 
-    private void selectShip(int x, int y) {
+    protected void selectShip(int x, int y) {
         boolean found = false;
         for (ShipView ship : ships) {
             ship.setSelected(found);

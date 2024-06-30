@@ -152,6 +152,10 @@ public class BoardPanel extends JPanel {
         this.selectedShip = ship;
     }
 
+    public ShipView getSelectedShip() {
+        return selectedShip;
+    }
+
     public void setShipPositionListener(ShipPositionListener listener) {
         this.shipPositionListener = listener;
     }
