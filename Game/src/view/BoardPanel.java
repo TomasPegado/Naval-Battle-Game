@@ -21,8 +21,8 @@ import java.util.Observer;
 @SuppressWarnings("deprecation")
 public class BoardPanel extends JPanel {
 
-    private static final int MARGIN = 25; // Margem ao redor do tabuleiro
-    private static final int GRID_SIZE = 30; // Tamanho de cada célula
+    protected static final int MARGIN = 25; // Margem ao redor do tabuleiro
+    protected static final int GRID_SIZE = 30; // Tamanho de cada célula
     private static final int BOARD_WIDTH = 15;
     private static final int BOARD_HEIGHT = 15;
     private List<List<CoordinateView>> board; // Matriz de coordenadas
@@ -84,15 +84,17 @@ public class BoardPanel extends JPanel {
                             // Notificar observadores sobre o evento de clique com informações adicionais
                             System.out.println("Board Panel antes do ShipPlacement Event: boardX = " + boardX
                                     + " boardY = " + boardY);
-                            ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, boardX, boardY,
-                                    selectedShip.getOrientacao());
-                            if (!selectedShip.coordenadas.isEmpty()) {
-                                setCurrentPositionX(selectedShip.coordenadas.get(0).getX() - 1);
-                                setCurrentPositionY(selectedShip.coordenadas.get(0).getY() - 1);
-                            }
+                            shipPlacementEventNotifier(boardX, boardY);
+                            // ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, boardX,
+                            // boardY,
+                            // selectedShip.getOrientacao());
+                            // if (!selectedShip.coordenadas.isEmpty()) {
+                            // setCurrentPositionX(selectedShip.coordenadas.get(0).getX() - 1);
+                            // setCurrentPositionY(selectedShip.coordenadas.get(0).getY() - 1);
+                            // }
 
-                            observableHelper.setChanged();
-                            observableHelper.notifyObservers(event);
+                            // observableHelper.setChanged();
+                            // observableHelper.notifyObservers(event);
 
                         }
                     } else {
@@ -107,48 +109,52 @@ public class BoardPanel extends JPanel {
             }
         });
 
-        // Configura o Key Binding para a tecla ESC
-        bindKeyToAction("ESCAPE", KeyEvent.VK_ESCAPE, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Código a ser executado quando a tecla ESC for pressionada
-                if (is_PositionBoard) {
+    }
 
-                    if (selectedShip != null) {
-                        if (!selectedShip.isInvalidPosition()) {
-                            selectedShip.deselectShip();
-                            selectedShip = null;
-                            repaint();
-                        } else { // Retorna navio para o weapons panel se estiver em uma posição invalida
-                            if (shipPositionListener != null) {
-                                setCurrentPositionX(selectedShip.coordenadas.get(0).getX() - 1);
-                                setCurrentPositionY(selectedShip.coordenadas.get(0).getY() - 1);
-                                selectedShip.clearCoordinates();
-                                shipsList.remove(selectedShip);
-                                shipPositionListener.shipReturned(selectedShip);
+    protected void shipPlacementEventNotifier(int boardX, int boardY) {
 
-                                ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, true);
-                                observableHelper.setChanged();
-                                observableHelper.notifyObservers(event);
+        ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, boardX, boardY,
+                selectedShip.getOrientacao());
+        if (!selectedShip.coordenadas.isEmpty()) {
+            setCurrentPositionX(selectedShip.coordenadas.get(0).getX() - 1);
+            setCurrentPositionY(selectedShip.coordenadas.get(0).getY() - 1);
+        }
 
-                                selectedShip = null;
-                                repaint();
-                            }
-                        }
+        observableHelper.setChanged();
+        observableHelper.notifyObservers(event);
 
+    }
+
+    protected void performEscAction() {
+        // Código específico para o BoardPanel quando ESC é pressionado
+        System.out.println("ESC pressed in BoardPanel");
+        if (is_PositionBoard) {
+
+            if (selectedShip != null) {
+                if (!selectedShip.isInvalidPosition()) {
+                    selectedShip.deselectShip();
+                    selectedShip = null;
+                    repaint();
+                } else { // Retorna navio para o weapons panel se estiver em uma posição invalida
+                    if (shipPositionListener != null) {
+                        setCurrentPositionX(selectedShip.coordenadas.get(0).getX() - 1);
+                        setCurrentPositionY(selectedShip.coordenadas.get(0).getY() - 1);
+                        selectedShip.clearCoordinates();
+                        shipsList.remove(selectedShip);
+                        shipPositionListener.shipReturned(selectedShip);
+
+                        ShipPlacementEvent event = new ShipPlacementEvent(selectedShip, true);
+                        observableHelper.setChanged();
+                        observableHelper.notifyObservers(event);
+
+                        selectedShip = null;
+                        repaint();
                     }
                 }
 
             }
-        });
-    }
+        }
 
-    private void bindKeyToAction(String name, int keyCode, Action action) {
-        InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ActionMap actionMap = getActionMap();
-
-        inputMap.put(KeyStroke.getKeyStroke(keyCode, 0), name);
-        actionMap.put(name, action);
     }
 
     private void initializeBoard() {

@@ -26,33 +26,8 @@ public class PositionPanel extends JPanel {
         add(weaponsPanel, BorderLayout.WEST);
         add(boardPanel, BorderLayout.EAST);
 
-        // Adicionar um listener ao WeaponsPanel para notificar BoardPanel sobre o navio
-        // selecionado
-        weaponsPanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (boardPanel.getSelectedShip() == null) {
-
-                    weaponsPanel.selectShip(e.getX(), e.getY());
-                    ShipView selectedShip = weaponsPanel.getSelectedShip();
-                    boardPanel.setSelectedShip(selectedShip);
-                }
-
-            }
-        });
-
-        // Adicionar um listener ao BoardPanel para deselecionar o navio no WeaponsPanel
-        boardPanel.setShipPositionListener(new BoardPanel.ShipPositionListener() {
-            @Override
-            public void shipPositioned(ShipView ship) {
-                weaponsPanel.deselectShip();
-            }
-
-            @Override
-            public void shipReturned(ShipView ship) {
-                weaponsPanel.returnShip(ship);
-            }
-        });
+        // Adicionar listeners iniciais
+        addListeners();
 
         // Crie o botão e adicione um listener
         nextPlayerButton = new JButton("Next Player");
@@ -91,6 +66,63 @@ public class PositionPanel extends JPanel {
         buttonPanel.add(startGameButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
+        // Configura o Key Binding para a tecla ESC
+        bindKeyToAction("ESCAPE", KeyEvent.VK_ESCAPE, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (weaponsPanel.getSelectedShip() != null) {
+                    weaponsPanel.performEscAction();
+                } else {
+                    boardPanel.performEscAction();
+                }
+
+            }
+        });
+
+    }
+
+    private void bindKeyToAction(String name, int keyCode, Action action) {
+        InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = getActionMap();
+
+        inputMap.put(KeyStroke.getKeyStroke(keyCode, 0), name);
+        actionMap.put(name, action);
+    }
+
+    private void addListeners() {
+        // Adicionar listeners ao WeaponsPanel e BoardPanel
+        weaponsPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (boardPanel.getSelectedShip() == null) {
+                    weaponsPanel.selectShip(e.getX(), e.getY());
+                }
+            }
+        });
+
+        boardPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (weaponsPanel.getSelectedShip() != null) {
+                    int boardX = (e.getX() - BoardPanel.MARGIN + 1) / BoardPanel.GRID_SIZE;
+                    int boardY = (e.getY() - BoardPanel.MARGIN + 1) / BoardPanel.GRID_SIZE;
+                    boardPanel.setSelectedShip(weaponsPanel.getSelectedShip());
+                    boardPanel.shipPlacementEventNotifier(boardX, boardY);
+                }
+            }
+        });
+
+        boardPanel.setShipPositionListener(new BoardPanel.ShipPositionListener() {
+            @Override
+            public void shipPositioned(ShipView ship) {
+                weaponsPanel.deselectShip();
+            }
+
+            @Override
+            public void shipReturned(ShipView ship) {
+                weaponsPanel.returnShip(ship);
+            }
+        });
     }
 
     public BoardPanel getBoardPanel() {
@@ -123,28 +155,17 @@ public class PositionPanel extends JPanel {
         add(boardPanel, BorderLayout.EAST);
 
         // Adicionar novamente os listeners
-        weaponsPanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (boardPanel.getSelectedShip() == null) {
+        addListeners();
 
-                    weaponsPanel.selectShip(e.getX(), e.getY());
-                    ShipView selectedShip = weaponsPanel.getSelectedShip();
-                    boardPanel.setSelectedShip(selectedShip);
+        // Configura o Key Binding para a tecla ESC novamente
+        bindKeyToAction("ESCAPE", KeyEvent.VK_ESCAPE, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (weaponsPanel.getSelectedShip() != null) {
+                    weaponsPanel.performEscAction();
+                } else {
+                    boardPanel.performEscAction();
                 }
-
-            }
-        });
-
-        boardPanel.setShipPositionListener(new BoardPanel.ShipPositionListener() {
-            @Override
-            public void shipPositioned(ShipView ship) {
-                weaponsPanel.deselectShip();
-            }
-
-            @Override
-            public void shipReturned(ShipView ship) {
-                weaponsPanel.returnShip(ship);
             }
         });
 

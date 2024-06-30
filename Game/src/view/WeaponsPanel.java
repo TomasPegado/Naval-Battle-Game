@@ -2,6 +2,8 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,36 @@ public class WeaponsPanel extends JPanel {
         ships = new ArrayList<>();
         initializeShips();
 
+        // bindKeyToAction("ESCAPE", KeyEvent.VK_ESCAPE, new AbstractAction() {
+        // @Override
+        // public void actionPerformed(ActionEvent e) {
+        // // Código a ser executado quando a tecla ESC for pressionada
+        // System.out.println("Wepaons Panel recebu tecla esc");
+        // if (selectedShip != null) {
+        // selectedShip.setSelected(false);
+        // selectedShip = null;
+        // repaint();
+        // }
+        // }
+        // });
+    }
+
+    // private void bindKeyToAction(String name, int keyCode, Action action) {
+    // InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+    // ActionMap actionMap = getActionMap();
+
+    // inputMap.put(KeyStroke.getKeyStroke(keyCode, 0), name);
+    // actionMap.put(name, action);
+    // }
+
+    protected void performEscAction() {
+        // Código específico para o WeaponsPanel quando ESC é pressionado
+        System.out.println("ESC pressed in WeaponsPanel");
+        if (selectedShip != null) {
+            selectedShip.setSelected(false);
+            selectedShip = null;
+            repaint();
+        }
     }
 
     private void initializeShips() {
@@ -38,21 +70,25 @@ public class WeaponsPanel extends JPanel {
     }
 
     protected void selectShip(int x, int y) {
-        boolean found = false;
-        for (ShipView ship : ships) {
-            ship.setSelected(found);
-            if (ship.contains(x, y)) {
-                selectedShip = ship;
-                found = true;
-                ship.setSelected(found);
-                System.out.println("Selected ship at: " + x + ", " + y);
-                break;
+
+        if (selectedShip == null) {
+            boolean found = false;
+            for (ShipView ship : ships) {
+
+                if (ship.contains(x, y)) {
+                    selectedShip = ship;
+                    found = true;
+                    ship.setSelected(found);
+                    System.out.println("Selected ship at: " + x + ", " + y);
+                    break;
+                }
+            }
+            if (!found) {
+                // selectedShip = null; // Deseleciona se clicar fora de qualquer navio
+                System.out.println("No ship selected");
             }
         }
-        if (!found) {
-            selectedShip = null; // Deseleciona se clicar fora de qualquer navio
-            System.out.println("No ship selected");
-        }
+
         repaint();
     }
 
@@ -60,7 +96,7 @@ public class WeaponsPanel extends JPanel {
         selectedShip.setSelected(false);
         ships.remove(selectedShip);
         selectedShip = null;
-        System.out.println("Ship deselected");
+        System.out.println("Ship removed from Weapons Panel");
         repaint();
     }
 
