@@ -22,10 +22,11 @@ public class GameFrame extends JFrame {
     private static GameFrame instance;
     private PositionPanel positioning;
     private AttackPanel attacking;
-    private ObservableHelper observableHelper; // Instância de Observable
+    private ObservableHelper observableHelper;
     private Controller controller;
-    private IGameFacade gameFacade; // Add GameFacade reference
+    private IGameFacade gameFacade;
     private int currentPlayerIndex;
+    private JPanel startPanel;
 
     public static synchronized GameFrame getInstance(Controller controller) {
         if (instance == null) {
@@ -33,25 +34,25 @@ public class GameFrame extends JFrame {
         }
         return instance;
     }
-    
 
     public GameFrame(String title, Controller controller) {
         this.setTitle(title);
-        this.controller = controller; // Inicializa o controlador
+        this.controller = controller;
         positioning = new PositionPanel();
         attacking = new AttackPanel();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    
-        observableHelper = new ObservableHelper(); // Inicializa a instância de Observable
-    
-        this.add(positioning);
+
+        observableHelper = new ObservableHelper();
+
+        startPanel = createStartPanel();
+        this.add(startPanel);
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(false);
-    
+
         setJMenuBar(createMenuBar());
     }
-    
+
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
@@ -99,22 +100,40 @@ public class GameFrame extends JFrame {
     public void loadGame() {
         gameFacade = controller.GetGameFacade();
         currentPlayerIndex = controller.GetCurrentPlayerIndex();
-    
+
         // Update the UI elements based on the loaded game state
         // 1. Update Player Names
         updatePlayerNames(gameFacade.getJogadores().get(0).getName(), gameFacade.getJogadores().get(1).getName());
-    
+
         // 2. Update the Positioning Panel
-        positioning.getBoardPanel().updateBoard(gameFacade.getJogadores().get(0).GetTabuleiroNavios()); // Update the positioning board for Player 1
-        positioning.getBoardPanel().updateBoard(gameFacade.getJogadores().get(1).GetTabuleiroNavios()); // Update the positioning board for Player 2
-    
+        positioning.getBoardPanel().updateBoard(gameFacade.getJogadores().get(0).GetTabuleiroNavios()); // Update the
+                                                                                                        // positioning
+                                                                                                        // board for
+                                                                                                        // Player 1
+        positioning.getBoardPanel().updateBoard(gameFacade.getJogadores().get(1).GetTabuleiroNavios()); // Update the
+                                                                                                        // positioning
+                                                                                                        // board for
+                                                                                                        // Player 2
+
         // 3. Update the Attack Panel
-        attacking.getAttackBoards().get(0).updateBoard(gameFacade.getJogadores().get(0).GetTabuleiroAtaques()); // Update the attack board for Player 1
-        attacking.getAttackBoards().get(1).updateBoard(gameFacade.getJogadores().get(1).GetTabuleiroAtaques()); // Update the attack board for Player 2
-    
+        attacking.getAttackBoards().get(0).updateBoard(gameFacade.getJogadores().get(0).GetTabuleiroAtaques()); // Update
+                                                                                                                // the
+                                                                                                                // attack
+                                                                                                                // board
+                                                                                                                // for
+                                                                                                                // Player
+                                                                                                                // 1
+        attacking.getAttackBoards().get(1).updateBoard(gameFacade.getJogadores().get(1).GetTabuleiroAtaques()); // Update
+                                                                                                                // the
+                                                                                                                // attack
+                                                                                                                // board
+                                                                                                                // for
+                                                                                                                // Player
+                                                                                                                // 2
+
         // 4. Set the Current Player
         setCurrentPlayer(gameFacade.getJogadores().get(currentPlayerIndex).getName());
-    
+
         showAttackPanel();
 
         this.add(attacking);
@@ -124,7 +143,7 @@ public class GameFrame extends JFrame {
         this.pack();
 
         observableHelper.setChanged();
-        observableHelper.notifyObservers("Game Loaded"); 
+        observableHelper.notifyObservers("Game Loaded");
     }
 
     public PositionPanel getPositionPanel() {
@@ -134,11 +153,11 @@ public class GameFrame extends JFrame {
     public AttackPanel getAttackingPanel() {
         return attacking;
     }
-    
+
     public Controller getController() {
         return controller;
     }
-    
+
     public void setController(Controller controller) {
         this.controller = controller;
     }
@@ -238,6 +257,60 @@ public class GameFrame extends JFrame {
         // Make the positioning panel visible and hide the attacking panel
         positioning.setVisible(true);
         attacking.setVisible(false);
+    }
+
+    private JPanel createStartPanel() {
+        setPreferredSize(new Dimension(400, 200));
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER)) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+
+                Image backgroundImage = new ImageIcon(
+                        "C:\\Users\\felip\\OneDrive\\Área de Trabalho\\projeto\\Naval-Battle-Game\\Game\\images\\BatalhaNavalTittle.jpg")
+                        .getImage();
+
+                g2d.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
+            }
+        };
+
+        JButton newGameButton = new JButton("New Game");
+        JButton loadGameButton = new JButton("Load Game");
+
+        newGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showPositionPanel();
+                remove(startPanel);
+                add(positioning);
+                revalidate();
+                repaint();
+                pack();
+            }
+        });
+
+        loadGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                remove(startPanel);
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setFileFilter(new FileNameExtensionFilter("Save files (*.txt)", "txt"));
+                int option = fileChooser.showOpenDialog(GameFrame.this);
+                if (option == JFileChooser.APPROVE_OPTION) {
+                    File file = fileChooser.getSelectedFile();
+                    controller.loadGame(file.getAbsolutePath());
+                }
+            }
+        });
+
+        // Create a panel to hold the buttons and center them
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.add(newGameButton);
+        buttonPanel.add(loadGameButton);
+        panel.add(buttonPanel, BorderLayout.CENTER);
+
+        return panel;
     }
 
     @SuppressWarnings("deprecation")
