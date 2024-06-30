@@ -94,22 +94,26 @@ public class GameFrame extends JFrame {
         return menuBar;
     }
 
-    public void loadGame(String filePath) {
+    public void loadGame() {
         gameFacade = controller.GetGameFacade();
         currentPlayerIndex = controller.GetCurrentPlayerIndex();
     
-        positioning.getBoardPanel().updateBoard(gameFacade.getJogadores().get(0).GetTabuleiroNavios());
-        positioning.getBoardPanel().updateBoard(gameFacade.getJogadores().get(1).GetTabuleiroNavios());
-
+        // Update the UI elements based on the loaded game state
+        // 1. Update Player Names
         updatePlayerNames(gameFacade.getJogadores().get(0).getName(), gameFacade.getJogadores().get(1).getName());
     
+        // 2. Update the Positioning Panel
+        positioning.getBoardPanel().updateBoard(gameFacade.getJogadores().get(0).GetTabuleiroNavios()); // Update the positioning board for Player 1
+        positioning.getBoardPanel().updateBoard(gameFacade.getJogadores().get(1).GetTabuleiroNavios()); // Update the positioning board for Player 2
+    
+        // 3. Update the Attack Panel
+        attacking.getAttackBoards().get(0).updateBoard(gameFacade.getJogadores().get(0).GetTabuleiroAtaques()); // Update the attack board for Player 1
+        attacking.getAttackBoards().get(1).updateBoard(gameFacade.getJogadores().get(1).GetTabuleiroAtaques()); // Update the attack board for Player 2
+    
+        // 4. Set the Current Player
         setCurrentPlayer(gameFacade.getJogadores().get(currentPlayerIndex).getName());
     
-        if (gameFacade.getIsGameStarted()) {
-            showAttackPanel();
-        } else {
-            showPositionPanel();
-        }
+        showAttackPanel();
     }
 
     public PositionPanel getPositionPanel() {

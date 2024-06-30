@@ -178,5 +178,4 @@ public class PositionPanel extends JPanel {
     public void addObserver(java.util.Observer observer) {
         observableHelper.addObserver(observer);
     }
-
 }
