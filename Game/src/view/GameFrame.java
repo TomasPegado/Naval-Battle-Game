@@ -41,19 +41,14 @@ public class GameFrame extends JFrame {
         positioning = new PositionPanel();
         attacking = new AttackPanel();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+    
         observableHelper = new ObservableHelper(); // Inicializa a instância de Observable
-
-        // Add UI elements to the frame
-        this.add(positioning); // Assuming positioning is your main panel
-
-        // Set the size and location of the frame
+    
+        this.add(positioning);
         this.pack();
         this.setLocationRelativeTo(null);
-
-        // Make the frame visible
-        this.setVisible(true);
-
+        this.setVisible(false);
+    
         setJMenuBar(createMenuBar());
     }
     
@@ -99,27 +94,23 @@ public class GameFrame extends JFrame {
         return menuBar;
     }
 
-   public void loadGame() {
-    gameFacade = controller.GetGameFacade();
-    currentPlayerIndex = controller.GetCurrentPlayerIndex();
+    public void loadGame(String filePath) {
+        gameFacade = controller.GetGameFacade();
+        currentPlayerIndex = controller.GetCurrentPlayerIndex();
+    
+        positioning.getBoardPanel().updateBoard(gameFacade.getJogadores().get(0).GetTabuleiroNavios());
+        positioning.getBoardPanel().updateBoard(gameFacade.getJogadores().get(1).GetTabuleiroNavios());
 
-    // Update the UI elements based on the loaded game state
-    // 1. Update Player Names
-    updatePlayerNames(gameFacade.getJogadores().get(0).getName(), gameFacade.getJogadores().get(1).getName());
-
-    // 2. Update the Positioning Panel
-    positioning.getBoardPanel().updateBoard(gameFacade.getJogadores().get(0).GetTabuleiroNavios()); // Update the positioning board for Player 1
-    positioning.getBoardPanel().updateBoard(gameFacade.getJogadores().get(1).GetTabuleiroNavios()); // Update the positioning board for Player 2
-
-    // 3. Update the Attack Panel
-    attacking.getAttackBoards().get(0).updateBoard(gameFacade.getJogadores().get(0).GetTabuleiroAtaques()); // Update the attack board for Player 1
-    attacking.getAttackBoards().get(1).updateBoard(gameFacade.getJogadores().get(1).GetTabuleiroAtaques()); // Update the attack board for Player 2
-
-    // 4. Set the Current Player
-    setCurrentPlayer(gameFacade.getJogadores().get(currentPlayerIndex).getName());
-
-    showAttackPanel();
-}
+        updatePlayerNames(gameFacade.getJogadores().get(0).getName(), gameFacade.getJogadores().get(1).getName());
+    
+        setCurrentPlayer(gameFacade.getJogadores().get(currentPlayerIndex).getName());
+    
+        if (gameFacade.getIsGameStarted()) {
+            showAttackPanel();
+        } else {
+            showPositionPanel();
+        }
+    }
 
     public PositionPanel getPositionPanel() {
         return positioning;

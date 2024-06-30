@@ -38,7 +38,7 @@ public class Ship implements Serializable {
         return hits;
     }
 
-    public int GetSize() {
+    int GetSize() {
         return size;
     }
 

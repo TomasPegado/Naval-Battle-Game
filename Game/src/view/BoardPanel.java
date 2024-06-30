@@ -234,7 +234,7 @@ public class BoardPanel extends JPanel {
                 // Update the CoordinateView based on the GameBoard data
                 if (gameBoardCoord.getShip() != null) {
                     // If there's a ship, create a ShipView and set it on the CoordinateView
-                    ShipView shipView = ShipFactoryView.createShipView(gameBoardCoord.getShip().GetSize());
+                    ShipView shipView = ShipFactoryView.createShipView(3);
                     coordView.setShip(shipView); // Set the ShipView on the CoordinateView
                 } else if (gameBoardCoord.getHit()) {
                     // If it's a hit, mark the CoordinateView as hit

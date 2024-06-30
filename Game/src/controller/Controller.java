@@ -67,38 +67,15 @@ public class Controller implements Observer {
         return gameFacade;
     }
 
-    // public void saveGame(String filePath) {
-    //     gameFacade.saveGame(filePath);
-    // }
     public void saveGame(String filePath) {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
-            // Serialize the game state (e.g., players, game board)
-            out.writeObject(gameFacade); // Assuming GameFacade holds the game state
-        } catch (IOException e) {
-            // Handle the exception (e.g., display an error message)
-            e.printStackTrace();
-        }
+        gameFacade.saveGame(filePath);
     }
 
     public void loadGame(String filePath) {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
-            // Deserialize the game state
-            gameFacade = (GameFacade) in.readObject();
-    
-            // Update the UI based on the loaded game state
-            reconfigureObservers(); // Update observers for the new game state
-            frame.loadGame(); // Call the loadGame method in GameFrame to update the UI
-        } catch (IOException | ClassNotFoundException e) {
-            // Handle the exception (e.g., display an error message)
-            e.printStackTrace();
-        }
+        gameFacade.loadGame(filePath);
+        reconfigureObservers();
+        frame.loadGame(filePath);
     }
-
-    // public void loadGame(String filePath) {
-    //     gameFacade.loadGame(filePath);
-    //     reconfigureObservers();
-    //     frame.loadGame(filePath);
-    // }
 
     private void reconfigureObservers() {
         // Remove existing observers from the old game state
