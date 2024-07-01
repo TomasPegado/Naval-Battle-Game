@@ -37,6 +37,7 @@ public class GameFrame extends JFrame {
 
     public GameFrame(String title, Controller controller) {
         this.setTitle(title);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.controller = controller;
         positioning = new PositionPanel();
         attacking = new AttackPanel();
@@ -219,7 +220,7 @@ public class GameFrame extends JFrame {
     }
 
     private JPanel createStartPanel() {
-        setPreferredSize(new Dimension(400, 200));
+        setPreferredSize(new Dimension(1920, 1080));
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER)) {
             @Override
             protected void paintComponent(Graphics g) {

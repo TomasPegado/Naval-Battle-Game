@@ -16,7 +16,7 @@ public class PositionPanel extends JPanel {
 
         observableHelper = new ObservableHelper(); // Inicializa a instância de Observable
 
-        this.setPreferredSize(new Dimension(1000, 600));
+        this.setPreferredSize(new Dimension(1920, 1080));
         this.setLayout(new BorderLayout());
 
         this.weaponsPanel = new WeaponsPanel();
