@@ -94,7 +94,7 @@ public class GameFrame extends JFrame {
         showAttackPanel();
 
         attacking.setStartGameButtonVisibility(false);
-        
+
         this.add(attacking);
         this.remove(positioning);
         this.revalidate();
@@ -135,25 +135,22 @@ public class GameFrame extends JFrame {
             public void propertyChange(PropertyChangeEvent e) {
                 String prop = e.getPropertyName();
 
-                if (dialog.isVisible()
-                        && (e.getSource() == optionPane)
-                        && (prop.equals(JOptionPane.VALUE_PROPERTY))) {
-                    // O usuário pressionou "OK"
-                    dialog.setVisible(false);
+                // O usuário pressionou "OK"
+                dialog.setVisible(false);
 
-                    // Exibir o showConfirmDialog
-                    int result = JOptionPane.showConfirmDialog(null, "Do you want to play again?", "Play Again",
-                            JOptionPane.YES_NO_OPTION);
-                    if (result == JOptionPane.YES_OPTION) {
-                        System.out.println("User wants to play again.");
-                        // Lógica para reiniciar o jogo
-                        SwingUtilities.invokeLater(() -> resetGame());
-                    } else {
-                        System.out.println("User does not want to play again.");
-                        // Lógica para sair ou encerrar o jogo
-                        System.exit(0);
-                    }
+                // Exibir o showConfirmDialog
+                int result = JOptionPane.showConfirmDialog(null, "Do you want to play again?", "Play Again",
+                        JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    System.out.println("User wants to play again.");
+                    // Lógica para reiniciar o jogo
+                    SwingUtilities.invokeLater(() -> resetGame());
+                } else {
+                    System.out.println("User does not want to play again.");
+                    // Lógica para sair ou encerrar o jogo
+                    System.exit(0);
                 }
+
             }
         });
 
