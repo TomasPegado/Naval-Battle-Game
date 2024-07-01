@@ -5,9 +5,11 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 public class AttackPanel extends JPanel {
 
@@ -15,6 +17,7 @@ public class AttackPanel extends JPanel {
     private BoardPanel attackBoard2;
     private JButton startGameButton;
     private JButton nextPlayerButton;
+    private JButton saveGameButton;
     private JLabel player1Label;
     private JLabel player2Label;
     private ObservableHelper observableHelper; // Instância de Observable
@@ -74,8 +77,31 @@ public class AttackPanel extends JPanel {
                 currentPlayerIndex = (currentPlayerIndex + 1) % 2;
                 System.out.println("Next Player button clicked");
                 nextPlayerButton.setVisible(false);
+                saveGameButton.setVisible(false);
                 observableHelper.setChanged();
                 observableHelper.notifyObservers("Next Player Attacking");
+            }
+        });
+
+        saveGameButton = new JButton("Save Game");
+        saveGameButton.setVisible(false);
+        saveGameButton.addActionListener(new ActionListener() {
+            @SuppressWarnings("deprecation")
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setFileFilter(new FileNameExtensionFilter("Save files (*.txt)", "txt"));
+                int option = fileChooser.showSaveDialog(AttackPanel.this);
+                saveGameButton.setVisible(false);
+                if (option == JFileChooser.APPROVE_OPTION) {
+                    File file = fileChooser.getSelectedFile();
+                    if (!file.getName().endsWith(".txt")) {
+                        file = new File(file.getAbsolutePath() + ".txt");
+                    }
+                    SaveGameEvent saveGameEvent = new SaveGameEvent(file);
+                    observableHelper.setChanged();
+                    observableHelper.notifyObservers(saveGameEvent);
+                }
             }
         });
 
@@ -97,6 +123,7 @@ public class AttackPanel extends JPanel {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(nextPlayerButton);
+        buttonPanel.add(saveGameButton);
         buttonPanel.add(startGameButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
@@ -110,8 +137,24 @@ public class AttackPanel extends JPanel {
         return nextPlayerButton;
     }
 
+    protected JButton getSaveGameButton() {
+        return saveGameButton;
+    }
+
     public List<BoardPanel> getAttackBoards() {
         return attackBoards;
+    }
+
+    public void setStartGameButtonVisibility(boolean isVisible){
+        startGameButton.setVisible(isVisible);
+    }
+
+    public void setNextPlayerButtonVisibility(boolean isVisible){
+        nextPlayerButton.setVisible(isVisible);
+    }
+
+    public void setSaveGameButtonVisibility(boolean isVisible){
+        saveGameButton.setVisible(isVisible);
     }
 
     @SuppressWarnings("deprecation")

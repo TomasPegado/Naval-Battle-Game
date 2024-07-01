@@ -49,50 +49,6 @@ public class GameFrame extends JFrame {
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(false);
-
-        setJMenuBar(createMenuBar());
-    }
-
-    private JMenuBar createMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
-        JMenu fileMenu = new JMenu("File");
-
-        JMenuItem saveItem = new JMenuItem("Save Game");
-        saveItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setFileFilter(new FileNameExtensionFilter("Save files (*.txt)", "txt"));
-                int option = fileChooser.showSaveDialog(GameFrame.this);
-                if (option == JFileChooser.APPROVE_OPTION) {
-                    File file = fileChooser.getSelectedFile();
-                    if (!file.getName().endsWith(".txt")) {
-                        file = new File(file.getAbsolutePath() + ".txt");
-                    }
-                    controller.saveGame(file.getAbsolutePath());
-                }
-            }
-        });
-
-        JMenuItem loadItem = new JMenuItem("Load Game");
-        loadItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setFileFilter(new FileNameExtensionFilter("Save files (*.txt)", "txt"));
-                int option = fileChooser.showOpenDialog(GameFrame.this);
-                if (option == JFileChooser.APPROVE_OPTION) {
-                    File file = fileChooser.getSelectedFile();
-                    controller.loadGame(file.getAbsolutePath());
-                }
-            }
-        });
-
-        fileMenu.add(saveItem);
-        fileMenu.add(loadItem);
-        menuBar.add(fileMenu);
-
-        return menuBar;
     }
 
     // Método para resetar o jogo
@@ -136,6 +92,8 @@ public class GameFrame extends JFrame {
 
         showAttackPanel();
 
+        attacking.setStartGameButtonVisibility(false);
+        
         this.add(attacking);
         this.remove(positioning);
         this.revalidate();

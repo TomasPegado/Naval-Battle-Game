@@ -139,6 +139,7 @@ public class Controller implements Observer {
         return boardY;
     }
 
+
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof ShipPlacementEvent) {
@@ -232,6 +233,10 @@ public class Controller implements Observer {
                 playerActionsFacade.Attack(currentPlayer, gameFacade.getJogadores().get((currentPlayerIndex + 1) % 2),
                         boardX, (char) (boardY + 65));
             }
+        } else if (arg instanceof SaveGameEvent) {
+            SaveGameEvent saveEvent = (SaveGameEvent) arg;
+            saveGame(saveEvent.getFile().getAbsolutePath());
+
         }
 
         else if (o instanceof ObservableHelper) {
@@ -263,6 +268,7 @@ public class Controller implements Observer {
                     viewActionsFacade.getCurrentAttackerBoard(attackPanel, currentPlayerIndex).setVisible(false);
 
                     currentPlayerIndex = (currentPlayerIndex + 1) % 2;
+                    gameFacade.setCurrentPlayerIndex(currentPlayerIndex);
                     currentPlayer = gameFacade.getJogadores().get(currentPlayerIndex);
                     viewActionsFacade.getCurrentAttackerBoard(attackPanel, currentPlayerIndex).addObserver(this);
                     viewActionsFacade.getCurrentAttackerBoard(attackPanel, currentPlayerIndex).setVisible(true);
@@ -283,7 +289,7 @@ public class Controller implements Observer {
                     });
                 } else if (eventDescription.startsWith("Game Loaded")) {
                     System.out.println("Controller Observed that Game Reloaded");
-                    currentPlayerIndex = 0;
+                    currentPlayerIndex = gameFacade.getCurrentPlayerIndex();
                     currentPlayer = gameFacade.getJogadores().get(currentPlayerIndex);
 
                     SwingUtilities.invokeLater(() -> {

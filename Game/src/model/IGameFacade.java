@@ -19,5 +19,8 @@ public interface IGameFacade {
     void loadGame(String filePath);
 
     List<Player> getJogadores();
+    
+    void setCurrentPlayerIndex(int index);
 
+    int getCurrentPlayerIndex();
 }

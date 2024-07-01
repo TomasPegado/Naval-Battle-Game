@@ -16,12 +16,21 @@ public class GameFacade implements IGameFacade, Serializable {
     private static IGameFacade instance;
     public boolean IsGameStarted;
     private List<Player> jogadores = new ArrayList<Player>();
+    private int currentPlayerIndex = 0;
 
     public static synchronized IGameFacade getInstance() {
         if (instance == null) {
             instance = new GameFacade();
         }
         return instance;
+    }
+
+    public void setCurrentPlayerIndex(int index) {
+        currentPlayerIndex = index;
+    }
+
+    public int getCurrentPlayerIndex() {
+        return currentPlayerIndex;
     }
 
     public boolean getIsGameStarted() {

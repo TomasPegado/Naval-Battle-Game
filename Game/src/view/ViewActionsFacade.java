@@ -73,6 +73,11 @@ public class ViewActionsFacade {
     }
 
     public void setVisibleNextPlayerButton(AttackPanel attackPanel, String name) {
+
+        JButton save = attackPanel.getSaveGameButton();
+        save.setText("Save Game");
+        save.setVisible(true);
+
         JButton next = attackPanel.getNextPlayerButton();
         next.setText(name + "'s turn");
         next.setVisible(true);
