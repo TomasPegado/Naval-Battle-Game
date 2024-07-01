@@ -227,7 +227,7 @@ public class GameFrame extends JFrame {
                 Graphics2D g2d = (Graphics2D) g;
 
                 Image backgroundImage = new ImageIcon(
-                        "../images/BatalhaNavalTittle.jpg")
+                        "../images/Batalha Naval.png")
                         .getImage();
 
                 g2d.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
