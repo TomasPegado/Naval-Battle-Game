@@ -165,6 +165,7 @@ public class GameFrame extends JFrame {
         this.positioning.remove(positioning.getBoardPanel());
         this.remove(positioning); // Remove o painel de posicionamento
         this.add(attacking); // Adiciona o painel de ataque
+        attacking.setVisible(true);
         this.revalidate(); // Atualiza o layout do contêiner
         this.repaint(); // Redesenha o contêiner
         this.pack(); // Ajusta o tamanho da janela para o novo layout
@@ -226,7 +227,7 @@ public class GameFrame extends JFrame {
                 Graphics2D g2d = (Graphics2D) g;
 
                 Image backgroundImage = new ImageIcon(
-                        "C:\\Users\\felip\\OneDrive\\Área de Trabalho\\projeto\\Naval-Battle-Game\\Game\\images\\BatalhaNavalTittle.jpg")
+                        "../images/BatalhaNavalTittle.jpg")
                         .getImage();
 
                 g2d.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);

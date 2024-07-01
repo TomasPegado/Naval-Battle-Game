@@ -20,6 +20,7 @@ public class AttackPanel extends JPanel {
     private JButton saveGameButton;
     private JLabel player1Label;
     private JLabel player2Label;
+    private JLabel shotResultLabel; // JLabel para mostrar os resultados dos tiros
     private ObservableHelper observableHelper; // Instância de Observable
     private int currentPlayerIndex = 0;
     private List<BoardPanel> attackBoards;
@@ -64,6 +65,11 @@ public class AttackPanel extends JPanel {
         JPanel outerPanel = new JPanel(new BorderLayout());
         outerPanel.setBorder(new EmptyBorder(50, 0, 0, 0)); // Adiciona uma margem superior de 20 pixels
         outerPanel.add(boardsPanel, BorderLayout.CENTER);
+
+        // Adiciona o JLabel para mostrar os resultados dos tiros
+        shotResultLabel = new JLabel("Shot results will be displayed here");
+        shotResultLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        outerPanel.add(shotResultLabel, BorderLayout.NORTH);
 
         add(outerPanel, BorderLayout.CENTER);
 
@@ -127,6 +133,10 @@ public class AttackPanel extends JPanel {
         buttonPanel.add(startGameButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
+    }
+
+    protected void setShotResultMessage(String message) {
+        shotResultLabel.setText(message);
     }
 
     protected JButton getStartGameButton() {
